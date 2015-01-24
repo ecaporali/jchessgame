@@ -1,11 +1,13 @@
-# Created by .ignore support plugin (hsz.mobi)
 ### Java template
 *.class
 
 # Project
 .idea/
 
-#User Related
+# User Related
 .idea/workspace.xml
 .idea/tasks.xml
 .idea/dictionaries
+
+# Java Binary
+out/
