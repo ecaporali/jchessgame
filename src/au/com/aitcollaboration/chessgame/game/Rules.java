@@ -6,9 +6,6 @@ import au.com.aitcollaboration.chessgame.player.Player;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Massimo on 18/01/2015.
- */
 public class Rules {
 
     private Map<Player, Moves> possibleMoves;

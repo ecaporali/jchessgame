@@ -15,12 +15,16 @@ public abstract class Player {
     protected Pieces pieces;
     protected List<Moves> moves;
 
-    protected Player(String name, Color color) {
-        this.name = name;
-        this.color = color;
+    private Player() {
         this.stopWatch = new StopWatch();
         this.moves = new ArrayList<Moves>();
         this.pieces = new Pieces(color);
+    }
+
+    protected Player(String name, Color color) {
+        this();
+        this.name = name;
+        this.color = color;
 
         System.out.println(this.name + " " + this.color);
     }

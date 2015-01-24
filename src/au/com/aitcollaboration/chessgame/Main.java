@@ -5,7 +5,6 @@ import au.com.aitcollaboration.chessgame.game.Game;
 import au.com.aitcollaboration.chessgame.game.Rules;
 import au.com.aitcollaboration.chessgame.player.Player;
 
-
 public class Main {
 
     public static void main(String[] args) {

@@ -2,9 +2,6 @@ package au.com.aitcollaboration.chessgame.board;
 
 import au.com.aitcollaboration.chessgame.pieces.Piece;
 
-/**
- * Created by Massimo on 18/01/2015.
- */
 public class Square {
 
     private Piece piece;

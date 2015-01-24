@@ -4,9 +4,6 @@ import au.com.aitcollaboration.chessgame.pieces.Pieces;
 
 import java.util.List;
 
-/**
- * Created by Massimo on 18/01/2015.
- */
 public class Board {
 
     private Square[][] grid;
@@ -16,10 +13,10 @@ public class Board {
 
     public Board() {
         this.grid = new Square[BOARD_SIZE][BOARD_SIZE];
-        init();
+        createBoard();
     }
 
-    private void init() {
+    private void createBoard() {
         for (int myX = 0; myX < BOARD_SIZE; myX++) {
             for (int myY = 0; myY < BOARD_SIZE; myY++) {
                 grid[myX][myY] = new Square().placeMyX(myX).placeMyY(myY);

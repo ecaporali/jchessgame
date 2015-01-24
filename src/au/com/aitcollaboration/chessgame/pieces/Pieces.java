@@ -5,9 +5,6 @@ import au.com.aitcollaboration.chessgame.player.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Massimo on 18/01/2015.
- */
 public class Pieces {
 
     private List<Piece> currentPieces;

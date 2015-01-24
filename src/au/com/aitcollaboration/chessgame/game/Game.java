@@ -8,9 +8,6 @@ import au.com.aitcollaboration.chessgame.player.Player;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by Massimo on 18/01/2015.
- */
 public class Game {
 
     private Board board;
