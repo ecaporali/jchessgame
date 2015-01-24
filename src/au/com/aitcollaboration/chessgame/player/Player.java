@@ -2,18 +2,15 @@ package au.com.aitcollaboration.chessgame.player;
 
 import au.com.aitcollaboration.chessgame.pieces.Moves;
 import au.com.aitcollaboration.chessgame.pieces.Pieces;
+import org.apache.commons.lang3.time.StopWatch;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
 
-/**
- * Created by Massimo on 18/01/2015.
- */
 public abstract class Player {
 
     protected String name;
-    protected Timer timer;
+    protected StopWatch stopWatch;
     protected Color color;
     protected Pieces pieces;
     protected List<Moves> moves;
@@ -21,7 +18,7 @@ public abstract class Player {
     protected Player(String name, Color color) {
         this.name = name;
         this.color = color;
-        this.timer = new Timer();
+        this.stopWatch = new StopWatch();
         this.moves = new ArrayList<Moves>();
         this.pieces = new Pieces(color);
 
