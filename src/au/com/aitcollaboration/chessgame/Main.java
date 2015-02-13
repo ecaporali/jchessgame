@@ -7,13 +7,18 @@ import au.com.aitcollaboration.chessgame.player.Player;
 
 public class Main {
 
-    public static void main(String[] args) {
-        Board board = new Board();
-        Rules rules = new Rules();
-        Player[] players = new Player[2];
+    private static Game game;
 
+    static {
+        game = new Game(new Board(), new Rules(), new Player[2]);
+    }
+
+    public static void main(String[] args) {
         //start game
-        Game game = new Game(board, rules, players);
         game.start();
+    }
+
+    public static void setGame(Game game) {
+        Main.game = game;
     }
 }

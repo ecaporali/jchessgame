@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="org.powermock:powermock-api-mockito:1.6.1" type="repository">
+    <properties maven-id="org.powermock:powermock-api-mockito:1.6.1" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/powermock-api-mockito-1.6.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/powermock-api-support-1.6.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/powermock-core-1.6.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/powermock-reflect-1.6.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/objenesis-2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javassist-3.18.2-GA.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
