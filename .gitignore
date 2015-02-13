@@ -1,13 +1,5 @@
 ### Java template
 *.class
 
-# Project
-.idea/
-
 # User Related
 .idea/workspace.xml
-.idea/tasks.xml
-.idea/dictionaries
-
-# Java Binary
-out/
