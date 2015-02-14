@@ -1,0 +1,17 @@
+au/com/aitcollaboration/chessgame/pieces/PieceTest.class
+au/com/aitcollaboration/chessgame/board/BoardTest.class
+au/com/aitcollaboration/chessgame/game/GameTest.class
+au/com/aitcollaboration/chessgame/pieces/KingTest.class
+au/com/aitcollaboration/chessgame/pieces/PawnTest.class
+au/com/aitcollaboration/chessgame/pieces/BishopTest.class
+au/com/aitcollaboration/chessgame/pieces/QueenTest.class
+au/com/aitcollaboration/chessgame/pieces/KnightTest.class
+au/com/aitcollaboration/chessgame/pieces/MovesTest.class
+au/com/aitcollaboration/chessgame/game/RulesTest.class
+au/com/aitcollaboration/chessgame/MainTest.class
+au/com/aitcollaboration/chessgame/pieces/PiecesTest.class
+au/com/aitcollaboration/chessgame/board/SquareTest.class
+au/com/aitcollaboration/chessgame/player/HumanPlayerTest.class
+au/com/aitcollaboration/chessgame/player/ComputerPlayerTest.class
+au/com/aitcollaboration/chessgame/player/PlayerTest.class
+au/com/aitcollaboration/chessgame/pieces/RookTest.class
