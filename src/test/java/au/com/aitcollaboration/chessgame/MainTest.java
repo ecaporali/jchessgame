@@ -25,7 +25,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(Game.class)
+@PrepareForTest(Main.class)
 public class MainTest {
 
     private Game game;
