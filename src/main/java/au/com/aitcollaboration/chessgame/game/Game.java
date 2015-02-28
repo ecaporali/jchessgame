@@ -18,17 +18,19 @@ public class Game {
     private Player[] players;
     private boolean gameOver;
     private List<Board> movesHistory;
+    private In in;
 
     private Game(){
         gameOver = false;
         movesHistory = new LinkedList<Board>();
     }
 
-    public Game(Board board, Rules rules, Player[] players) {
+    public Game(Board board, Rules rules, Player[] players, In in) {
         this();
         this.board = board;
         this.rules = rules;
         this.players = players;
+        this.in = in;
     }
 
     public void start() {
@@ -59,7 +61,7 @@ public class Game {
         return (coinMatched)? Color.WHITE : Color.BLACK;
     }
 
-    private String getAnswer(String question){
+    public String getAnswer(String question){
         return In.nextLine(question);
     }
 }
