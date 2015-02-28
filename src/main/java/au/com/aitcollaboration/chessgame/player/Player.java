@@ -28,4 +28,8 @@ public abstract class Player {
 
         System.out.println(this.name + " " + this.color);
     }
+
+    protected void play() {
+
+    }
 }
