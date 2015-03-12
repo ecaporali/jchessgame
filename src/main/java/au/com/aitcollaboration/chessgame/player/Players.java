@@ -8,8 +8,12 @@ public class Players {
         this.players = players;
     }
 
-    public void addPlayer(String name, Color color){
+    public void addHumanPlayer(String name, Color color){
         players[color.getPosition()] = new HumanPlayer(name, color);
+    }
+
+    public void addComputerPlayer(Color color){
+        players[color.getPosition()] = new ComputerPlayer(color);
     }
 
     public void play(){

@@ -1,5 +1,6 @@
 package au.com.aitcollaboration.chessgame.support;
 
+import java.text.ParseException;
 import java.util.Scanner;
 
 public class In {
@@ -14,10 +15,9 @@ public class In {
         return IN.nextLine().charAt(0);
     }
 
-    public static int nextInt() {
-        int i = IN.nextInt();
-        IN.nextLine();
-        return i;
+    public static int nextInt(String question) throws NumberFormatException{
+        String answer = nextLine(question);
+        return Integer.parseInt(answer);
     }
 
     public static double nextDouble() {

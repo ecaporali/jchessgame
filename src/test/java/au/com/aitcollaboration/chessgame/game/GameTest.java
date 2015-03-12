@@ -47,7 +47,7 @@ public class GameTest {
     @Test
     public void testAddPlayerMethodHaveBeenCalled(){
         game.playersSetUp();
-        verify(players, times(2)).addPlayer(anyString(), any(Color.class));
+        verify(players, times(2)).addHumanPlayer(anyString(), any(Color.class));
     }
 
     @Test
