@@ -47,6 +47,7 @@ public class Game {
         else
             players.addComputerPlayer(flippedColor);
 
+        players.initBoard(board);
     }
 
     public boolean isMultiplayers() {

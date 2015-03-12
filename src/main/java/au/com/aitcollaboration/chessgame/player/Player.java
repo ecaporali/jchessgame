@@ -1,5 +1,6 @@
 package au.com.aitcollaboration.chessgame.player;
 
+import au.com.aitcollaboration.chessgame.board.Board;
 import au.com.aitcollaboration.chessgame.pieces.Moves;
 import au.com.aitcollaboration.chessgame.pieces.Pieces;
 import org.apache.commons.lang3.time.StopWatch;
@@ -33,5 +34,12 @@ public abstract class Player {
 
     }
 
+    public void positionPiecesTo(Board board){
+        board.positionPieces();
+    }
+
+    public void addPiecesTo(Board board) {
+        board.add(pieces);
+    }
 
 }

@@ -3,6 +3,7 @@ package au.com.aitcollaboration.chessgame.pieces;
 import au.com.aitcollaboration.chessgame.player.Color;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Pieces {
@@ -42,5 +43,20 @@ public class Pieces {
         }
 
         System.out.println(currentPieces.size());
+    }
+
+    public Piece getPiece(Class pieceClass) {
+        Iterator<Piece> pieceIterator = currentPieces.iterator();
+
+        while (pieceIterator.hasNext()){
+            Piece piece = pieceIterator.next();
+            if(pieceClass.equals(piece.getClass())){
+                pieceIterator.remove();
+                return piece;
+            }
+
+        }
+        return null;
+
     }
 }

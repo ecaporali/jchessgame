@@ -1,5 +1,7 @@
 package au.com.aitcollaboration.chessgame.player;
 
+import au.com.aitcollaboration.chessgame.board.Board;
+
 public class Players {
 
     private Player[] players;
@@ -20,5 +22,13 @@ public class Players {
         for(Player player : players){
             player.play();
         }
+    }
+
+    public void initBoard(Board board){
+        for(Player player : players){
+            player.addPiecesTo(board);
+        }
+
+        board.positionPieces();
     }
 }

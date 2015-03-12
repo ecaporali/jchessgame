@@ -24,4 +24,8 @@ public class Square {
         this.myY = myY;
         return this;
     }
+
+    public void positionPiece(Piece piece) {
+        this.piece = piece;
+    }
 }
