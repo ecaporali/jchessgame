@@ -27,19 +27,14 @@ public abstract class Player {
         this.color = color;
         this.pieces = new Pieces(color);
 
-        System.out.println(this.name + " " + this.color);
+        System.out.println("\n" + this.name + " " + this.color);
     }
 
     protected void play() {
 
     }
 
-    public void positionPiecesTo(Board board){
-        board.positionPieces();
-    }
-
     public void addPiecesTo(Board board) {
         board.add(pieces);
     }
-
 }

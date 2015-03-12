@@ -1,8 +1,6 @@
 package au.com.aitcollaboration.chessgame.board;
 
-import au.com.aitcollaboration.chessgame.pieces.King;
 import au.com.aitcollaboration.chessgame.pieces.Pieces;
-import au.com.aitcollaboration.chessgame.pieces.Queen;
 import au.com.aitcollaboration.chessgame.pieces.Rook;
 
 import java.util.ArrayList;
