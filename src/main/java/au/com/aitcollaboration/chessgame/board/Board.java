@@ -21,14 +21,14 @@ public class Board {
     }
 
     private void createBoard() {
-        for (int myX = 0; myX < BOARD_SIZE; myX++) {
-            for (int myY = 0; myY < BOARD_SIZE; myY++) {
-                grid[myX][myY] = new Square().placeMyX(myX).placeMyY(myY);
+        for (int row = 0; row < BOARD_SIZE; row++) {
+            for (int col = 0; col < BOARD_SIZE; col++) {
+                grid[row][col] = new Square(row, col);
             }
         }
     }
 
-    public void positionPieces(){
+    public void positionPieces() {
         Pieces white = piecesList.get(0);
         grid[0][0].positionPiece(white.getPiece(King.class));
         Pieces black = piecesList.get(1);

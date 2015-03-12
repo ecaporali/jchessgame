@@ -36,13 +36,13 @@ public class Game {
     }
 
     public void playersSetUp() {
-        boolean multiplayers = isMultiplayers();
+        boolean multiPlayers = isMultiPlayers();
         Color color = tossCoin();
         Color flippedColor = color.flip();
 
         players.addHumanPlayer(getTextAnswer(UIMessages.INSERT_PLAYER_NAME), color);
 
-        if (multiplayers)
+        if (multiPlayers)
             players.addHumanPlayer(getTextAnswer(UIMessages.INSERT_PLAYER_NAME), flippedColor);
         else
             players.addComputerPlayer(flippedColor);
@@ -50,7 +50,7 @@ public class Game {
         players.initBoard(board);
     }
 
-    public boolean isMultiplayers() {
+    public boolean isMultiPlayers() {
         return getPlayersNumber() > 1;
     }
 
@@ -59,7 +59,7 @@ public class Game {
             try {
                 return getNumericAnswer(UIMessages.SELECT_NUMBER_OF_PLAYERS);
             } catch (NumberFormatException e) {
-
+                // keep looping
             }
         }
     }
@@ -77,7 +77,6 @@ public class Game {
     public boolean isGameOver() {
         return rules.isMatchDraw(movesHistory) ||
                 rules.isCheckMate(board);
-
     }
 
     public void setGameOver(boolean gameOver) {
@@ -94,11 +93,11 @@ public class Game {
         return (coinMatched) ? Color.WHITE : Color.BLACK;
     }
 
-    private String getTextAnswer(String question) {
+    public String getTextAnswer(String question) {
         return In.nextLine(question);
     }
 
-    private int getNumericAnswer(String question) throws NumberFormatException {
+    public int getNumericAnswer(String question) throws NumberFormatException {
         return In.nextInt(question);
     }
 }

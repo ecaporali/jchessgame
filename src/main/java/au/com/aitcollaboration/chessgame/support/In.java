@@ -1,28 +1,27 @@
 package au.com.aitcollaboration.chessgame.support;
 
-import java.text.ParseException;
 import java.util.Scanner;
 
 public class In {
-    private static final Scanner IN = new Scanner(System.in);
+    private static final Scanner in = new Scanner(System.in);
 
     public static String nextLine(String question) {
         System.out.print("\n" + question);
-        return IN.nextLine();
+        return in.nextLine();
     }
 
     public static char nextChar() {
-        return IN.nextLine().charAt(0);
+        return in.nextLine().charAt(0);
     }
 
-    public static int nextInt(String question) throws NumberFormatException{
+    public static int nextInt(String question) throws NumberFormatException {
         String answer = nextLine(question);
         return Integer.parseInt(answer);
     }
 
     public static double nextDouble() {
-        double d = IN.nextDouble();
-        IN.nextLine();
+        double d = in.nextDouble();
+        in.nextLine();
         return d;
     }
 }

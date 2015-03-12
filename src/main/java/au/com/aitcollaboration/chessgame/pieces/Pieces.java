@@ -11,10 +11,10 @@ public class Pieces {
     private List<Piece> currentPieces;
     private List<Piece> lostPieces;
 
-    public static int BISHOP_QTY = 2;
-    public static int KNIGHT_QTY = 2;
-    public static int ROOK_QTY = 2;
-    public static int PAWN_QTY = 8;
+    public final static int BISHOP_QTY = 2;
+    public final static int KNIGHT_QTY = 2;
+    public final static int ROOK_QTY = 2;
+    public final static int PAWN_QTY = 8;
 
     public Pieces(Color color) {
         this.currentPieces = new ArrayList<Piece>();
@@ -26,19 +26,19 @@ public class Pieces {
         currentPieces.add(new King(color));
         currentPieces.add(new Queen(color));
 
-        for(int i = 0; i < BISHOP_QTY; i++){
+        for (int i = 0; i < BISHOP_QTY; i++) {
             currentPieces.add(new Bishop(color));
         }
 
-        for(int i = 0; i < KNIGHT_QTY; i++){
+        for (int i = 0; i < KNIGHT_QTY; i++) {
             currentPieces.add(new Knight(color));
         }
 
-        for(int i = 0; i < ROOK_QTY; i++){
+        for (int i = 0; i < ROOK_QTY; i++) {
             currentPieces.add(new Rook(color));
         }
 
-        for(int i = 0; i < PAWN_QTY; i++){
+        for (int i = 0; i < PAWN_QTY; i++) {
             currentPieces.add(new Pawn(color));
         }
 
@@ -48,9 +48,9 @@ public class Pieces {
     public Piece getPiece(Class pieceClass) {
         Iterator<Piece> pieceIterator = currentPieces.iterator();
 
-        while (pieceIterator.hasNext()){
+        while (pieceIterator.hasNext()) {
             Piece piece = pieceIterator.next();
-            if(pieceClass.equals(piece.getClass())){
+            if (pieceClass.equals(piece.getClass())) {
                 pieceIterator.remove();
                 return piece;
             }

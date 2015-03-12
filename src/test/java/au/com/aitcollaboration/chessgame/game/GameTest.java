@@ -3,7 +3,6 @@ package au.com.aitcollaboration.chessgame.game;
 import au.com.aitcollaboration.chessgame.board.Board;
 import au.com.aitcollaboration.chessgame.player.Color;
 import au.com.aitcollaboration.chessgame.player.Players;
-import au.com.aitcollaboration.chessgame.support.Constants;
 import au.com.aitcollaboration.chessgame.support.In;
 import au.com.aitcollaboration.chessgame.support.Utils;
 import org.junit.Before;
@@ -17,10 +16,12 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Utils.class, In.class})
@@ -38,16 +39,31 @@ public class GameTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        PowerMockito.mockStatic(Utils.class);
-        PowerMockito.mockStatic(In.class);
-        when(In.nextLine("question")).thenReturn("answer");
+        mockStatic(Utils.class);
+        mockStatic(In.class);
+
         game = new Game(board, rules, players);
+
+        when(In.nextLine(anyString())).thenReturn("answer");
     }
 
     @Test
-    public void testAddPlayerMethodHaveBeenCalled(){
+    public void testAddPlayerMethodHaveBeenCalledForMultiplePlayers() {
+        when(In.nextInt(anyString())).thenReturn(3);
+
         game.playersSetUp();
+
         verify(players, times(2)).addHumanPlayer(anyString(), any(Color.class));
+    }
+
+    @Test
+    public void testAddPlayerMethodHaveBeenCalledForSinglePlayer() {
+        when(In.nextInt(anyString())).thenReturn(1);
+
+        game.playersSetUp();
+
+        verify(players, times(1)).addHumanPlayer(anyString(), any(Color.class));
+        verify(players, times(1)).addComputerPlayer(any(Color.class));
     }
 
     @Test
@@ -79,13 +95,24 @@ public class GameTest {
     }
 
     @Test
-    public void testShouldReturnColorBlackWhenTossCoinSideNotMatched() throws Exception {
-        String answer = Constants.COIN_HEAD;
-        when(Utils.tossCoin(answer)).thenReturn(false);
+    public void testShouldReturnColorWhiteWhenTossCoinSideMatched() throws Exception {
+        when(Utils.tossCoin(anyString())).thenReturn(true);
 
         Color color = game.tossCoin();
 
-        assertThat(color, is(Color.BLACK));
-        PowerMockito.verifyPrivate(game).invoke("getAnswer", anyString());
+        assertEquals(color, Color.WHITE);
+        assertFalse(color.equals(Color.BLACK));
+        PowerMockito.verifyPrivate(game).invoke("getTextAnswer", anyString());
+    }
+
+    @Test
+    public void testShouldReturnColorBlackWhenTossCoinSideNotMatched() throws Exception {
+        when(Utils.tossCoin(anyString())).thenReturn(false);
+
+        Color color = game.tossCoin();
+
+        assertEquals(color, Color.BLACK);
+        assertFalse(color.equals(Color.WHITE));
+        PowerMockito.verifyPrivate(game).invoke("getTextAnswer", anyString());
     }
 }

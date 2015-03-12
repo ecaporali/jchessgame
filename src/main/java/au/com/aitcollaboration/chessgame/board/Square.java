@@ -8,21 +8,13 @@ public class Square {
     private int myX;
     private int myY;
 
-    public Square(){
-    }
-
-    public boolean isAvailable(){
-        return this.piece == null;
-    }
-
-    public Square placeMyX(int myX){
+    public Square(int myX, int myY) {
         this.myX = myX;
-        return this;
+        this.myY = myY;
     }
 
-    public Square placeMyY(int myY){
-        this.myY = myY;
-        return this;
+    public boolean isAvailable() {
+        return this.piece == null;
     }
 
     public void positionPiece(Piece piece) {
