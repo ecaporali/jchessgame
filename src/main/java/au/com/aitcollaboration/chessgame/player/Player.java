@@ -19,13 +19,13 @@ public abstract class Player {
     private Player() {
         this.stopWatch = new StopWatch();
         this.moves = new ArrayList<Moves>();
-        this.pieces = new Pieces(color);
     }
 
     protected Player(String name, Color color) {
         this();
         this.name = name;
         this.color = color;
+        this.pieces = new Pieces(color);
 
         System.out.println(this.name + " " + this.color);
     }

@@ -3,6 +3,7 @@ package au.com.aitcollaboration.chessgame.board;
 import au.com.aitcollaboration.chessgame.pieces.King;
 import au.com.aitcollaboration.chessgame.pieces.Pieces;
 import au.com.aitcollaboration.chessgame.pieces.Queen;
+import au.com.aitcollaboration.chessgame.pieces.Rook;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,15 +29,15 @@ public class Board {
         }
     }
 
-    public void positionPieces() {
-        Pieces white = piecesList.get(0);
-        grid[0][0].positionPiece(white.getPiece(King.class));
-        Pieces black = piecesList.get(1);
-        System.out.println(black.getPiece(Queen.class));
-        System.out.println(white.getPiece(King.class));
-    }
-
     public void add(Pieces pieces) {
         piecesList.add(pieces);
+    }
+
+    public void positionPieces() {
+        Pieces whitePieces = piecesList.get(0);
+        //grid[0][0].positionPiece(whitePieces.getPiece(King.class));
+        Pieces blackPieces = piecesList.get(1);
+        System.out.println(whitePieces.getPiece(Rook.class));
+        System.out.println(whitePieces.getPiece(Rook.class));
     }
 }

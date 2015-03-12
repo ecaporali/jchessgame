@@ -17,8 +17,8 @@ public class Pieces {
     public final static int PAWN_QTY = 8;
 
     public Pieces(Color color) {
-        this.currentPieces = new ArrayList<Piece>();
-        this.lostPieces = new ArrayList<Piece>();
+        this.currentPieces = new ArrayList<Piece>(16);
+        this.lostPieces = new ArrayList<Piece>(15);
         createPieceSet(color);
     }
 
@@ -41,8 +41,6 @@ public class Pieces {
         for (int i = 0; i < PAWN_QTY; i++) {
             currentPieces.add(new Pawn(color));
         }
-
-        System.out.println(currentPieces.size());
     }
 
     public Piece getPiece(Class pieceClass) {
@@ -54,9 +52,7 @@ public class Pieces {
                 pieceIterator.remove();
                 return piece;
             }
-
         }
         return null;
-
     }
 }
