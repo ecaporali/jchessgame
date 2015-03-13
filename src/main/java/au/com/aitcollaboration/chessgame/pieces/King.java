@@ -1,6 +1,7 @@
 package au.com.aitcollaboration.chessgame.pieces;
 
 import au.com.aitcollaboration.chessgame.board.Board;
+import au.com.aitcollaboration.chessgame.board.Position;
 import au.com.aitcollaboration.chessgame.board.Square;
 import au.com.aitcollaboration.chessgame.player.Color;
 
@@ -11,28 +12,31 @@ public class King extends Piece {
     }
 
     @Override
-    public int[][] validMoves() {
+    public int[][] commonMoves() {
         return new int[][]{
                 {1, 1}, {1, -1}, {-1, -1}, {-1, 1}, {1, 0}, {0, 1}, {-1, 0}, {0, -1}
         };
     }
 
     @Override
-    public int[][] moveOn(Board board) {
-        Square square = board.getSquare(this);
+    public void validMovesOn(Board board) {
+        moves.clear();
 
-        int[][] validMoves = this.validMoves();
+        Square square = board.getSquareForPiece(this);
 
-        for (int row = 0; row < validMoves.length; row++){
-            int myX = validMoves[row][0];
-            int myY = validMoves[row][1];
+        int[][] validMoves = commonMoves();
 
-            int incrementedX = square.incrementX(myX);
-            int incrementedY = square.incrementY(myY);
-            if(board.getPieceAt(incrementedX, incrementedY)){
+        for (int[] moveAt : validMoves) {
+            int myX = moveAt[0];
+            int myY = moveAt[1];
 
+            Position position = square.nextPosition(myX, myY);
+
+            Square otherSquare = board.getSquareAtPosition(position);
+
+            if (otherSquare.isMoveValid(color)) {
+                moves.add(otherSquare);
             }
-            else if()
         }
     }
 }

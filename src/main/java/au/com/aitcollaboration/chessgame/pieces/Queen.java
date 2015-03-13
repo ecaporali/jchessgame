@@ -10,16 +10,14 @@ public class Queen extends Piece {
     }
 
     @Override
-    public int[][] validMoves() {
+    public int[][] commonMoves() {
         return new int[][]{
                 {1, 1}, {1, -1}, {-1, -1}, {-1, 1}, {1, 0}, {0, 1}, {-1, 0}, {0, -1}
         };
     }
 
     @Override
-    public int[][] moveOn(Board board) {
-        return new int[0][];
+    public void validMovesOn(Board board) {
+
     }
-
-
 }

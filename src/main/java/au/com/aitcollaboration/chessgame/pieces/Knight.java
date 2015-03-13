@@ -10,16 +10,14 @@ public class Knight extends Piece {
     }
 
     @Override
-    public int[][] validMoves() {
+    public int[][] commonMoves() {
         return new int[][]{
                 {2, 1}, {2, -1}, {-2, 1}, {-2, -1}, {1, 2}, {1, -2}, {-1, -2}, {-1, 2}
         };
     }
 
     @Override
-    public int[][] moveOn(Board board) {
-        return new int[0][];
-
+    public void validMovesOn(Board board) {
 
     }
 

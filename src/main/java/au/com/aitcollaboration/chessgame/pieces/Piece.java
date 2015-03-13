@@ -10,8 +10,6 @@ public abstract class Piece {
 
     protected Piece(Color color) {
         this.color = color;
-
-        //TODO Moves must be created every time a new turn is make
         this.moves = new Moves();
     }
 
@@ -19,7 +17,12 @@ public abstract class Piece {
         return this.color.equals(color);
     }
 
-    public abstract int[][] validMoves();
+    public abstract int[][] commonMoves();
 
-    public abstract int[][] moveOn(Board board);
+    public abstract void validMovesOn(Board board);
+
+    public Moves getValidMovesOn(Board board) {
+        validMovesOn(board);
+        return moves;
+    }
 }

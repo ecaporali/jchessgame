@@ -10,26 +10,14 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public int[][] validMoves() {
-        int[][] moves;
-
-        if(this.color.getPosition() == 0){
-            moves = new int[][]{
-                    {0, 1}
-            };
-        }
-        else{
-            moves = new int[][]{
-                    {0, -1}
-            };
-        }
-        return moves;
+    public int[][] commonMoves() {
+        return (this.color.equals(Color.BLACK))
+                ? new int[][]{{0, 1}, {1, 1}, {-1, 1}}
+                : new int[][]{{0, -1}, {1, -1}, {-1, -1}};
     }
 
     @Override
-    public int[][] moveOn(Board board) {
-        return new int[0][];
+    public void validMovesOn(Board board) {
+
     }
-
-
 }

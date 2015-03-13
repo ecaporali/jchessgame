@@ -64,13 +64,12 @@ public class Board {
         Pieces blackPieces = new Pieces();
         Pieces whitePieces = new Pieces();
 
-        for (int row = 0; row < BOARD_SIZE; row++) {
-            for (int col = 0; col < BOARD_SIZE; col++) {
-
-                Square square = grid[row][col];
+        for (Square[] squares : grid) {
+            for (Square square : squares) {
                 Piece piece = square.getPiece();
 
                 if (piece != null) {
+
                     if (piece.matches(Color.BLACK)) {
                         blackPieces.add(piece);
                     } else {
@@ -92,22 +91,27 @@ public class Board {
         return Collections.unmodifiableMap(piecesMap);
     }
 
-    public Square getSquare(Piece piece){
+    public Square[][] getClonedGrid(){
+        return this.grid.clone();
+    }
 
-        for (int row = 0; row < BOARD_SIZE; row++){
-            for (int col = 0; col < BOARD_SIZE; col++){
-                Square square = grid[row][col];
-                if(square.matches(piece)){
+    public Square getSquareForPiece(Piece piece) {
+
+        for (Square[] squares : grid)
+            for (Square square : squares)
+                if (square.contains(piece))
                     return square;
-                }
-            }
-        }
 
         return null;
     }
 
 
-    public Piece getPieceAt(int myX, int myY) {
-        return grid[myX][myY].getPiece();
+    public Square getSquareAtPosition(Position position) {
+        for (Square[] squares : grid)
+            for (Square square : squares)
+                if (square.isAt(position))
+                    return square;
+
+        return null;
     }
 }
