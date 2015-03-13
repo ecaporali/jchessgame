@@ -70,12 +70,12 @@ public class Board {
                 Square square = grid[row][col];
                 Piece piece = square.getPiece();
 
-                if (piece != null && piece.matches(Color.BLACK)) {
-                    blackPieces.add(piece);
-                }
-
-                if (piece != null && piece.matches(Color.WHITE)) {
-                    whitePieces.add(piece);
+                if (piece != null) {
+                    if (piece.matches(Color.BLACK)) {
+                        blackPieces.add(piece);
+                    } else {
+                        whitePieces.add(piece);
+                    }
                 }
             }
         }
