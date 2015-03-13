@@ -1,8 +1,7 @@
 package au.com.aitcollaboration.chessgame.game;
 
 import au.com.aitcollaboration.chessgame.board.Board;
-import au.com.aitcollaboration.chessgame.player.Color;
-import au.com.aitcollaboration.chessgame.player.Players;
+import au.com.aitcollaboration.chessgame.player.*;
 import au.com.aitcollaboration.chessgame.support.In;
 import au.com.aitcollaboration.chessgame.support.Utils;
 import org.junit.Before;
@@ -48,12 +47,12 @@ public class GameTest {
     }
 
     @Test
-    public void testAddPlayerMethodHaveBeenCalledForMultiplePlayers() {
+    public void testAddPlayerMethodHaveBeenCalled() {
         when(In.nextInt(anyString())).thenReturn(3);
 
         game.playersSetUp();
 
-        verify(players, times(2)).addHumanPlayer(anyString(), any(Color.class));
+        verify(players, times(2)).add(any(Player.class));
     }
 
     @Test
@@ -62,8 +61,7 @@ public class GameTest {
 
         game.playersSetUp();
 
-        verify(players, times(1)).addHumanPlayer(anyString(), any(Color.class));
-        verify(players, times(1)).addComputerPlayer(any(Color.class));
+        verify(players, times(2)).add(any(Player.class));
     }
 
     @Test
