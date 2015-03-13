@@ -7,4 +7,9 @@ public class Queen extends Piece {
     public Queen(Color color) {
         super(color);
     }
+
+    @Override
+    public int[][] validMoves() {
+        return new int[0][];
+    }
 }

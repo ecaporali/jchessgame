@@ -8,4 +8,10 @@ public class King extends Piece {
         super(color);
     }
 
+    @Override
+    public int[][] validMoves() {
+        return new int[][]{
+                {1, 1}, {1, -1}, {-1, -1}, {-1, 1}, {1, 0}, {0, 1}, {-1, 0}, {0, -1}
+        };
+    }
 }

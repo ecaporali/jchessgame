@@ -14,7 +14,9 @@ public abstract class Piece {
         this.moves = new Moves();
     }
 
-    public boolean matches(Color color){
+    public boolean matches(Color color) {
         return this.color.equals(color);
     }
+
+    public abstract int[][] validMoves();
 }
