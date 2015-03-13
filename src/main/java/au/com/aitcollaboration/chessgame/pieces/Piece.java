@@ -13,4 +13,8 @@ public abstract class Piece {
         //TODO Moves must be created every time a new turn is make
         this.moves = new Moves();
     }
+
+    public boolean matches(Color color){
+        return this.color.equals(color);
+    }
 }

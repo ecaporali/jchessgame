@@ -1,6 +1,5 @@
 package au.com.aitcollaboration.chessgame.player;
 
-import au.com.aitcollaboration.chessgame.board.Board;
 import au.com.aitcollaboration.chessgame.pieces.Moves;
 import au.com.aitcollaboration.chessgame.pieces.Pieces;
 import org.apache.commons.lang3.time.StopWatch;
@@ -21,11 +20,11 @@ public abstract class Player {
         this.moves = new ArrayList<Moves>();
     }
 
-    protected Player(String name, Color color) {
+    protected Player(String name, Color color, Pieces pieces) {
         this();
         this.name = name;
         this.color = color;
-        this.pieces = new Pieces(color);
+        this.pieces = pieces;
 
         System.out.println("\n" + this.name + " " + this.color);
     }
@@ -34,7 +33,7 @@ public abstract class Player {
 
     }
 
-    public void addPiecesTo(Board board) {
-        board.add(pieces);
+    public void setPieces(Pieces pieces) {
+        this.pieces = pieces;
     }
 }

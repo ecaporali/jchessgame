@@ -1,7 +1,10 @@
 package au.com.aitcollaboration.chessgame.game;
 
 import au.com.aitcollaboration.chessgame.board.Board;
+import au.com.aitcollaboration.chessgame.pieces.Pieces;
 import au.com.aitcollaboration.chessgame.player.Color;
+import au.com.aitcollaboration.chessgame.player.ComputerPlayer;
+import au.com.aitcollaboration.chessgame.player.HumanPlayer;
 import au.com.aitcollaboration.chessgame.player.Players;
 import au.com.aitcollaboration.chessgame.support.In;
 import au.com.aitcollaboration.chessgame.support.UIMessages;
@@ -40,14 +43,15 @@ public class Game {
         Color color = tossCoin();
         Color flippedColor = color.flip();
 
-        players.addHumanPlayer(getTextAnswer(UIMessages.INSERT_PLAYER_NAME), color);
+        Pieces colorPieces = board.getColoredPieces(color);
+        Pieces flippedColorPieces = board.getColoredPieces(flippedColor);
+
+        players.add(new HumanPlayer(getTextAnswer(UIMessages.INSERT_PLAYER_NAME), color, colorPieces));
 
         if (multiPlayers)
-            players.addHumanPlayer(getTextAnswer(UIMessages.INSERT_PLAYER_NAME), flippedColor);
+            players.add(new HumanPlayer(getTextAnswer(UIMessages.INSERT_PLAYER_NAME), flippedColor, flippedColorPieces));
         else
-            players.addComputerPlayer(flippedColor);
-
-        players.initBoard(board);
+            players.add(new ComputerPlayer(flippedColor, flippedColorPieces));
     }
 
     public boolean isMultiPlayers() {
