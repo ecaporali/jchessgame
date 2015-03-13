@@ -12,7 +12,7 @@ public class Board {
     private Square[][] grid;
     private Map<Color, Pieces> piecesMap;
 
-    public static int BOARD_SIZE = 8;
+    public final static int BOARD_SIZE = 8;
 
     public Board() {
         this.piecesMap = new HashMap<Color, Pieces>(2);
@@ -64,17 +64,19 @@ public class Board {
         Pieces blackPieces = new Pieces();
         Pieces whitePieces = new Pieces();
 
-        for (int row = 0; row <= 1; row++) {
+        for (int row = 0; row < BOARD_SIZE; row++) {
             for (int col = 0; col < BOARD_SIZE; col++) {
-                Square square = grid[row][col];
-                blackPieces.add(square.getPiece());
-            }
-        }
 
-        for (int row = 6; row < BOARD_SIZE; row++) {
-            for (int col = 0; col < BOARD_SIZE; col++) {
                 Square square = grid[row][col];
-                whitePieces.add(square.getPiece());
+                Piece piece = square.getPiece();
+
+                if (piece != null && piece.matches(Color.BLACK)) {
+                    blackPieces.add(piece);
+                }
+
+                if (piece != null && piece.matches(Color.WHITE)) {
+                    whitePieces.add(piece);
+                }
             }
         }
 
