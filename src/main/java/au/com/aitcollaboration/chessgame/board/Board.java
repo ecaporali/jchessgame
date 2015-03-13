@@ -91,4 +91,23 @@ public class Board {
     public Map<Color, Pieces> getPiecesMap() {
         return Collections.unmodifiableMap(piecesMap);
     }
+
+    public Square getSquare(Piece piece){
+
+        for (int row = 0; row < BOARD_SIZE; row++){
+            for (int col = 0; col < BOARD_SIZE; col++){
+                Square square = grid[row][col];
+                if(square.matches(piece)){
+                    return square;
+                }
+            }
+        }
+
+        return null;
+    }
+
+
+    public Piece getPieceAt(int myX, int myY) {
+        return grid[myX][myY].getPiece();
+    }
 }

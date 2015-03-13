@@ -26,7 +26,15 @@ public class Square {
         return piece;
     }
 
-    public boolean matches(Color color){
-        return piece.matches(color);
+    public boolean matches(Piece piece){
+        return this.piece.equals(piece);
+    }
+
+    public int incrementX(int myX){
+        return this.myX + myX;
+    }
+
+    public int incrementY(int myY){
+        return this.myY + myY;
     }
 }

@@ -1,5 +1,6 @@
 package au.com.aitcollaboration.chessgame.pieces;
 
+import au.com.aitcollaboration.chessgame.board.Board;
 import au.com.aitcollaboration.chessgame.player.Color;
 
 public abstract class Piece {
@@ -19,4 +20,6 @@ public abstract class Piece {
     }
 
     public abstract int[][] validMoves();
+
+    public abstract int[][] moveOn(Board board);
 }

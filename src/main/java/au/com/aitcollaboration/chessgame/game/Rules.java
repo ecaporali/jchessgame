@@ -23,4 +23,6 @@ public class Rules {
     public boolean isMatchDraw(List<Board> movesHistory) {
         return false;
     }
+
+
 }
