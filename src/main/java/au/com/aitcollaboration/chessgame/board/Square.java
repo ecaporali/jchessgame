@@ -43,4 +43,12 @@ public class Square {
     public Position getPosition() {
         return position;
     }
+
+    public boolean isPawnMoveValid() {
+        return isAvailable();
+    }
+
+    public boolean canPawnEat(Color color) {
+        return !isAvailable() && !piece.matches(color);
+    }
 }
