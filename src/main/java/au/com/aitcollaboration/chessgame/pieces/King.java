@@ -36,7 +36,7 @@ public class King extends Piece {
 
 
             //shouldn't we check if otherSquare is null or not before using it?
-            if (otherSquare.isMoveValid(color)) {
+            if (otherSquare.isMoveValid(color, this)) {
                 moves.add(otherSquare);
             }
         }

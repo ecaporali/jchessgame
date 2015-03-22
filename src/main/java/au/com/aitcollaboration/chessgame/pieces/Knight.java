@@ -34,7 +34,7 @@ public class Knight extends Piece {
 
             Square otherSquare = board.getSquareAtPosition(position);
 
-            if (otherSquare.isMoveValid(color)) {
+            if (otherSquare.isMoveValid(color, this)) {
                 moves.add(otherSquare);
             }
         }

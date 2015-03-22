@@ -1,5 +1,6 @@
 package au.com.aitcollaboration.chessgame.board;
 
+import au.com.aitcollaboration.chessgame.pieces.Pawn;
 import au.com.aitcollaboration.chessgame.pieces.Piece;
 import au.com.aitcollaboration.chessgame.player.Color;
 
@@ -28,8 +29,13 @@ public class Square {
         return this.position.equals(position);
     }
 
-    public boolean isMoveValid(Color color) {
-        return isAvailable() || !piece.matches(color);
+    public boolean isMoveValid(Color color, Piece piece) {
+        if (piece.getClass() == Pawn.class){
+            return isAvailable();
+        }
+        else{
+            return isAvailable() || !piece.matches(color);
+        }
     }
 
     public Position nextPosition(int myX, int myY) {
@@ -42,10 +48,6 @@ public class Square {
 
     public Position getPosition() {
         return position;
-    }
-
-    public boolean isPawnMoveValid() {
-        return isAvailable();
     }
 
     public boolean canPawnEat(Color color) {

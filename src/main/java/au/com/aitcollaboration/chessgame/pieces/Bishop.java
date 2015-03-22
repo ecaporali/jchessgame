@@ -35,7 +35,7 @@ public class Bishop extends Piece {
                 Square otherSquare = board.getSquareAtPosition(position);
 
                 if(otherSquare != null) {
-                    if (otherSquare.isMoveValid(color)) {
+                    if (otherSquare.isMoveValid(color, this)) {
                         moves.add(otherSquare);
                     }
                     myX += moveAt[0];
