@@ -34,6 +34,8 @@ public class King extends Piece {
 
             Square otherSquare = board.getSquareAtPosition(position);
 
+
+            //shouldn't we check if otherSquare is null or not before using it?
             if (otherSquare.isMoveValid(color)) {
                 moves.add(otherSquare);
             }
