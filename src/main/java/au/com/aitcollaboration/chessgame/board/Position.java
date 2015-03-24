@@ -1,5 +1,7 @@
 package au.com.aitcollaboration.chessgame.board;
 
+import static au.com.aitcollaboration.chessgame.support.Constants.BOARD_SIZE;
+
 public class Position {
 
     private int myX;
@@ -37,5 +39,10 @@ public class Position {
         result = 31 * result + myY;
 
         return result;
+    }
+
+    public boolean isOutsideBoard() {
+        return myX >= BOARD_SIZE || myY >= BOARD_SIZE ||
+                myX < 0 || myY < 0;
     }
 }
