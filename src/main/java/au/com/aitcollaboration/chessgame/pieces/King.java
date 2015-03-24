@@ -32,14 +32,11 @@ public class King extends Piece {
 
             Position position = square.nextPosition(myX, myY);
 
-            if (position.isOutsideBoard())
-                continue;
+            Square nextSquare = board.getSquareAtPosition(position);
 
-            Square otherSquare = board.getSquareAtPosition(position);
-
-            //TODO: you should remove 'this' form the following method. Don't need to pass the piece
-            if (otherSquare.isMoveValid(color, this))
-                moves.add(otherSquare);
+            if (nextSquare != null)
+                if (nextSquare.isMoveValid(color, this))
+                    moves.add(nextSquare);
         }
     }
 }

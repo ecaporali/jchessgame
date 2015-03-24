@@ -7,12 +7,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static au.com.aitcollaboration.chessgame.support.Constants.BOARD_SIZE;
-
 public class Board {
 
-    private Square[][] grid;
-    private Map<Color, Pieces> piecesMap;
+    private final Square[][] grid;
+    private final Map<Color, Pieces> piecesMap;
+    public static final int BOARD_SIZE = 8;
 
     public Board() {
         this.piecesMap = new HashMap<Color, Pieces>(2);
