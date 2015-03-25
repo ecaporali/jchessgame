@@ -50,7 +50,7 @@ public class Square {
         return position;
     }
 
-    public boolean canPawnEat(Color color) {
+    public boolean pieceCanBeEaten(Color color) {
         return !isAvailable() && !piece.matches(color);
     }
 }

@@ -32,11 +32,11 @@ public class Rook extends Piece {
             while (true) {
                 Position position = square.nextPosition(myX, myY);
 
-                Square otherSquare = board.getSquareAtPosition(position);
+                Square nextSquare = board.getSquareAtPosition(position);
 
-                if(otherSquare != null) {
-                    if (otherSquare.isMoveValid(color, this)) {
-                        moves.add(otherSquare);
+                if(nextSquare != null) {
+                    if (nextSquare.isMoveValid(color, this)) {
+                        moves.add(nextSquare);
                     }
                     myX += moveAt[0];
                     myY += moveAt[1];

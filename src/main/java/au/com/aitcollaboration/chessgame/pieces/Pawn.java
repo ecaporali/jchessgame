@@ -32,16 +32,18 @@ public class Pawn extends Piece {
 
             Position position = square.nextPosition(myX, myY);
 
-            Square otherSquare = board.getSquareAtPosition(position);
+            Square nextSquare = board.getSquareAtPosition(position);
 
-            if (myX == 0){
-                if (otherSquare.isMoveValid(color, this)) {
-                    moves.add(otherSquare);
+            if (nextSquare != null) {
+                if (myX == 0){
+                    if (nextSquare.isMoveValid(color, this)) {
+                        moves.add(nextSquare);
+                    }
                 }
-            }
-            else{
-                if (otherSquare.canPawnEat(color)) {
-                    moves.add(otherSquare);
+                else{
+                    if (nextSquare.pieceCanBeEaten(color)) {
+                        moves.add(nextSquare);
+                    }
                 }
             }
         }
