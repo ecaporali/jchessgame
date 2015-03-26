@@ -25,6 +25,7 @@ public class Pawn extends Piece {
         Square square = board.getSquareForPiece(this);
 
         int[][] validMoves = commonMoves();
+        int[] firstMoves = validMoves[0];
 
         for (int[] moveAt : validMoves) {
             int myX = moveAt[0];
@@ -35,13 +36,12 @@ public class Pawn extends Piece {
             Square nextSquare = board.getSquareAtPosition(position);
 
             if (nextSquare != null) {
-                if (myX == 0){
-                    if (nextSquare.isMoveValid(color, this)) {
+                if (firstMoves == moveAt) {
+                    if (nextSquare.isAvailable()) {
                         moves.add(nextSquare);
                     }
-                }
-                else{
-                    if (nextSquare.pieceCanBeEaten(color)) {
+                } else {
+                    if (!nextSquare.isAvailable() && nextSquare.isOpponentPiece(color)) {
                         moves.add(nextSquare);
                     }
                 }

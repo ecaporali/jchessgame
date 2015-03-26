@@ -27,23 +27,21 @@ public class Queen extends Piece {
         int[][] validMoves = commonMoves();
 
         for (int[] moveAt : validMoves) {
-            int myX = moveAt[0];
-            int myY = moveAt[1];
+            int myX = 0;
+            int myY = 0;
+
             while (true) {
+                myX += moveAt[0];
+                myY += moveAt[1];
+
                 Position position = square.nextPosition(myX, myY);
 
                 Square nextSquare = board.getSquareAtPosition(position);
 
-                if(nextSquare != null) {
-                    if (nextSquare.isMoveValid(color, this)) {
-                        moves.add(nextSquare);
-                    }
-                    myX += moveAt[0];
-                    myY += moveAt[1];
-                }
-                else{
+                if (nextSquare == null || (!nextSquare.isAvailable() && !nextSquare.isOpponentPiece(color)))
                     break;
-                }
+
+                moves.add(nextSquare);
             }
         }
     }

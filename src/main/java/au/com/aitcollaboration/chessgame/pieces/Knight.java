@@ -34,11 +34,9 @@ public class Knight extends Piece {
 
             Square nextSquare = board.getSquareAtPosition(position);
 
-            if (nextSquare != null) {
-                if (nextSquare.isMoveValid(color, this)) {
+            if (nextSquare != null)
+                if (nextSquare.isMoveValid(color))
                     moves.add(nextSquare);
-                }
-            }
         }
     }
 
