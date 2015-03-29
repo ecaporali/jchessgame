@@ -35,16 +35,15 @@ public class Pawn extends Piece {
 
             Square nextSquare = board.getSquareAtPosition(position);
 
-            if (nextSquare != null) {
-                if (firstMoves == moveAt) {
-                    if (nextSquare.hasPiece()) {
-                        moves.add(nextSquare);
-                    }
-                } else {
-                    if (!nextSquare.hasPiece() && nextSquare.containsSamePiece(color)) {
-                        moves.add(nextSquare);
-                    }
-                }
+            if (nextSquare == null)
+                continue;
+
+            if (firstMoves == moveAt) {
+                if (!nextSquare.hasPiece())
+                    moves.add(nextSquare);
+            } else {
+                if (nextSquare.containsOpponentPiece(color))
+                    moves.add(nextSquare);
             }
         }
     }
