@@ -38,10 +38,13 @@ public class Rook extends Piece {
 
                 Square nextSquare = board.getSquareAtPosition(position);
 
-                if (nextSquare == null || (!nextSquare.isAvailable() && !nextSquare.isOpponentPiece(color)))
+                if (nextSquare == null || nextSquare.containsSamePiece(color))
                     break;
 
                 moves.add(nextSquare);
+
+                if(nextSquare.containsOpponentPiece(color))
+                    break;
             }
         }
     }

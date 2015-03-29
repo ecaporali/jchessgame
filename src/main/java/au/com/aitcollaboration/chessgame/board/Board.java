@@ -22,11 +22,9 @@ public class Board {
     }
 
     private void createBoard() {
-        for (int row = 0; row < BOARD_SIZE; row++) {
-            for (int col = 0; col < BOARD_SIZE; col++) {
+        for (int row = 0; row < BOARD_SIZE; row++)
+            for (int col = 0; col < BOARD_SIZE; col++)
                 grid[row][col] = new Square(row, col);
-            }
-        }
     }
 
     private void createPieces() {
@@ -112,5 +110,11 @@ public class Board {
                     return square;
 
         return null;
+    }
+
+    public void clear() {
+        for (Square[] squares : grid)
+            for (Square square : squares)
+                square.positionPiece(null);
     }
 }

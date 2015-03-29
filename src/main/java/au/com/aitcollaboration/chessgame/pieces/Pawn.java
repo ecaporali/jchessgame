@@ -37,11 +37,11 @@ public class Pawn extends Piece {
 
             if (nextSquare != null) {
                 if (firstMoves == moveAt) {
-                    if (nextSquare.isAvailable()) {
+                    if (nextSquare.hasPiece()) {
                         moves.add(nextSquare);
                     }
                 } else {
-                    if (!nextSquare.isAvailable() && nextSquare.isOpponentPiece(color)) {
+                    if (!nextSquare.hasPiece() && nextSquare.containsSamePiece(color)) {
                         moves.add(nextSquare);
                     }
                 }

@@ -38,4 +38,9 @@ public class Position {
 
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "[myX=" + myX + ", myY=" + myY + "]";
+    }
 }

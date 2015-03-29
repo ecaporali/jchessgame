@@ -12,8 +12,8 @@ public class Square {
         position = new Position(myX, myY);
     }
 
-    public boolean isAvailable() {
-        return this.piece == null;
+    public boolean hasPiece() {
+        return this.piece != null;
     }
 
     public void positionPiece(Piece piece) {
@@ -21,7 +21,7 @@ public class Square {
     }
 
     public boolean contains(Piece piece) {
-        return piece.equals(this.piece);
+        return this.piece.equals(piece);
     }
 
     public boolean isAt(Position position) {
@@ -29,11 +29,15 @@ public class Square {
     }
 
     public boolean isMoveValid(Color color) {
-        return isAvailable() || isOpponentPiece(color);
+        return !hasPiece() || !piece.matches(color);
     }
 
-    public boolean isOpponentPiece(Color color) {
-        return !piece.matches(color);
+    public boolean containsSamePiece(Color color) {
+        return hasPiece() && piece.matches(color);
+    }
+
+    public boolean containsOpponentPiece(Color color) {
+        return hasPiece() && !piece.matches(color);
     }
 
     public Position nextPosition(int myX, int myY) {
