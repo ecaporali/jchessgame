@@ -10,10 +10,15 @@ public class Pieces {
 
     public Pieces() {
         this.currentPieces = new ArrayList<Piece>(16);
-        this.lostPieces = new ArrayList<Piece>(15);
+        this.lostPieces = new ArrayList<Piece>(16);
     }
 
     public void add(Piece piece) {
         currentPieces.add(piece);
+    }
+
+    public void remove(Piece piece){
+        this.currentPieces.remove(piece);
+        this.lostPieces.add(piece);
     }
 }

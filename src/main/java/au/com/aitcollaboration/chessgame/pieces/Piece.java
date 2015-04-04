@@ -1,28 +1,30 @@
 package au.com.aitcollaboration.chessgame.pieces;
 
 import au.com.aitcollaboration.chessgame.board.Board;
+import au.com.aitcollaboration.chessgame.pieces.moving.MovingBehaviour;
 import au.com.aitcollaboration.chessgame.player.Color;
 
 public abstract class Piece {
 
-    protected Color color;
-    protected Moves moves;
+    private MovingBehaviour movingBehaviour;
+    private Color color;
 
-    protected Piece(Color color) {
+    protected Piece(Color color, MovingBehaviour movingBehaviour) {
         this.color = color;
-        this.moves = new Moves();
+        this.movingBehaviour = movingBehaviour;
     }
 
-    public boolean matches(Color color) {
-        return this.color.equals(color);
+    public boolean matches(Color otherColor){
+        return this.color.equals(otherColor);
     }
 
     public abstract int[][] commonMoves();
 
-    public abstract void validMovesOn(Board board);
+    public ValidMoves getValidMovesOn(Board board) {
+        return movingBehaviour.getMoves(board, this);
+    }
 
-    public Moves getValidMovesOn(Board board) {
-        validMovesOn(board);
-        return moves;
+    public Color getColor() {
+        return color;
     }
 }

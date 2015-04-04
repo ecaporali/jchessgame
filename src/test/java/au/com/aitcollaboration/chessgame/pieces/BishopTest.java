@@ -26,10 +26,10 @@ public class BishopTest {
     @Test
     public void testShouldMoveAndStayInsideTheBoardWhenMovementIsFree() {
         Square first = board.getSquareAtPosition(new Position(0, 0));
-        first.positionPiece(bishop);
+        first.setPiece(bishop);
 
-        Moves moves = bishop.getValidMovesOn(board);
-        assertThat(moves.size(), is(7));
+        ValidMoves validMoves = bishop.getValidMovesOn(board);
+        assertThat(validMoves.size(), is(7));
     }
 
     @Test
@@ -38,13 +38,13 @@ public class BishopTest {
         Square first = board.getSquareAtPosition(new Position(0, 0));
         Square random = board.getSquareAtPosition(new Position(5, 5));
 
-        first.positionPiece(bishop);
-        random.positionPiece(opponentColor);
+        first.setPiece(bishop);
+        random.setPiece(opponentColor);
 
-        Moves moves = bishop.getValidMovesOn(board);
+        ValidMoves validMoves = bishop.getValidMovesOn(board);
 
-        assertFalse(moves.isEmpty());
-        assertThat(moves.size(), is(5));
+        assertFalse(validMoves.isEmpty());
+        assertThat(validMoves.size(), is(5));
     }
 
     @Test
@@ -53,12 +53,12 @@ public class BishopTest {
         Square first = board.getSquareAtPosition(new Position(0, 0));
         Square random = board.getSquareAtPosition(new Position(5, 5));
 
-        first.positionPiece(bishop);
-        random.positionPiece(sameColor);
+        first.setPiece(bishop);
+        random.setPiece(sameColor);
 
-        Moves moves = bishop.getValidMovesOn(board);
+        ValidMoves validMoves = bishop.getValidMovesOn(board);
 
-        assertFalse(moves.isEmpty());
-        assertThat(moves.size(), is(4));
+        assertFalse(validMoves.isEmpty());
+        assertThat(validMoves.size(), is(4));
     }
 }

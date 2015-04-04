@@ -29,30 +29,30 @@ public class Board {
 
     private void createPieces() {
 
-        grid[0][0].positionPiece(new Rook(Color.BLACK));
-        grid[0][1].positionPiece(new Knight(Color.BLACK));
-        grid[0][2].positionPiece(new Bishop(Color.BLACK));
-        grid[0][3].positionPiece(new King(Color.BLACK));
-        grid[0][4].positionPiece(new Queen(Color.BLACK));
-        grid[0][5].positionPiece(new Bishop(Color.BLACK));
-        grid[0][6].positionPiece(new Knight(Color.BLACK));
-        grid[0][7].positionPiece(new Rook(Color.BLACK));
+        grid[0][0].setPiece(new Rook(Color.BLACK));
+        grid[0][1].setPiece(new Knight(Color.BLACK));
+        grid[0][2].setPiece(new Bishop(Color.BLACK));
+        grid[0][3].setPiece(new King(Color.BLACK));
+        grid[0][4].setPiece(new Queen(Color.BLACK));
+        grid[0][5].setPiece(new Bishop(Color.BLACK));
+        grid[0][6].setPiece(new Knight(Color.BLACK));
+        grid[0][7].setPiece(new Rook(Color.BLACK));
 
         for (int j = 0; j < BOARD_SIZE; j++) {
-            grid[1][j].positionPiece(new Pawn(Color.BLACK));
+            grid[1][j].setPiece(new Pawn(Color.BLACK));
         }
 
-        grid[7][0].positionPiece(new Rook(Color.WHITE));
-        grid[7][1].positionPiece(new Knight(Color.WHITE));
-        grid[7][2].positionPiece(new Bishop(Color.WHITE));
-        grid[7][3].positionPiece(new Queen(Color.WHITE));
-        grid[7][4].positionPiece(new King(Color.WHITE));
-        grid[7][5].positionPiece(new Bishop(Color.WHITE));
-        grid[7][6].positionPiece(new Knight(Color.WHITE));
-        grid[7][7].positionPiece(new Rook(Color.WHITE));
+        grid[7][0].setPiece(new Rook(Color.WHITE));
+        grid[7][1].setPiece(new Knight(Color.WHITE));
+        grid[7][2].setPiece(new Bishop(Color.WHITE));
+        grid[7][3].setPiece(new Queen(Color.WHITE));
+        grid[7][4].setPiece(new King(Color.WHITE));
+        grid[7][5].setPiece(new Bishop(Color.WHITE));
+        grid[7][6].setPiece(new Knight(Color.WHITE));
+        grid[7][7].setPiece(new Rook(Color.WHITE));
 
         for (int j = 0; j < BOARD_SIZE; j++) {
-            grid[6][j].positionPiece(new Pawn(Color.WHITE));
+            grid[6][j].setPiece(new Pawn(Color.WHITE));
         }
     }
 
@@ -115,6 +115,28 @@ public class Board {
     public void clear() {
         for (Square[] squares : grid)
             for (Square square : squares)
-                square.positionPiece(null);
+                square.setPiece(null);
+    }
+
+    public String display() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (int i = 0; i < 50; ++i)
+            stringBuilder.append("\n");
+
+        String divider = "---------------------------------";
+
+        for (Square[] squares : grid) {
+            stringBuilder.append(divider);
+            stringBuilder.append("\n");
+            for (Square square : squares) {
+                stringBuilder.append(square.toString());
+            }
+            stringBuilder.append("|\n");
+        }
+        stringBuilder.append(divider);
+        stringBuilder.append("\n");
+
+        return stringBuilder.toString();
     }
 }

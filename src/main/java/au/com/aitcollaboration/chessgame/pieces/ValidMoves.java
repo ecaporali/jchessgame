@@ -6,20 +6,16 @@ import au.com.aitcollaboration.chessgame.board.Square;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Moves {
+public class ValidMoves {
 
     private List<Square> possibleMoves;
 
-    public Moves() {
+    public ValidMoves() {
         this.possibleMoves = new ArrayList<Square>();
     }
 
     public void add(Square square) {
         possibleMoves.add(square);
-    }
-
-    public void clear() {
-        possibleMoves.clear();
     }
 
     public boolean isEmpty(){

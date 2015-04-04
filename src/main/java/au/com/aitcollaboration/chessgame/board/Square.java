@@ -16,27 +16,23 @@ public class Square {
         return this.piece != null;
     }
 
-    public void positionPiece(Piece piece) {
+    public void setPiece(Piece piece) {
         this.piece = piece;
     }
 
     public boolean contains(Piece piece) {
-        return this.piece.equals(piece);
+        return hasPiece() && this.piece.equals(piece);
     }
 
     public boolean isAt(Position position) {
         return this.position.equals(position);
     }
 
-    public boolean isMoveValid(Color color) {
-        return !hasPiece() || !piece.matches(color);
-    }
-
-    public boolean containsSamePiece(Color color) {
+    public boolean containsSamePieceColor(Color color) {
         return hasPiece() && piece.matches(color);
     }
 
-    public boolean containsOpponentPiece(Color color) {
+    public boolean containsOpponentPieceColor(Color color) {
         return hasPiece() && !piece.matches(color);
     }
 
@@ -50,5 +46,11 @@ public class Square {
 
     public Position getPosition() {
         return position;
+    }
+
+    @Override
+    public String toString() {
+        String s = (piece != null) ? piece.toString() : " ";
+        return "| " + s + " ";
     }
 }

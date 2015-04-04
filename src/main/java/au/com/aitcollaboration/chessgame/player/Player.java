@@ -1,6 +1,6 @@
 package au.com.aitcollaboration.chessgame.player;
 
-import au.com.aitcollaboration.chessgame.pieces.Moves;
+import au.com.aitcollaboration.chessgame.pieces.ValidMoves;
 import au.com.aitcollaboration.chessgame.pieces.Pieces;
 import org.apache.commons.lang3.time.StopWatch;
 
@@ -13,11 +13,11 @@ public abstract class Player {
     protected StopWatch stopWatch;
     protected Color color;
     protected Pieces pieces;
-    protected List<Moves> moves;
+    protected List<ValidMoves> moves;
 
     private Player() {
         this.stopWatch = new StopWatch();
-        this.moves = new ArrayList<Moves>();
+        this.moves = new ArrayList<ValidMoves>();
     }
 
     protected Player(String name, Color color, Pieces pieces) {

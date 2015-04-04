@@ -34,8 +34,18 @@ public class Game {
     }
 
     public void start() {
+        showGreetings();
         playersSetUp();
+        showBoard();
         runGame();
+    }
+
+    private void showGreetings() {
+        System.out.println(UIMessages.GREETINGS);
+    }
+
+    private void showBoard() {
+        System.out.println(board.display());
     }
 
     public void playersSetUp() {
