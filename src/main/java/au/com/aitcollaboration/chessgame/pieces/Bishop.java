@@ -1,6 +1,6 @@
 package au.com.aitcollaboration.chessgame.pieces;
 
-import au.com.aitcollaboration.chessgame.pieces.moving.IncrementalMovement;
+import au.com.aitcollaboration.chessgame.pieces.movement.IncrementalMovement;
 import au.com.aitcollaboration.chessgame.player.Color;
 
 public class Bishop extends Piece {

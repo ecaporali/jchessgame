@@ -1,4 +1,4 @@
-package au.com.aitcollaboration.chessgame.pieces.moving;
+package au.com.aitcollaboration.chessgame.pieces.movement;
 
 import au.com.aitcollaboration.chessgame.board.Board;
 import au.com.aitcollaboration.chessgame.pieces.Piece;
