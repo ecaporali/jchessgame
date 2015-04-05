@@ -79,8 +79,8 @@ public class Game {
     }
 
     public void runGame() {
-        rules.getPossibleMovesOn(board);
         while (!gameOver) {
+            rules.getPossibleMovesOn(board);
             players.play();
 
             //TODO: remove following line and use the one commented
