@@ -1,12 +1,12 @@
 package au.com.aitcollaboration.chessgame.pieces;
 
-import au.com.aitcollaboration.chessgame.pieces.movement.SingleMoving;
+import au.com.aitcollaboration.chessgame.pieces.movement.SingleMovement;
 import au.com.aitcollaboration.chessgame.player.Color;
 
 public class Pawn extends Piece {
 
     public Pawn(Color color) {
-        super(color, new SingleMoving());
+        super(color, new SingleMovement());
     }
 
     @Override

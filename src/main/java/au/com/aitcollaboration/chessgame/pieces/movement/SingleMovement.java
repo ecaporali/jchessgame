@@ -7,7 +7,7 @@ import au.com.aitcollaboration.chessgame.pieces.Piece;
 import au.com.aitcollaboration.chessgame.pieces.ValidMoves;
 import au.com.aitcollaboration.chessgame.player.Color;
 
-public class SingleMoving implements MovingBehaviour {
+public class SingleMovement implements MovingBehaviour {
 
     @Override
     public ValidMoves getMoves(Board board, Piece piece) {
