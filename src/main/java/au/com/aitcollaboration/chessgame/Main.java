@@ -11,7 +11,7 @@ public class Main {
     private static Game game;
 
     static {
-        game = new Game(new Board(), new Rules(), new Players(new Player[2]));
+        game = new Game(new Board(), new Rules(), new Player[2]);
     }
 
     public static void main(String[] args) {

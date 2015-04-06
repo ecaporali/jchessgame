@@ -118,25 +118,42 @@ public class Board {
                 square.setPiece(null);
     }
 
-    public String display() {
+    @Override
+    public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
 
         for (int i = 0; i < 50; ++i)
             stringBuilder.append("\n");
 
-        String divider = "---------------------------------";
-
-        for (Square[] squares : grid) {
-            stringBuilder.append(divider);
-            stringBuilder.append("\n");
-            for (Square square : squares) {
-                stringBuilder.append(square.toString());
+        for (int i = 0; i < grid.length; i++) {
+            String s = getDivider();
+            s += addVerticalNumbering(BOARD_SIZE - i);
+            for (int j = 0; j < grid[i].length; j++) {
+                Square square = grid[i][j];
+                s += square;
             }
-            stringBuilder.append("|\n");
+            s += "|\n";
+            stringBuilder.append(s);
         }
-        stringBuilder.append(divider);
-        stringBuilder.append("\n");
+        stringBuilder.append(getDivider());
+
+        stringBuilder.append("\t");
+
+        for (int i = 0; i < BOARD_SIZE; i++)
+            stringBuilder.append(addHorizontalLetters(i + 65));
 
         return stringBuilder.toString();
+    }
+
+    private String getDivider() {
+        return "\t---------------------------------\n";
+    }
+
+    private String addVerticalNumbering(int position) {
+        return "  " + position + " ";
+    }
+
+    private String addHorizontalLetters(int position) {
+        return "  " + Character.toChars(position)[0] + " ";
     }
 }

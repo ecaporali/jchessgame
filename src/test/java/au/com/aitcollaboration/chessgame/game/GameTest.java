@@ -1,7 +1,11 @@
 package au.com.aitcollaboration.chessgame.game;
 
 import au.com.aitcollaboration.chessgame.board.Board;
-import au.com.aitcollaboration.chessgame.player.*;
+import au.com.aitcollaboration.chessgame.board.Position;
+import au.com.aitcollaboration.chessgame.board.Square;
+import au.com.aitcollaboration.chessgame.pieces.King;
+import au.com.aitcollaboration.chessgame.player.Color;
+import au.com.aitcollaboration.chessgame.player.Player;
 import au.com.aitcollaboration.chessgame.support.In;
 import au.com.aitcollaboration.chessgame.support.Utils;
 import org.junit.Before;
@@ -31,8 +35,11 @@ public class GameTest {
     @Mock
     private Rules rules;
     @Mock
-    private Players players;
+    private Player playerOne;
+    @Mock
+    private Player playerTwo;
 
+    private Player[] players;
     private Game game;
 
     @Before
@@ -41,9 +48,11 @@ public class GameTest {
         mockStatic(Utils.class);
         mockStatic(In.class);
 
+        players = new Player[]{playerOne, playerTwo};
+
         game = new Game(board, rules, players);
 
-        when(In.nextLine(anyString())).thenReturn("answer");
+        when(In.nextLine(anyString())).thenReturn("");
     }
 
     @Test
@@ -52,7 +61,7 @@ public class GameTest {
 
         game.playersSetUp();
 
-        verify(players, times(2)).add(any(Player.class));
+        assertThat(players.length, is(2));
     }
 
     @Test
@@ -61,7 +70,7 @@ public class GameTest {
 
         game.playersSetUp();
 
-        verify(players, times(2)).add(any(Player.class));
+        assertThat(players.length, is(2));
     }
 
     @Test
@@ -69,17 +78,26 @@ public class GameTest {
         game.setGameOver(true);
         game.runGame();
 
-        verify(players, times(0)).play();
+        verify(playerOne, times(0)).play();
+        verify(playerTwo, times(0)).play();
     }
 
     @Test
-    public void testShouldCallRunGameWhenGameOverIsFalse() {
+    public void testShouldCallRunGameWhenGameOverIsFalse() throws Throwable {
+        int[] coordinates = new int[]{1, 1};
+        Square square = new Square(coordinates[0], coordinates[1]);
+        square.setPiece(new King(Color.BLACK));
+
         when(rules.isCheckMate(board)).thenReturn(false);
         when(rules.isMatchDraw(any(List.class))).thenReturn(true);
+        when(In.nextLine(anyString())).thenReturn("A1");
+        when(Utils.getConvertedPosition(anyString())).thenReturn(coordinates);
+        when(board.getSquareAtPosition(any(Position.class))).thenReturn(square);
 
         game.runGame();
 
-        verify(players, times(1)).play();
+        verify(playerOne, times(1)).play();
+        verify(playerTwo, times(1)).play();
     }
 
     @Test

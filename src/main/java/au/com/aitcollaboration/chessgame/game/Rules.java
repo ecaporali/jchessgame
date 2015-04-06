@@ -18,11 +18,11 @@ public class Rules {
     }
 
     public boolean isCheckMate(Board board) {
-        return false;
+        return true;
     }
 
     public boolean isMatchDraw(List<Board> movesHistory) {
-        return false;
+        return true;
     }
 
 

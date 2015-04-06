@@ -13,8 +13,6 @@ public class Players {
     }
 
     public void play() {
-        for (Player player : players) {
-            player.play();
-        }
+
     }
 }

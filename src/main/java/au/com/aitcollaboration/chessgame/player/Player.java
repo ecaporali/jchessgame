@@ -29,11 +29,16 @@ public abstract class Player {
         System.out.println("\n" + this.name + " " + this.color);
     }
 
-    protected void play() {
+    public void play() {
 
     }
 
     public void setPieces(Pieces pieces) {
         this.pieces = pieces;
+    }
+
+    @Override
+    public String toString() {
+        return "Player " + ((this.color.equals(Color.WHITE)) ? 1 : 2);
     }
 }
