@@ -4,14 +4,14 @@ import au.com.aitcollaboration.chessgame.board.Board;
 import au.com.aitcollaboration.chessgame.board.Position;
 import au.com.aitcollaboration.chessgame.board.Square;
 import au.com.aitcollaboration.chessgame.pieces.Piece;
-import au.com.aitcollaboration.chessgame.pieces.ValidMoves;
+import au.com.aitcollaboration.chessgame.pieces.PracticalMoves;
 import au.com.aitcollaboration.chessgame.player.Color;
 
 public class IncrementalMovement implements MovingBehaviour {
 
     @Override
-    public ValidMoves getMoves(Board board, Piece piece) {
-        ValidMoves validMoves = new ValidMoves();
+    public PracticalMoves getMoves(Board board, Piece piece) {
+        PracticalMoves practicalMoves = new PracticalMoves();
 
         Square square = board.getSquareForPiece(piece);
 
@@ -34,12 +34,12 @@ public class IncrementalMovement implements MovingBehaviour {
                 if (nextSquare == null || nextSquare.containsSamePieceColor(pieceColor))
                     break;
 
-                validMoves.add(nextSquare);
+                practicalMoves.add(nextSquare);
 
                 if (nextSquare.containsOpponentPieceColor(pieceColor))
                     break;
             }
         }
-        return validMoves;
+        return practicalMoves;
     }
 }

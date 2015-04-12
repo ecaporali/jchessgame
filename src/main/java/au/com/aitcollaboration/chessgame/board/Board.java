@@ -3,7 +3,6 @@ package au.com.aitcollaboration.chessgame.board;
 import au.com.aitcollaboration.chessgame.pieces.*;
 import au.com.aitcollaboration.chessgame.player.Color;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -57,16 +56,13 @@ public class Board {
     }
 
     private void mapColouredPieces() {
-
-        Pieces blackPieces = new Pieces();
-        Pieces whitePieces = new Pieces();
+        Pieces whitePieces = new Pieces(Color.WHITE);
+        Pieces blackPieces = new Pieces(Color.BLACK);
 
         for (Square[] squares : grid) {
             for (Square square : squares) {
                 Piece piece = square.getPiece();
-
                 if (piece != null) {
-
                     if (piece.matches(Color.BLACK)) {
                         blackPieces.add(piece);
                     } else {
@@ -80,16 +76,12 @@ public class Board {
         piecesMap.put(Color.BLACK, blackPieces);
     }
 
-    public Pieces getColoredPieces(Color color) {
-        return piecesMap.get(color);
+    public Square[][] getClonedGrid() {
+        return this.grid.clone();
     }
 
     public Map<Color, Pieces> getPiecesMap() {
-        return Collections.unmodifiableMap(piecesMap);
-    }
-
-    public Square[][] getClonedGrid() {
-        return this.grid.clone();
+        return piecesMap;
     }
 
     public Square getSquareForPiece(Piece piece) {
@@ -155,5 +147,17 @@ public class Board {
 
     private String addHorizontalLetters(int position) {
         return "  " + Character.toChars(position)[0] + " ";
+    }
+
+    public void remove(Piece piece) {
+        for (Pieces pieces : piecesMap.values())
+            if (pieces.contains(piece))
+                pieces.remove(piece);
+    }
+
+    public void movePiece(Square fromSquare, Square toSquare) {
+        Piece piece = fromSquare.getPiece();
+        fromSquare.setPiece(null);
+        toSquare.setPiece(piece);
     }
 }

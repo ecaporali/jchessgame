@@ -4,14 +4,14 @@ import au.com.aitcollaboration.chessgame.board.Board;
 import au.com.aitcollaboration.chessgame.board.Position;
 import au.com.aitcollaboration.chessgame.board.Square;
 import au.com.aitcollaboration.chessgame.pieces.Piece;
-import au.com.aitcollaboration.chessgame.pieces.ValidMoves;
+import au.com.aitcollaboration.chessgame.pieces.PracticalMoves;
 import au.com.aitcollaboration.chessgame.player.Color;
 
 public class SingleMovement implements MovingBehaviour {
 
     @Override
-    public ValidMoves getMoves(Board board, Piece piece) {
-        ValidMoves validMoves = new ValidMoves();
+    public PracticalMoves getMoves(Board board, Piece piece) {
+        PracticalMoves practicalMoves = new PracticalMoves();
 
         Square square = board.getSquareForPiece(piece);
 
@@ -33,15 +33,15 @@ public class SingleMovement implements MovingBehaviour {
 
             if (isEatingMove(firstMove, currentMove)) {
                 if (nextSquare.containsOpponentPieceColor(pieceColor)){
-                    validMoves.add(nextSquare);
+                    practicalMoves.add(nextSquare);
                 }
             } else {
                 if (!nextSquare.hasPiece()){
-                    validMoves.add(nextSquare);
+                    practicalMoves.add(nextSquare);
                 }
             }
         }
-        return validMoves;
+        return practicalMoves;
     }
 
     private boolean isEatingMove(int[] firstMove, int[] currentMove) {

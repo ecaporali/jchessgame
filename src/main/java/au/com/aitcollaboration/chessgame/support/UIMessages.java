@@ -7,9 +7,14 @@ public class UIMessages {
     public static final String SELECT_NUMBER_OF_PLAYERS = "Please insert the number of players [1/2]: ";
     public static final String PIECE_TO_MOVE = "What piece do you want to move? : ";
     public static final String WHERE_TO_MOVE_PIECE = "Where do you wanna move it? : ";
-    public static final String INVALID_POSITION_EXCEPTION_MSG = "Please select a valid position.";
-    public static final String EMPTY_SQUARE_EXCEPTION_MSG = "Please select a position containing a piece.";
-    public static final String NULL_COORDINATES_EXCEPTION_MSG = "Please select a position containing a piece.";
+    public static final String INVALID_POSITION_EXCEPTION = "Please select a valid position.";
+    public static final String INVALID_MOVE_EXCEPTION = "Please select a valid move.";
+    public static final String INVALID_NUMBER_EXCEPTION = "Please select a numeric value.";
+    public static final String NULL_COORDINATES_EXCEPTION = "Please select a position containing a piece.";
+    public static final String PIECE_NOT_FOUND_EXCEPTION = "This piece cannot be found. Please select another one.";
+    public static final String PIECE_CANNOT_BE_MOVED_EXCEPTION = "This piece cannot be moved. Please select another one.";
+    public static final String INVALID_PIECE_EXCEPTION = "Please select a valid piece matching your own colour.";
+    public static final String KING_IN_DANGER_EXCEPTION = "Piece cannot be moved otherwise the King is under check mate.";
 
 
 

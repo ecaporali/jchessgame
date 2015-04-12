@@ -10,7 +10,7 @@ public enum Color {
         this.position = position;
     }
 
-    public int getPosition(){
+    public int position(){
         return this.position;
     }
 

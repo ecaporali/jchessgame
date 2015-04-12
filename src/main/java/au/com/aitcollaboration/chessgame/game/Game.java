@@ -3,9 +3,10 @@ package au.com.aitcollaboration.chessgame.game;
 import au.com.aitcollaboration.chessgame.board.Board;
 import au.com.aitcollaboration.chessgame.board.Position;
 import au.com.aitcollaboration.chessgame.board.Square;
-import au.com.aitcollaboration.chessgame.exceptions.InvalidPositionException;
-import au.com.aitcollaboration.chessgame.exceptions.NullCoordinatesException;
+import au.com.aitcollaboration.chessgame.exceptions.*;
+import au.com.aitcollaboration.chessgame.pieces.Piece;
 import au.com.aitcollaboration.chessgame.pieces.Pieces;
+import au.com.aitcollaboration.chessgame.pieces.PracticalMoves;
 import au.com.aitcollaboration.chessgame.player.Color;
 import au.com.aitcollaboration.chessgame.player.ComputerPlayer;
 import au.com.aitcollaboration.chessgame.player.HumanPlayer;
@@ -14,126 +15,102 @@ import au.com.aitcollaboration.chessgame.support.In;
 import au.com.aitcollaboration.chessgame.support.UIMessages;
 import au.com.aitcollaboration.chessgame.support.Utils;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class Game {
 
     private Board board;
     private Rules rules;
-    private Player[] players;
-    private boolean gameOver;
     private List<Board> movesHistory;
 
-    private Game() {
-        gameOver = false;
-        movesHistory = new LinkedList<Board>();
-    }
-
-    public Game(Board board, Rules rules, Player[] players) {
-        this();
+    public Game(Board board, Rules rules) {
+        this.movesHistory = new LinkedList<Board>();
         this.board = board;
         this.rules = rules;
-        this.players = players;
-    }
-
-    public void start() {
         showGreetings();
-        playersSetUp();
-        runGame();
     }
 
     private void showGreetings() {
         System.out.println(UIMessages.GREETINGS);
     }
 
-    private void showBoard() {
-        System.out.println(board);
-    }
-
-    public void playersSetUp() {
-        boolean multiPlayers = isMultiPlayers();
-
+    public Map<Color, Player> getPlayersMap() {
         Color color = tossCoin();
         Color flippedColor = color.flip();
 
-        Pieces playerOnePieces = board.getColoredPieces(color);
-        Pieces playerTwoPieces = board.getColoredPieces(flippedColor);
+        Map<Color, Player> colorPlayerMap = new HashMap<Color, Player>(2);
 
-        int playerOnePos = color.getPosition();
-        int playerTwoPos = flippedColor.getPosition();
-
-        players[playerOnePos] = new HumanPlayer(getTextAnswer(UIMessages.INSERT_PLAYER_NAME), color, playerOnePieces);
-
-        if (multiPlayers)
-            players[playerTwoPos] = new HumanPlayer(getTextAnswer(UIMessages.INSERT_PLAYER_NAME), flippedColor, playerTwoPieces);
+        if (isMultiPlayers())
+            colorPlayerMap.put(flippedColor, new HumanPlayer(getTextAnswer(UIMessages.INSERT_PLAYER_NAME)));
         else
-            players[playerTwoPos] = new ComputerPlayer(flippedColor, playerTwoPieces);
+            colorPlayerMap.put(flippedColor, new ComputerPlayer());
+
+        colorPlayerMap.put(color, new HumanPlayer(getTextAnswer(UIMessages.INSERT_PLAYER_NAME)));
+
+        return colorPlayerMap;
     }
 
     public boolean isMultiPlayers() {
-        return getPlayersNumber() > 1;
+        int numericAnswer = getNumericAnswer(UIMessages.SELECT_NUMBER_OF_PLAYERS);
+        return numericAnswer > 1;
     }
 
-    private int getPlayersNumber() {
-        while (true) {
-            try {
-                return getNumericAnswer(UIMessages.SELECT_NUMBER_OF_PLAYERS);
-            } catch (NumberFormatException e) {
-                // keep looping
-            }
-        }
+    public void showBoard() {
+        System.out.println(board);
     }
 
-    public void runGame() {
-        while (!gameOver) {
-            for (Player player : players) {
-                showBoard();
-                showCurrentPlayer(player.toString());
-
-                rules.getPossibleMovesOn(board);
-
-                Square fromSquare = getFromSquare(UIMessages.PIECE_TO_MOVE);
-
-                //TODO: might not need the following method
-                player.play();
-
-                Square toSquare = getToSquare(UIMessages.WHERE_TO_MOVE_PIECE);
-
-                gameOver = isGameOver();
-            }
-        }
+    public boolean isGameOver() {
+        return rules.isMatchDraw(movesHistory) ||
+                rules.isCheckMate(board);
     }
 
-    private void showCurrentPlayer(String playerNumber) {
-        System.out.println("\n" + playerNumber);
+    public void addMoveToHistory() {
+        movesHistory.add(board);
     }
 
-    private Square getFromSquare(String message) {
+    public Color tossCoin() {
+        String coinSide = getTextAnswer(UIMessages.CHOOSE_COIN_SIDE);
+        boolean coinMatched = Utils.tossCoin(coinSide);
+        return (coinMatched) ? Color.WHITE : Color.BLACK;
+    }
+
+
+    public void findPossibleMovesOnBoard() {
+        rules.findAllPossibleMovesOn(board);
+    }
+
+    public void showCurrentPlayer(Player player) {
+        System.out.println("\n" + player);
+    }
+
+    public Square getFromSquare() {
         Square square;
         do {
-            int[] fromPos = getValidCoordinates(message);
+            int[] fromPos = getValidCoordinates(UIMessages.PIECE_TO_MOVE);
             square = getSquareFromCoordinates(fromPos);
             if (!square.hasPiece())
-                System.out.println(UIMessages.EMPTY_SQUARE_EXCEPTION_MSG);
+                System.out.println(UIMessages.PIECE_NOT_FOUND_EXCEPTION);
         } while (!square.hasPiece());
 
         return square;
     }
 
-    private Square getToSquare(String message){
-        int[] fromPos = getValidCoordinates(message);
+    public Square getToSquare() {
+        int[] fromPos = getValidCoordinates(UIMessages.WHERE_TO_MOVE_PIECE);
         return getSquareFromCoordinates(fromPos);
     }
 
-    private Square getSquareFromCoordinates(int[] coordinates) {
-        if(coordinates == null)
-            throw new NullCoordinatesException();
+    public Square getSquareFromCoordinates(int[] coordinates) {
+        if (coordinates == null || coordinates.length < 1)
+            throw new InvalidCoordinatesException();
 
         return board.getSquareAtPosition(new Position(coordinates[0], coordinates[1]));
     }
 
-    private int[] getValidCoordinates(String message) {
+    public int[] getValidCoordinates(String message) {
         int[] coordinates = null;
 
         while (coordinates == null) {
@@ -144,34 +121,75 @@ public class Game {
                 System.out.println(e.getMessage());
             }
         }
-
         return coordinates;
     }
 
-    public boolean isGameOver() {
-        return rules.isMatchDraw(movesHistory) ||
-                rules.isCheckMate(board);
+    public Map<Color, Pieces> getPiecesMap() {
+        return board.getPiecesMap();
     }
 
-    public void setGameOver(boolean gameOver) {
-        this.gameOver = gameOver;
-    }
-
-    private void addMoveToHistory() {
-        movesHistory.add(board);
-    }
-
-    public Color tossCoin() {
-        String coinSide = getTextAnswer(UIMessages.CHOOSE_COIN_SIDE);
-        boolean coinMatched = Utils.tossCoin(coinSide);
-        return (coinMatched) ? Color.WHITE : Color.BLACK;
+    public void showPracticalMoves(PracticalMoves practicalMoves) {
+        System.out.println(practicalMoves);
     }
 
     public String getTextAnswer(String question) {
         return In.nextLine(question);
     }
 
-    public int getNumericAnswer(String question) throws NumberFormatException {
+    public int getNumericAnswer(String question) {
         return In.nextInt(question);
+    }
+
+    public List<Board> getMovesHistory() {
+        return movesHistory;
+    }
+
+    public void movePiece(Square fromSquare, Square toSquare) {
+        Piece piece = toSquare.getPiece();
+        board.remove(piece);
+        board.movePiece(fromSquare, toSquare);
+    }
+
+    public void showInvalidMoveSelected() {
+        System.out.println(UIMessages.INVALID_MOVE_EXCEPTION);
+    }
+
+    public void validatePieceMove(Square fromSquare, Pieces pieces) {
+        try {
+            rules.validatePieceMove(fromSquare, board, pieces);
+        } catch (PieceCannotBeMovedException e) {
+            System.out.println(e.getMessage());
+        } catch (KingInDangerException e) {
+            System.out.println(e.getMessage());
+        } catch (InvalidPieceException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public PracticalMoves getValidMovesFor(Pieces pieces) {
+
+        PracticalMoves practicalMoves;
+        do {
+            Square fromSquare = getFromSquare();
+
+            rules.runAllPossibleMoves(fromSquare, board);
+
+            validatePieceMove(fromSquare, pieces);
+
+            Piece piece = fromSquare.getPiece();
+
+            practicalMoves = rules.getValidMovesForPiece(piece);
+        } while (practicalMoves == null);
+
+        return practicalMoves;
+    }
+
+    public Square getToSquareOn(PracticalMoves practicalMoves) {
+        Square toSquare = getToSquare();
+        while (!practicalMoves.contains(toSquare)) {
+            showInvalidMoveSelected();
+            toSquare = getToSquare();
+        }
+        return toSquare;
     }
 }

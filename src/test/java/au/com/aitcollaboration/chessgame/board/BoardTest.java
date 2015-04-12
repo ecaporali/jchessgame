@@ -53,9 +53,13 @@ public class BoardTest {
     @Test
     public void testShouldContainBothColoursInMap() throws Exception {
         Map<Color, Pieces> piecesMap = board.getPiecesMap();
+        Pieces whitePieces = piecesMap.get(Color.WHITE);
+        Pieces blackPieces = piecesMap.get(Color.BLACK);
 
-        assertNotNull(piecesMap.get(Color.BLACK));
-        assertNotNull(piecesMap.get(Color.WHITE));
+        assertNotNull(whitePieces);
+        assertNotNull(blackPieces);
+        assertThat(whitePieces.size(), is(16));
+        assertThat(blackPieces.size(), is(16));
     }
 
     @Test
@@ -81,5 +85,16 @@ public class BoardTest {
         assertNotNull(square.getPiece());
         assertEquals(square.getPiece().getClass(), King.class);
         assertTrue(square.getPiece().equals(king));
+    }
+
+    @Test
+    public void testClearShouldClearTheBoardFromPieces() throws Exception {
+        board.clear();
+
+        for (Square[] squares : board.getClonedGrid()) {
+            for (Square square : squares) {
+                assertFalse(square.hasPiece());
+            }
+        }
     }
 }

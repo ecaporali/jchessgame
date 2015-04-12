@@ -1,5 +1,7 @@
 package au.com.aitcollaboration.chessgame.board;
 
+import au.com.aitcollaboration.chessgame.support.Utils;
+
 public class Position {
 
     private int myX;
@@ -41,6 +43,6 @@ public class Position {
 
     @Override
     public String toString() {
-        return "[myX=" + myX + ", myY=" + myY + "]";
+        return "[" + Utils.getGamePosition(new int[]{myX, myY}) + "]";
     }
 }

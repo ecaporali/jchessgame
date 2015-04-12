@@ -14,9 +14,15 @@ public class In {
         return in.nextLine().charAt(0);
     }
 
-    public static int nextInt(String question) throws NumberFormatException {
-        String answer = nextLine(question);
-        return Integer.parseInt(answer);
+    public static int nextInt(String question) {
+        while (true) {
+            String answer = nextLine(question);
+            try {
+                return Integer.parseInt(answer);
+            } catch (NumberFormatException e) {
+                System.out.println(UIMessages.INVALID_NUMBER_EXCEPTION);
+            }
+        }
     }
 
     public static double nextDouble() {

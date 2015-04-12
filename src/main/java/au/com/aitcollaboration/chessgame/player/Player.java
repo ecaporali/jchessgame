@@ -1,7 +1,9 @@
 package au.com.aitcollaboration.chessgame.player;
 
-import au.com.aitcollaboration.chessgame.pieces.ValidMoves;
+import au.com.aitcollaboration.chessgame.game.Game;
+import au.com.aitcollaboration.chessgame.pieces.Piece;
 import au.com.aitcollaboration.chessgame.pieces.Pieces;
+import au.com.aitcollaboration.chessgame.pieces.PracticalMoves;
 import org.apache.commons.lang3.time.StopWatch;
 
 import java.util.ArrayList;
@@ -11,26 +13,21 @@ public abstract class Player {
 
     protected String name;
     protected StopWatch stopWatch;
-    protected Color color;
     protected Pieces pieces;
-    protected List<ValidMoves> moves;
+    protected List<PracticalMoves> moves;
 
     private Player() {
         this.stopWatch = new StopWatch();
-        this.moves = new ArrayList<ValidMoves>();
+        this.moves = new ArrayList<PracticalMoves>();
     }
 
-    protected Player(String name, Color color, Pieces pieces) {
+    protected Player(String name) {
         this();
         this.name = name;
-        this.color = color;
-        this.pieces = pieces;
-
-        System.out.println("\n" + this.name + " " + this.color);
     }
 
-    public void play() {
-
+    public boolean isOwnPiece(Piece piece) {
+        return pieces.contains(piece);
     }
 
     public void setPieces(Pieces pieces) {
@@ -39,6 +36,12 @@ public abstract class Player {
 
     @Override
     public String toString() {
-        return "Player " + ((this.color.equals(Color.WHITE)) ? 1 : 2);
+        return "Player Name: " + name;
     }
+
+    public Piece getKing(){
+        return pieces.getKing();
+    }
+
+    public abstract void play(Game game);
 }

@@ -20,12 +20,12 @@ public class Square {
         this.piece = piece;
     }
 
-    public boolean contains(Piece piece) {
-        return hasPiece() && this.piece.equals(piece);
-    }
-
     public boolean isAt(Position position) {
         return this.position.equals(position);
+    }
+
+    public boolean contains(Piece piece) {
+        return hasPiece() && this.piece.equals(piece);
     }
 
     public boolean containsSamePieceColor(Color color) {
@@ -46,6 +46,10 @@ public class Square {
 
     public Position getPosition() {
         return position;
+    }
+
+    public boolean matches(Position position){
+        return this.position.equals(position);
     }
 
     @Override
