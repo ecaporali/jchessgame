@@ -2,7 +2,8 @@ package au.com.aitcollaboration.chessgame.player;
 
 import au.com.aitcollaboration.chessgame.board.Square;
 import au.com.aitcollaboration.chessgame.game.Game;
-import au.com.aitcollaboration.chessgame.pieces.PracticalMoves;
+import au.com.aitcollaboration.chessgame.pieces.PieceMoves;
+import au.com.aitcollaboration.chessgame.pieces.PlayerMoves;
 
 public class HumanPlayer extends Player {
 
@@ -12,13 +13,16 @@ public class HumanPlayer extends Player {
 
     @Override
     public void play(Game game) {
-        Square fromSquare = game.getFromSquare();
 
-        PracticalMoves practicalMoves = game.getValidMovesFor(pieces);
+        Square fromSquare = game.getFromSquare(pieces);
 
-        game.showPracticalMoves(practicalMoves);
+        PlayerMoves playerMoves = game.getValidPiecesMoves(pieces);
 
-        Square toSquare = game.getToSquareOn(practicalMoves);
+        PieceMoves pieceMoves = playerMoves.getPieceMoves(fromSquare.getPiece());
+
+        game.showPracticalMoves(pieceMoves);
+
+        Square toSquare = game.getToSquareFrom(pieceMoves);
 
         game.movePiece(fromSquare, toSquare);
     }

@@ -35,8 +35,8 @@ public class RangeMovementTest {
 
         firstSquare.setPiece(knight);
 
-        PracticalMoves practicalMoves = rangeMovement.getMoves(board, knight);
-        assertThat(practicalMoves.size(), is(2));
+        PieceMoves pieceMoves = rangeMovement.getMoves(board, knight);
+        assertThat(pieceMoves.size(), is(2));
     }
 
     @Test
@@ -45,8 +45,8 @@ public class RangeMovementTest {
 
         firstSquare.setPiece(king);
 
-        PracticalMoves practicalMoves = rangeMovement.getMoves(board, king);
-        assertThat(practicalMoves.size(), is(3));
+        PieceMoves pieceMoves = rangeMovement.getMoves(board, king);
+        assertThat(pieceMoves.size(), is(3));
     }
 
     @Test
@@ -57,10 +57,10 @@ public class RangeMovementTest {
         firstSquare.setPiece(knight);
         opponentSquare.setPiece(new Rook(Color.WHITE));
 
-        PracticalMoves practicalMoves = rangeMovement.getMoves(board, knight);
+        PieceMoves pieceMoves = rangeMovement.getMoves(board, knight);
 
-        assertFalse(practicalMoves.isEmpty());
-        assertThat(practicalMoves.size(), is(2));
+        assertFalse(pieceMoves.isEmpty());
+        assertThat(pieceMoves.size(), is(2));
     }
 
     @Test
@@ -71,10 +71,10 @@ public class RangeMovementTest {
         firstSquare.setPiece(king);
         opponentSquare.setPiece(new Rook(Color.WHITE));
 
-        PracticalMoves practicalMoves = rangeMovement.getMoves(board, king);
+        PieceMoves pieceMoves = rangeMovement.getMoves(board, king);
 
-        assertFalse(practicalMoves.isEmpty());
-        assertThat(practicalMoves.size(), is(3));
+        assertFalse(pieceMoves.isEmpty());
+        assertThat(pieceMoves.size(), is(3));
     }
 
     @Test
@@ -85,10 +85,10 @@ public class RangeMovementTest {
         firstSquare.setPiece(knight);
         buddySquare.setPiece(new Rook(Color.BLACK));
 
-        PracticalMoves practicalMoves = rangeMovement.getMoves(board, knight);
+        PieceMoves pieceMoves = rangeMovement.getMoves(board, knight);
 
-        assertFalse(practicalMoves.isEmpty());
-        assertThat(practicalMoves.size(), is(1));
+        assertFalse(pieceMoves.isEmpty());
+        assertThat(pieceMoves.size(), is(1));
     }
 
     @Test
@@ -99,10 +99,10 @@ public class RangeMovementTest {
         firstSquare.setPiece(king);
         buddySquare.setPiece(new Rook(Color.BLACK));
 
-        PracticalMoves practicalMoves = rangeMovement.getMoves(board, king);
+        PieceMoves pieceMoves = rangeMovement.getMoves(board, king);
 
-        assertFalse(practicalMoves.isEmpty());
-        assertThat(practicalMoves.size(), is(2));
+        assertFalse(pieceMoves.isEmpty());
+        assertThat(pieceMoves.size(), is(2));
     }
 
     private Square getSquareAt(int x, int y) {

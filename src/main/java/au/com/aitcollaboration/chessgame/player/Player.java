@@ -3,7 +3,7 @@ package au.com.aitcollaboration.chessgame.player;
 import au.com.aitcollaboration.chessgame.game.Game;
 import au.com.aitcollaboration.chessgame.pieces.Piece;
 import au.com.aitcollaboration.chessgame.pieces.Pieces;
-import au.com.aitcollaboration.chessgame.pieces.PracticalMoves;
+import au.com.aitcollaboration.chessgame.pieces.PlayerMoves;
 import org.apache.commons.lang3.time.StopWatch;
 
 import java.util.ArrayList;
@@ -14,11 +14,11 @@ public abstract class Player {
     protected String name;
     protected StopWatch stopWatch;
     protected Pieces pieces;
-    protected List<PracticalMoves> moves;
+    protected List<PlayerMoves> moves;
 
     private Player() {
         this.stopWatch = new StopWatch();
-        this.moves = new ArrayList<PracticalMoves>();
+        this.moves = new ArrayList<PlayerMoves>();
     }
 
     protected Player(String name) {

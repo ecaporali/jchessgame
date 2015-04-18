@@ -20,7 +20,7 @@ public abstract class Piece {
 
     public abstract int[][] commonMoves();
 
-    public PracticalMoves getValidMovesOn(Board board) {
+    public PieceMoves getValidMovesOn(Board board) {
         return movingBehaviour.getMoves(board, this);
     }
 

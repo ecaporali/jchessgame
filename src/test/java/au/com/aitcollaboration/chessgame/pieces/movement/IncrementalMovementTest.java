@@ -37,8 +37,8 @@ public class IncrementalMovementTest {
 
         firstSquare.setPiece(bishop);
 
-        PracticalMoves practicalMoves = incrementalMovement.getMoves(board, bishop);
-        assertThat(practicalMoves.size(), is(7));
+        PieceMoves pieceMoves = incrementalMovement.getMoves(board, bishop);
+        assertThat(pieceMoves.size(), is(7));
     }
 
     @Test
@@ -47,8 +47,8 @@ public class IncrementalMovementTest {
 
         firstSquare.setPiece(queen);
 
-        PracticalMoves practicalMoves = incrementalMovement.getMoves(board, queen);
-        assertThat(practicalMoves.size(), is(21));
+        PieceMoves pieceMoves = incrementalMovement.getMoves(board, queen);
+        assertThat(pieceMoves.size(), is(21));
     }
 
     @Test
@@ -57,8 +57,8 @@ public class IncrementalMovementTest {
 
         firstSquare.setPiece(rook);
 
-        PracticalMoves practicalMoves = incrementalMovement.getMoves(board, rook);
-        assertThat(practicalMoves.size(), is(14));
+        PieceMoves pieceMoves = incrementalMovement.getMoves(board, rook);
+        assertThat(pieceMoves.size(), is(14));
     }
 
     @Test
@@ -69,10 +69,10 @@ public class IncrementalMovementTest {
         firstSquare.setPiece(bishop);
         opponentSquare.setPiece(new Rook(Color.WHITE));
 
-        PracticalMoves practicalMoves = incrementalMovement.getMoves(board, bishop);
+        PieceMoves pieceMoves = incrementalMovement.getMoves(board, bishop);
 
-        assertFalse(practicalMoves.isEmpty());
-        assertThat(practicalMoves.size(), is(5));
+        assertFalse(pieceMoves.isEmpty());
+        assertThat(pieceMoves.size(), is(5));
     }
 
     @Test
@@ -83,10 +83,10 @@ public class IncrementalMovementTest {
         firstSquare.setPiece(queen);
         opponentSquare.setPiece(new Rook(Color.WHITE));
 
-        PracticalMoves practicalMoves = incrementalMovement.getMoves(board, queen);
+        PieceMoves pieceMoves = incrementalMovement.getMoves(board, queen);
 
-        assertFalse(practicalMoves.isEmpty());
-        assertThat(practicalMoves.size(), is(19));
+        assertFalse(pieceMoves.isEmpty());
+        assertThat(pieceMoves.size(), is(19));
     }
 
     @Test
@@ -97,10 +97,10 @@ public class IncrementalMovementTest {
         firstSquare.setPiece(rook);
         opponentSquare.setPiece(new Rook(Color.WHITE));
 
-        PracticalMoves practicalMoves = incrementalMovement.getMoves(board, rook);
+        PieceMoves pieceMoves = incrementalMovement.getMoves(board, rook);
 
-        assertFalse(practicalMoves.isEmpty());
-        assertThat(practicalMoves.size(), is(12));
+        assertFalse(pieceMoves.isEmpty());
+        assertThat(pieceMoves.size(), is(12));
     }
 
     @Test
@@ -111,10 +111,10 @@ public class IncrementalMovementTest {
         firstSquare.setPiece(bishop);
         buddySquare.setPiece(new Rook(Color.BLACK));
 
-        PracticalMoves practicalMoves = incrementalMovement.getMoves(board, bishop);
+        PieceMoves pieceMoves = incrementalMovement.getMoves(board, bishop);
 
-        assertFalse(practicalMoves.isEmpty());
-        assertThat(practicalMoves.size(), is(4));
+        assertFalse(pieceMoves.isEmpty());
+        assertThat(pieceMoves.size(), is(4));
     }
 
     @Test
@@ -125,10 +125,10 @@ public class IncrementalMovementTest {
         firstSquare.setPiece(queen);
         buddySquare.setPiece(new Rook(Color.BLACK));
 
-        PracticalMoves practicalMoves = incrementalMovement.getMoves(board, queen);
+        PieceMoves pieceMoves = incrementalMovement.getMoves(board, queen);
 
-        assertFalse(practicalMoves.isEmpty());
-        assertThat(practicalMoves.size(), is(18));
+        assertFalse(pieceMoves.isEmpty());
+        assertThat(pieceMoves.size(), is(18));
     }
 
     @Test
@@ -139,10 +139,10 @@ public class IncrementalMovementTest {
         firstSquare.setPiece(rook);
         buddySquare.setPiece(new Rook(Color.BLACK));
 
-        PracticalMoves practicalMoves = incrementalMovement.getMoves(board, rook);
+        PieceMoves pieceMoves = incrementalMovement.getMoves(board, rook);
 
-        assertFalse(practicalMoves.isEmpty());
-        assertThat(practicalMoves.size(), is(11));
+        assertFalse(pieceMoves.isEmpty());
+        assertThat(pieceMoves.size(), is(11));
     }
 
     private Square getSquareAt(int x, int y) {

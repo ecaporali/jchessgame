@@ -5,8 +5,9 @@ import au.com.aitcollaboration.chessgame.board.Position;
 import au.com.aitcollaboration.chessgame.board.Square;
 import au.com.aitcollaboration.chessgame.exceptions.*;
 import au.com.aitcollaboration.chessgame.pieces.Piece;
+import au.com.aitcollaboration.chessgame.pieces.PieceMoves;
 import au.com.aitcollaboration.chessgame.pieces.Pieces;
-import au.com.aitcollaboration.chessgame.pieces.PracticalMoves;
+import au.com.aitcollaboration.chessgame.pieces.PlayerMoves;
 import au.com.aitcollaboration.chessgame.player.Color;
 import au.com.aitcollaboration.chessgame.player.ComputerPlayer;
 import au.com.aitcollaboration.chessgame.player.HumanPlayer;
@@ -128,8 +129,8 @@ public class Game {
         return board.getPiecesMap();
     }
 
-    public void showPracticalMoves(PracticalMoves practicalMoves) {
-        System.out.println(practicalMoves);
+    public void showPracticalMoves(PieceMoves pieceMoves) {
+        System.out.println(pieceMoves);
     }
 
     public String getTextAnswer(String question) {
@@ -166,27 +167,31 @@ public class Game {
         }
     }
 
-    public PracticalMoves getValidMovesFor(Pieces pieces) {
+    public PlayerMoves getValidPiecesMoves(Pieces pieces){
+        return rules.getValidPiecesMoves(pieces);
+    }
 
-        PracticalMoves practicalMoves;
+    public Square getFromSquare(Pieces pieces) {
+
+        PlayerMoves playerMoves;
+        Square fromSquare;
         do {
-            Square fromSquare = getFromSquare();
+            fromSquare = getFromSquare();
 
             rules.runAllPossibleMoves(fromSquare, board);
 
             validatePieceMove(fromSquare, pieces);
 
-            Piece piece = fromSquare.getPiece();
+            playerMoves = getValidPiecesMoves(pieces);
 
-            practicalMoves = rules.getValidMovesForPiece(piece);
-        } while (practicalMoves == null);
+        } while (playerMoves.hasEmptyMoveFor(fromSquare.getPiece()));
 
-        return practicalMoves;
+        return fromSquare;
     }
 
-    public Square getToSquareOn(PracticalMoves practicalMoves) {
+    public Square getToSquareFrom(PieceMoves pieceMoves) {
         Square toSquare = getToSquare();
-        while (!practicalMoves.contains(toSquare)) {
+        while (!pieceMoves.contains(toSquare)) {
             showInvalidMoveSelected();
             toSquare = getToSquare();
         }

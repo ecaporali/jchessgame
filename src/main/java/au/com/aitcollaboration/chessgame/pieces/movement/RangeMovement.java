@@ -4,14 +4,15 @@ import au.com.aitcollaboration.chessgame.board.Board;
 import au.com.aitcollaboration.chessgame.board.Position;
 import au.com.aitcollaboration.chessgame.board.Square;
 import au.com.aitcollaboration.chessgame.pieces.Piece;
-import au.com.aitcollaboration.chessgame.pieces.PracticalMoves;
+import au.com.aitcollaboration.chessgame.pieces.PieceMoves;
+import au.com.aitcollaboration.chessgame.pieces.PlayerMoves;
 import au.com.aitcollaboration.chessgame.player.Color;
 
 public class RangeMovement implements MovingBehaviour {
 
     @Override
-    public PracticalMoves getMoves(Board board, Piece piece) {
-        PracticalMoves practicalMoves = new PracticalMoves();
+    public PieceMoves getMoves(Board board, Piece piece) {
+        PieceMoves pieceMoves = new PieceMoves();
 
         Square square = board.getSquareForPiece(piece);
 
@@ -30,8 +31,8 @@ public class RangeMovement implements MovingBehaviour {
             if (nextSquare == null || nextSquare.containsSamePieceColor(pieceColor))
                 continue;
 
-            practicalMoves.add(nextSquare);
+            pieceMoves.add(nextSquare);
         }
-        return practicalMoves;
+        return pieceMoves;
     }
 }

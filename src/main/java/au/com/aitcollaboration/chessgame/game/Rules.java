@@ -6,19 +6,19 @@ import au.com.aitcollaboration.chessgame.exceptions.InvalidPieceException;
 import au.com.aitcollaboration.chessgame.exceptions.KingInDangerException;
 import au.com.aitcollaboration.chessgame.exceptions.PieceCannotBeMovedException;
 import au.com.aitcollaboration.chessgame.pieces.Piece;
+import au.com.aitcollaboration.chessgame.pieces.PieceMoves;
 import au.com.aitcollaboration.chessgame.pieces.Pieces;
-import au.com.aitcollaboration.chessgame.pieces.PracticalMoves;
+import au.com.aitcollaboration.chessgame.pieces.PlayerMoves;
+import au.com.aitcollaboration.chessgame.player.Color;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Rules {
 
-    private Map<Piece, PracticalMoves> possibleMoves;
+    private Map<Pieces, PlayerMoves> possibleMoves;
 
     public Rules() {
-        this.possibleMoves = new HashMap<Piece, PracticalMoves>();
+        this.possibleMoves = new HashMap<Pieces, PlayerMoves>();
     }
 
     public boolean isCheckMate(Board board) {
@@ -35,19 +35,28 @@ public class Rules {
 
         Square[][] grid = board.getClonedGrid();
 
+        Map<Color, Pieces> piecesMap = board.getPiecesMap();
+        Pieces whitePieces = piecesMap.get(Color.WHITE);
+        Pieces blackPieces = piecesMap.get(Color.BLACK);
+
         for (Square[] squares : grid) {
+            PlayerMoves playerMoves = new PlayerMoves();
             for (Square square : squares) {
                 if (square.hasPiece()) {
                     Piece piece = square.getPiece();
-                    PracticalMoves practicalMoves = piece.getValidMovesOn(board);
-                    possibleMoves.put(piece, practicalMoves);
+                    PieceMoves pieceMoves = piece.getValidMovesOn(board);
+                    playerMoves.add(piece, pieceMoves);
+                    if (piece.matches(Color.WHITE))
+                        possibleMoves.put(whitePieces, playerMoves);
+                    else
+                        possibleMoves.put(blackPieces, playerMoves);
                 }
             }
         }
     }
 
-    public PracticalMoves getValidMovesForPiece(Piece piece) {
-        return possibleMoves.get(piece);
+    public PlayerMoves getValidPiecesMoves(Pieces pieces) {
+        return possibleMoves.get(pieces);
     }
 
     public void validatePieceMove(Square fromSquare, Board board, Pieces pieces) throws PieceCannotBeMovedException, InvalidPieceException, KingInDangerException {
@@ -55,21 +64,23 @@ public class Rules {
         Square kingSquare = board.getSquareForPiece(king);
 
         Piece currentPiece = fromSquare.getPiece();
-        PracticalMoves piecePracticalMoves = currentPiece.getValidMovesOn(board);
 
-        if (piecePracticalMoves.isEmpty())
+        PieceMoves pieceMoves = currentPiece.getValidMovesOn(board);
+
+        if (pieceMoves.isEmpty())
             throw new PieceCannotBeMovedException();
 
         if (!pieces.contains(currentPiece))
             throw new InvalidPieceException();
 
-        if (isKingInDanger(fromSquare, kingSquare))
+        if (isKingInDanger(fromSquare, kingSquare, pieces))
             throw new KingInDangerException();
 
         if (isKingInCheck(fromSquare, kingSquare))
             throw new KingInDangerException();
 
-        possibleMoves.put(currentPiece, piecePracticalMoves);
+        PlayerMoves playerMoves = possibleMoves.get(pieces);
+        playerMoves.add(currentPiece, pieceMoves);
     }
 
     public void runAllPossibleMoves(Square fromSquare, Board board) {
@@ -79,13 +90,20 @@ public class Rules {
         fromSquare.setPiece(currentPiece);
     }
 
-    public boolean isKingInDanger(Square fromSquare, Square kingSquare) {
-        for (PracticalMoves practicalMoves : possibleMoves.values()) {
-            if (practicalMoves.isKingInDanger(fromSquare, kingSquare)) {
+    public boolean isKingInDanger(Square fromSquare, Square kingSquare, Pieces pieces) {
+        Collection<PlayerMoves> opponentMoves = getOpponentMoves(pieces);
+        for (PlayerMoves playerMoves : opponentMoves) {
+            if (playerMoves.isKingInDanger(fromSquare, kingSquare)) {
                 return true;
             }
         }
         return false;
+    }
+
+    public Collection<PlayerMoves> getOpponentMoves(Pieces pieces){
+        Map<Pieces, PlayerMoves> playerMovesMap = new HashMap<Pieces, PlayerMoves>(possibleMoves);
+        playerMovesMap.remove(pieces);
+        return playerMovesMap.values();
     }
 
 

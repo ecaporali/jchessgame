@@ -3,15 +3,16 @@ package au.com.aitcollaboration.chessgame.pieces.movement;
 import au.com.aitcollaboration.chessgame.board.Board;
 import au.com.aitcollaboration.chessgame.board.Position;
 import au.com.aitcollaboration.chessgame.board.Square;
-import au.com.aitcollaboration.chessgame.pieces.*;
+import au.com.aitcollaboration.chessgame.pieces.Pawn;
+import au.com.aitcollaboration.chessgame.pieces.Piece;
+import au.com.aitcollaboration.chessgame.pieces.PieceMoves;
+import au.com.aitcollaboration.chessgame.pieces.Rook;
 import au.com.aitcollaboration.chessgame.player.Color;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class SingleMovementTest {
 
@@ -34,8 +35,8 @@ public class SingleMovementTest {
 
         firstSquare.setPiece(pawn);
 
-        PracticalMoves practicalMoves = singleMovement.getMoves(board, pawn);
-        assertThat(practicalMoves.size(), is(1));
+        PieceMoves pieceMoves = singleMovement.getMoves(board, pawn);
+        assertThat(pieceMoves.size(), is(1));
     }
 
     @Test
@@ -46,10 +47,10 @@ public class SingleMovementTest {
         firstSquare.setPiece(pawn);
         opponentSquare.setPiece(new Rook(Color.WHITE));
 
-        PracticalMoves practicalMoves = singleMovement.getMoves(board, pawn);
+        PieceMoves pieceMoves = singleMovement.getMoves(board, pawn);
 
-        assertFalse(practicalMoves.isEmpty());
-        assertThat(practicalMoves.size(), is(2));
+        assertFalse(pieceMoves.isEmpty());
+        assertThat(pieceMoves.size(), is(2));
     }
 
     @Test
@@ -60,10 +61,10 @@ public class SingleMovementTest {
         firstSquare.setPiece(pawn);
         buddySquare.setPiece(new Rook(Color.BLACK));
 
-        PracticalMoves practicalMoves = singleMovement.getMoves(board, pawn);
+        PieceMoves pieceMoves = singleMovement.getMoves(board, pawn);
 
-        assertFalse(practicalMoves.isEmpty());
-        assertThat(practicalMoves.size(), is(1));
+        assertFalse(pieceMoves.isEmpty());
+        assertThat(pieceMoves.size(), is(1));
     }
 
     @Test
@@ -74,9 +75,9 @@ public class SingleMovementTest {
         firstSquare.setPiece(pawn);
         opponentSquare.setPiece(new Rook(Color.WHITE));
 
-        PracticalMoves practicalMoves = singleMovement.getMoves(board, pawn);
+        PieceMoves pieceMoves = singleMovement.getMoves(board, pawn);
 
-        assertTrue(practicalMoves.isEmpty());
+        assertTrue(pieceMoves.isEmpty());
     }
 
     @Test
@@ -87,9 +88,9 @@ public class SingleMovementTest {
         firstSquare.setPiece(pawn);
         buddySquare.setPiece(new Rook(Color.BLACK));
 
-        PracticalMoves practicalMoves = singleMovement.getMoves(board, pawn);
+        PieceMoves pieceMoves = singleMovement.getMoves(board, pawn);
 
-        assertTrue(practicalMoves.isEmpty());
+        assertTrue(pieceMoves.isEmpty());
     }
 
     private Square getSquareAt(int x, int y) {

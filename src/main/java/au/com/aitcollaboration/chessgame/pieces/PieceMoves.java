@@ -6,11 +6,11 @@ import au.com.aitcollaboration.chessgame.board.Square;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PracticalMoves {
+public class PieceMoves {
 
     private List<Square> practicalMoves;
 
-    public PracticalMoves() {
+    public PieceMoves(){
         this.practicalMoves = new ArrayList<Square>();
     }
 
