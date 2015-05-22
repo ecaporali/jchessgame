@@ -1,12 +1,12 @@
 package au.com.aitcollaboration.chessgame;
 
-import au.com.aitcollaboration.chessgame.board.Board;
-import au.com.aitcollaboration.chessgame.game.Game;
-import au.com.aitcollaboration.chessgame.game.Rules;
-import au.com.aitcollaboration.chessgame.pieces.Pieces;
-import au.com.aitcollaboration.chessgame.player.Color;
-import au.com.aitcollaboration.chessgame.player.Player;
-import au.com.aitcollaboration.chessgame.player.Players;
+import au.com.aitcollaboration.chessgame.model.board.Board;
+import au.com.aitcollaboration.chessgame.controller.Game;
+import au.com.aitcollaboration.chessgame.controller.Rules;
+import au.com.aitcollaboration.chessgame.model.pieces.Pieces;
+import au.com.aitcollaboration.chessgame.model.player.Color;
+import au.com.aitcollaboration.chessgame.model.player.Player;
+import au.com.aitcollaboration.chessgame.model.player.Players;
 
 import java.util.Map;
 
