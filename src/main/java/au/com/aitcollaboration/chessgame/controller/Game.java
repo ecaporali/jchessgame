@@ -14,6 +14,8 @@ import au.com.aitcollaboration.chessgame.model.player.Player;
 import au.com.aitcollaboration.chessgame.support.In;
 import au.com.aitcollaboration.chessgame.support.UIMessages;
 import au.com.aitcollaboration.chessgame.support.Utils;
+import au.com.aitcollaboration.chessgame.view.ConsoleView;
+import au.com.aitcollaboration.chessgame.view.GameView;
 import au.com.aitcollaboration.chessgame.view.exceptions.*;
 
 import java.util.HashMap;
@@ -26,16 +28,13 @@ public class Game {
     private Board board;
     private Rules rules;
     private List<Board> movesHistory;
+    private GameView gameView;
 
-    public Game(Board board, Rules rules) {
+    public Game(Board board, Rules rules, GameView gameView) {
         this.movesHistory = new LinkedList<Board>();
         this.board = board;
         this.rules = rules;
-        showGreetings();
-    }
-
-    private void showGreetings() {
-        System.out.println(UIMessages.GREETINGS);
+        this.gameView = gameView;
     }
 
     public Map<Color, Player> getPlayersMap() {

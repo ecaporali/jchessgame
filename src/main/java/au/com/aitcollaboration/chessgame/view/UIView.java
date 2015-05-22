@@ -1,4 +1,4 @@
 package au.com.aitcollaboration.chessgame.view;
 
-public interface GameView {
+public class UIView implements GameView {
 }
