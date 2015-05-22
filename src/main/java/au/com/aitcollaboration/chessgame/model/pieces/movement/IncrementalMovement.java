@@ -1,11 +1,11 @@
 package au.com.aitcollaboration.chessgame.model.pieces.movement;
 
-import au.com.aitcollaboration.chessgame.model.board.Board;
-import au.com.aitcollaboration.chessgame.model.board.Position;
-import au.com.aitcollaboration.chessgame.model.board.Square;
+import au.com.aitcollaboration.chessgame.model.game.structure.Board;
+import au.com.aitcollaboration.chessgame.model.game.structure.Position;
+import au.com.aitcollaboration.chessgame.model.game.structure.Square;
 import au.com.aitcollaboration.chessgame.model.pieces.Piece;
-import au.com.aitcollaboration.chessgame.model.pieces.PieceMoves;
-import au.com.aitcollaboration.chessgame.model.player.Color;
+import au.com.aitcollaboration.chessgame.model.moves.PieceMoves;
+import au.com.aitcollaboration.chessgame.Color;
 
 public class IncrementalMovement implements MovingBehaviour {
 

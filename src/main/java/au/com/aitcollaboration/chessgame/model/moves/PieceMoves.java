@@ -1,7 +1,7 @@
-package au.com.aitcollaboration.chessgame.model.pieces;
+package au.com.aitcollaboration.chessgame.model.moves;
 
-import au.com.aitcollaboration.chessgame.model.board.Position;
-import au.com.aitcollaboration.chessgame.model.board.Square;
+import au.com.aitcollaboration.chessgame.model.game.structure.Position;
+import au.com.aitcollaboration.chessgame.model.game.structure.Square;
 
 import java.util.ArrayList;
 import java.util.List;

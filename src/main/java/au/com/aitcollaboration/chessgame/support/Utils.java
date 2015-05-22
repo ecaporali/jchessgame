@@ -1,6 +1,6 @@
 package au.com.aitcollaboration.chessgame.support;
 
-import au.com.aitcollaboration.chessgame.controller.exceptions.InvalidPositionException;
+import au.com.aitcollaboration.chessgame.view.exceptions.InvalidPositionException;
 
 public class Utils {
 

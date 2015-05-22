@@ -1,5 +1,6 @@
 package au.com.aitcollaboration.chessgame.model.player;
 
+import au.com.aitcollaboration.chessgame.Color;
 import au.com.aitcollaboration.chessgame.model.pieces.King;
 import au.com.aitcollaboration.chessgame.model.pieces.Piece;
 import au.com.aitcollaboration.chessgame.model.pieces.Pieces;

@@ -1,4 +1,4 @@
-package au.com.aitcollaboration.chessgame.model.pieces;
+package au.com.aitcollaboration.chessgame.model.moves;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;

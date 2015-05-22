@@ -1,4 +1,4 @@
-package au.com.aitcollaboration.chessgame.model.board;
+package au.com.aitcollaboration.chessgame.model.game.structure;
 
 import au.com.aitcollaboration.chessgame.support.Utils;
 

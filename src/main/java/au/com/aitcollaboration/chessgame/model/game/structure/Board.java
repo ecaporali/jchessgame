@@ -1,7 +1,7 @@
-package au.com.aitcollaboration.chessgame.model.board;
+package au.com.aitcollaboration.chessgame.model.game.structure;
 
 import au.com.aitcollaboration.chessgame.model.pieces.*;
-import au.com.aitcollaboration.chessgame.model.player.Color;
+import au.com.aitcollaboration.chessgame.Color;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,8 +1,9 @@
 package au.com.aitcollaboration.chessgame.model.pieces;
 
-import au.com.aitcollaboration.chessgame.model.board.Board;
+import au.com.aitcollaboration.chessgame.model.game.structure.Board;
+import au.com.aitcollaboration.chessgame.model.moves.PieceMoves;
 import au.com.aitcollaboration.chessgame.model.pieces.movement.MovingBehaviour;
-import au.com.aitcollaboration.chessgame.model.player.Color;
+import au.com.aitcollaboration.chessgame.Color;
 
 public abstract class Piece {
 

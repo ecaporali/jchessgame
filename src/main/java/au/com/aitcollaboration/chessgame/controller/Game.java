@@ -1,20 +1,20 @@
 package au.com.aitcollaboration.chessgame.controller;
 
-import au.com.aitcollaboration.chessgame.model.board.Board;
-import au.com.aitcollaboration.chessgame.model.board.Position;
-import au.com.aitcollaboration.chessgame.model.board.Square;
-import au.com.aitcollaboration.chessgame.controller.exceptions.*;
+import au.com.aitcollaboration.chessgame.model.game.structure.Board;
+import au.com.aitcollaboration.chessgame.model.game.structure.Position;
+import au.com.aitcollaboration.chessgame.model.game.structure.Square;
 import au.com.aitcollaboration.chessgame.model.pieces.Piece;
-import au.com.aitcollaboration.chessgame.model.pieces.PieceMoves;
+import au.com.aitcollaboration.chessgame.model.moves.PieceMoves;
 import au.com.aitcollaboration.chessgame.model.pieces.Pieces;
-import au.com.aitcollaboration.chessgame.model.pieces.PlayerMoves;
-import au.com.aitcollaboration.chessgame.model.player.Color;
+import au.com.aitcollaboration.chessgame.model.moves.PlayerMoves;
+import au.com.aitcollaboration.chessgame.Color;
 import au.com.aitcollaboration.chessgame.model.player.ComputerPlayer;
 import au.com.aitcollaboration.chessgame.model.player.HumanPlayer;
 import au.com.aitcollaboration.chessgame.model.player.Player;
 import au.com.aitcollaboration.chessgame.support.In;
 import au.com.aitcollaboration.chessgame.support.UIMessages;
 import au.com.aitcollaboration.chessgame.support.Utils;
+import au.com.aitcollaboration.chessgame.view.exceptions.*;
 
 import java.util.HashMap;
 import java.util.LinkedList;

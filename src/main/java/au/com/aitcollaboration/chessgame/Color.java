@@ -1,4 +1,4 @@
-package au.com.aitcollaboration.chessgame.model.player;
+package au.com.aitcollaboration.chessgame;
 
 public enum Color {
 

@@ -1,6 +1,6 @@
 package au.com.aitcollaboration.chessgame.model.pieces;
 
-import au.com.aitcollaboration.chessgame.model.player.Color;
+import au.com.aitcollaboration.chessgame.Color;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;

@@ -1,16 +1,16 @@
 package au.com.aitcollaboration.chessgame.controller;
 
-import au.com.aitcollaboration.chessgame.model.board.Board;
-import au.com.aitcollaboration.chessgame.model.board.Square;
-import au.com.aitcollaboration.chessgame.controller.exceptions.InvalidPieceException;
-import au.com.aitcollaboration.chessgame.controller.exceptions.KingInCheckException;
-import au.com.aitcollaboration.chessgame.controller.exceptions.KingInDangerException;
-import au.com.aitcollaboration.chessgame.controller.exceptions.PieceCannotBeMovedException;
+import au.com.aitcollaboration.chessgame.model.game.structure.Board;
+import au.com.aitcollaboration.chessgame.model.game.structure.Square;
+import au.com.aitcollaboration.chessgame.view.exceptions.InvalidPieceException;
+import au.com.aitcollaboration.chessgame.view.exceptions.KingInCheckException;
+import au.com.aitcollaboration.chessgame.view.exceptions.KingInDangerException;
+import au.com.aitcollaboration.chessgame.view.exceptions.PieceCannotBeMovedException;
 import au.com.aitcollaboration.chessgame.model.pieces.Piece;
-import au.com.aitcollaboration.chessgame.model.pieces.PieceMoves;
+import au.com.aitcollaboration.chessgame.model.moves.PieceMoves;
 import au.com.aitcollaboration.chessgame.model.pieces.Pieces;
-import au.com.aitcollaboration.chessgame.model.pieces.PlayerMoves;
-import au.com.aitcollaboration.chessgame.model.player.Color;
+import au.com.aitcollaboration.chessgame.model.moves.PlayerMoves;
+import au.com.aitcollaboration.chessgame.Color;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -20,9 +20,11 @@ import java.util.Map;
 public class Rules {
 
     private Map<Pieces, PlayerMoves> possibleMoves;
+    private MoveValidation moveValidation;
 
     public Rules() {
         this.possibleMoves = new HashMap<Pieces, PlayerMoves>();
+        this.moveValidation = new MoveValidation();
     }
 
     public boolean isCheckMate(Board board) {

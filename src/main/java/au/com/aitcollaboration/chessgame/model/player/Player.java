@@ -3,7 +3,7 @@ package au.com.aitcollaboration.chessgame.model.player;
 import au.com.aitcollaboration.chessgame.controller.Game;
 import au.com.aitcollaboration.chessgame.model.pieces.Piece;
 import au.com.aitcollaboration.chessgame.model.pieces.Pieces;
-import au.com.aitcollaboration.chessgame.model.pieces.PlayerMoves;
+import au.com.aitcollaboration.chessgame.model.moves.PlayerMoves;
 import org.apache.commons.lang3.time.StopWatch;
 
 import java.util.ArrayList;

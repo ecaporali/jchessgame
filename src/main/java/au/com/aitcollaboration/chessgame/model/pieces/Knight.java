@@ -1,7 +1,7 @@
 package au.com.aitcollaboration.chessgame.model.pieces;
 
 import au.com.aitcollaboration.chessgame.model.pieces.movement.RangeMovement;
-import au.com.aitcollaboration.chessgame.model.player.Color;
+import au.com.aitcollaboration.chessgame.Color;
 
 public class Knight extends Piece {
 

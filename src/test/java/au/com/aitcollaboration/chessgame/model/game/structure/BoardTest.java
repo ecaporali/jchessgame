@@ -1,10 +1,10 @@
-package au.com.aitcollaboration.chessgame.model.board;
+package au.com.aitcollaboration.chessgame.model.game.structure;
 
 import au.com.aitcollaboration.chessgame.model.pieces.King;
 import au.com.aitcollaboration.chessgame.model.pieces.Pawn;
 import au.com.aitcollaboration.chessgame.model.pieces.Piece;
 import au.com.aitcollaboration.chessgame.model.pieces.Pieces;
-import au.com.aitcollaboration.chessgame.model.player.Color;
+import au.com.aitcollaboration.chessgame.Color;
 import org.junit.Before;
 import org.junit.Test;
 

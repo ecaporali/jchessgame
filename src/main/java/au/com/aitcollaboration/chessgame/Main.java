@@ -1,10 +1,9 @@
 package au.com.aitcollaboration.chessgame;
 
-import au.com.aitcollaboration.chessgame.model.board.Board;
+import au.com.aitcollaboration.chessgame.model.game.structure.Board;
 import au.com.aitcollaboration.chessgame.controller.Game;
 import au.com.aitcollaboration.chessgame.controller.Rules;
 import au.com.aitcollaboration.chessgame.model.pieces.Pieces;
-import au.com.aitcollaboration.chessgame.model.player.Color;
 import au.com.aitcollaboration.chessgame.model.player.Player;
 import au.com.aitcollaboration.chessgame.model.player.Players;
 

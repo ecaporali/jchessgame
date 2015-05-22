@@ -1,9 +1,9 @@
 package au.com.aitcollaboration.chessgame.model.player;
 
-import au.com.aitcollaboration.chessgame.model.board.Square;
+import au.com.aitcollaboration.chessgame.model.game.structure.Square;
 import au.com.aitcollaboration.chessgame.controller.Game;
-import au.com.aitcollaboration.chessgame.model.pieces.PieceMoves;
-import au.com.aitcollaboration.chessgame.model.pieces.PlayerMoves;
+import au.com.aitcollaboration.chessgame.model.moves.PieceMoves;
+import au.com.aitcollaboration.chessgame.model.moves.PlayerMoves;
 
 public class HumanPlayer extends Player {
 

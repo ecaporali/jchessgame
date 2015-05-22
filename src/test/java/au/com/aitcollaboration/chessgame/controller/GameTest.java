@@ -1,12 +1,12 @@
 package au.com.aitcollaboration.chessgame.controller;
 
-import au.com.aitcollaboration.chessgame.model.board.Board;
-import au.com.aitcollaboration.chessgame.model.board.Position;
-import au.com.aitcollaboration.chessgame.model.board.Square;
-import au.com.aitcollaboration.chessgame.controller.exceptions.InvalidCoordinatesException;
-import au.com.aitcollaboration.chessgame.controller.exceptions.InvalidPositionException;
+import au.com.aitcollaboration.chessgame.model.game.structure.Board;
+import au.com.aitcollaboration.chessgame.model.game.structure.Position;
+import au.com.aitcollaboration.chessgame.model.game.structure.Square;
+import au.com.aitcollaboration.chessgame.view.exceptions.InvalidCoordinatesException;
+import au.com.aitcollaboration.chessgame.view.exceptions.InvalidPositionException;
 import au.com.aitcollaboration.chessgame.model.pieces.King;
-import au.com.aitcollaboration.chessgame.model.player.Color;
+import au.com.aitcollaboration.chessgame.Color;
 import au.com.aitcollaboration.chessgame.model.player.ComputerPlayer;
 import au.com.aitcollaboration.chessgame.model.player.HumanPlayer;
 import au.com.aitcollaboration.chessgame.model.player.Player;

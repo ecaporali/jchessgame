@@ -1,7 +1,7 @@
 package au.com.aitcollaboration.chessgame.model.pieces;
 
 import au.com.aitcollaboration.chessgame.model.pieces.movement.SingleMovement;
-import au.com.aitcollaboration.chessgame.model.player.Color;
+import au.com.aitcollaboration.chessgame.Color;
 
 public class Pawn extends Piece {
 

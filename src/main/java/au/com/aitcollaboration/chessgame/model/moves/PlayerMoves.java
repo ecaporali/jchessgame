@@ -1,6 +1,7 @@
-package au.com.aitcollaboration.chessgame.model.pieces;
+package au.com.aitcollaboration.chessgame.model.moves;
 
-import au.com.aitcollaboration.chessgame.model.board.Square;
+import au.com.aitcollaboration.chessgame.model.game.structure.Square;
+import au.com.aitcollaboration.chessgame.model.pieces.Piece;
 
 import java.util.HashMap;
 import java.util.Map;
