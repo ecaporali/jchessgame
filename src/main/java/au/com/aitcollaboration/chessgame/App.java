@@ -10,7 +10,7 @@ import au.com.aitcollaboration.chessgame.view.ConsoleView;
 
 import java.util.Map;
 
-public class Main {
+public class App {
 
     public static void main(String[] args) {
         Game game = new Game(new Board(), new Rules(), new ConsoleView());

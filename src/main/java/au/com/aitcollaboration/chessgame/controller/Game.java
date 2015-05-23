@@ -57,7 +57,7 @@ public class Game {
     }
 
     public void showBoard() {
-        gameView.showMessage(board.toString());
+        gameView.showBoard(board);
     }
 
     public boolean isGameOver() {

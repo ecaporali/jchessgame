@@ -51,7 +51,7 @@ public class PiecesTest {
     public void testPiecesShouldReturnSearchedPiece() throws Exception {
         Piece king = new King(Color.BLACK);
         pieces.add(king);
-        Piece expectedKing = pieces.getKing();
+        Piece expectedKing = pieces.getPiece(King.class);
 
         assertEquals(king, expectedKing);
     }

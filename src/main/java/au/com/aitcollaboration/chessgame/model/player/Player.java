@@ -1,9 +1,9 @@
 package au.com.aitcollaboration.chessgame.model.player;
 
 import au.com.aitcollaboration.chessgame.controller.Game;
+import au.com.aitcollaboration.chessgame.model.moves.PlayerMoves;
 import au.com.aitcollaboration.chessgame.model.pieces.Piece;
 import au.com.aitcollaboration.chessgame.model.pieces.Pieces;
-import au.com.aitcollaboration.chessgame.model.moves.PlayerMoves;
 import org.apache.commons.lang3.time.StopWatch;
 
 import java.util.ArrayList;
@@ -18,12 +18,18 @@ public abstract class Player {
 
     private Player() {
         this.stopWatch = new StopWatch();
-        this.moves = new ArrayList<PlayerMoves>();
+        this.moves = new ArrayList<>();
     }
 
     protected Player(String name) {
         this();
         this.name = name;
+        stopWatchSetup();
+    }
+
+    private void stopWatchSetup() {
+        stopWatch.start();
+        stopWatch.suspend();
     }
 
     public boolean isOwnPiece(Piece piece) {
@@ -37,10 +43,6 @@ public abstract class Player {
     @Override
     public String toString() {
         return "Player Name: " + name;
-    }
-
-    public Piece getKing(){
-        return pieces.getKing();
     }
 
     public abstract void play(Game game);

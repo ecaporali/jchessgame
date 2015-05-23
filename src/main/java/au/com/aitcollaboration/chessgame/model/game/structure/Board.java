@@ -1,7 +1,7 @@
 package au.com.aitcollaboration.chessgame.model.game.structure;
 
-import au.com.aitcollaboration.chessgame.model.pieces.*;
 import au.com.aitcollaboration.chessgame.Color;
+import au.com.aitcollaboration.chessgame.model.pieces.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +13,7 @@ public class Board {
     public static final int BOARD_SIZE = 8;
 
     public Board() {
-        this.piecesMap = new HashMap<Color, Pieces>(2);
+        this.piecesMap = new HashMap<>(2);
         this.grid = new Square[BOARD_SIZE][BOARD_SIZE];
         createBoard();
         createPieces();
@@ -108,45 +108,6 @@ public class Board {
         for (Square[] squares : grid)
             for (Square square : squares)
                 square.setPiece(null);
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-
-        for (int i = 0; i < 50; ++i)
-            stringBuilder.append("\n");
-
-        for (int i = 0; i < grid.length; i++) {
-            String s = getDivider();
-            s += addVerticalNumbering(BOARD_SIZE - i);
-            for (int j = 0; j < grid[i].length; j++) {
-                Square square = grid[i][j];
-                s += square;
-            }
-            s += "|\n";
-            stringBuilder.append(s);
-        }
-        stringBuilder.append(getDivider());
-
-        stringBuilder.append("\t");
-
-        for (int i = 0; i < BOARD_SIZE; i++)
-            stringBuilder.append(addHorizontalLetters(i + 65));
-
-        return stringBuilder.toString();
-    }
-
-    private String getDivider() {
-        return "\t---------------------------------\n";
-    }
-
-    private String addVerticalNumbering(int position) {
-        return "  " + position + " ";
-    }
-
-    private String addHorizontalLetters(int position) {
-        return "  " + Character.toChars(position)[0] + " ";
     }
 
     public void removePiece(Piece piece) {

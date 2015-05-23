@@ -1,10 +1,15 @@
 package au.com.aitcollaboration.chessgame.controller;
 
 import au.com.aitcollaboration.chessgame.Color;
+import au.com.aitcollaboration.chessgame.controller.validation.service.KingInCheckMateService;
+import au.com.aitcollaboration.chessgame.controller.validation.service.MoveSelectionService;
+import au.com.aitcollaboration.chessgame.controller.validation.service.MoveValidation;
+import au.com.aitcollaboration.chessgame.controller.validation.service.PieceSelectionService;
 import au.com.aitcollaboration.chessgame.model.game.structure.Board;
 import au.com.aitcollaboration.chessgame.model.game.structure.Square;
 import au.com.aitcollaboration.chessgame.model.moves.PieceMoves;
 import au.com.aitcollaboration.chessgame.model.moves.PlayerMoves;
+import au.com.aitcollaboration.chessgame.model.pieces.King;
 import au.com.aitcollaboration.chessgame.model.pieces.Piece;
 import au.com.aitcollaboration.chessgame.model.pieces.Pieces;
 import au.com.aitcollaboration.chessgame.view.exceptions.InvalidPieceException;
@@ -12,19 +17,25 @@ import au.com.aitcollaboration.chessgame.view.exceptions.KingInCheckException;
 import au.com.aitcollaboration.chessgame.view.exceptions.KingInDangerException;
 import au.com.aitcollaboration.chessgame.view.exceptions.PieceCannotBeMovedException;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Rules {
 
     private Map<Pieces, PlayerMoves> possibleMoves;
-    private MoveValidation moveValidation;
+    private List<MoveValidation> moveValidation;
 
     public Rules() {
         this.possibleMoves = new HashMap<>();
-        this.moveValidation = new MoveValidation();
+        this.moveValidation = Rules.buildMoveValidation();
+    }
+
+    public static List<MoveValidation> buildMoveValidation(){
+        return Arrays.asList(
+                new KingInCheckMateService(),
+                new KingInCheckMateService(),
+                new MoveSelectionService(),
+                new PieceSelectionService()
+        );
     }
 
     public boolean isCheckMate(Board board) {
@@ -66,7 +77,7 @@ public class Rules {
     }
 
     public void validatePieceMove(Square fromSquare, Board board, Pieces pieces) throws PieceCannotBeMovedException, InvalidPieceException, KingInDangerException, KingInCheckException {
-        Piece king = pieces.getKing();
+        Piece king = pieces.getPiece(King.class);
         Square kingSquare = board.getSquareOf(king);
 
         Piece currentPiece = fromSquare.getPiece();

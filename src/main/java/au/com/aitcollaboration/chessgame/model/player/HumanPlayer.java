@@ -13,7 +13,6 @@ public class HumanPlayer extends Player {
 
     @Override
     public void play(Game game) {
-
         Square fromSquare = game.getFromSquare(pieces);
 
         PlayerMoves playerMoves = game.getPlayerMoves(pieces);

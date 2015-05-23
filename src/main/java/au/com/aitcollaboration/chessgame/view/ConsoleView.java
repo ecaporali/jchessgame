@@ -1,11 +1,13 @@
 package au.com.aitcollaboration.chessgame.view;
 
+import au.com.aitcollaboration.chessgame.model.game.structure.Board;
 import au.com.aitcollaboration.chessgame.support.In;
 import au.com.aitcollaboration.chessgame.support.UIMessages;
+import au.com.aitcollaboration.chessgame.support.Utils;
 
-public class ConsoleView implements GameView{
+public class ConsoleView implements GameView {
 
-    public ConsoleView(){
+    public ConsoleView() {
         showGreetings();
     }
 
@@ -24,12 +26,17 @@ public class ConsoleView implements GameView{
     }
 
     @Override
-    public void showMessage(String message){
+    public void showMessage(String message) {
         System.out.println(message);
     }
 
     @Override
     public void showError(String error) {
         System.out.println(error);
+    }
+
+    @Override
+    public void showBoard(Board board) {
+        showMessage(Utils.boardToConsole(board));
     }
 }

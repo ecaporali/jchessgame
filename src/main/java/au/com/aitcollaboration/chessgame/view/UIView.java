@@ -1,5 +1,7 @@
 package au.com.aitcollaboration.chessgame.view;
 
+import au.com.aitcollaboration.chessgame.model.game.structure.Board;
+
 public class UIView implements GameView {
 
     @Override
@@ -19,6 +21,11 @@ public class UIView implements GameView {
 
     @Override
     public void showError(String error) {
+
+    }
+
+    @Override
+    public void showBoard(Board board) {
 
     }
 }

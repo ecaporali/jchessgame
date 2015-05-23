@@ -28,4 +28,8 @@ public abstract class Piece {
     public Color getColor() {
         return color;
     }
+
+    public boolean matches(Class pieceClass){
+        return this.getClass().equals(pieceClass);
+    }
 }

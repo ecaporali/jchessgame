@@ -12,8 +12,8 @@ public class Pieces {
     private List<Piece> lostPieces;
 
     private Pieces() {
-        this.currentPieces = new ArrayList<Piece>(16);
-        this.lostPieces = new ArrayList<Piece>(16);
+        this.currentPieces = new ArrayList<>(16);
+        this.lostPieces = new ArrayList<>(16);
     }
 
     public Pieces(Color color) {
@@ -46,12 +46,29 @@ public class Pieces {
         return color;
     }
 
-    public Piece getKing() {
+    public Piece getPiece(Class pieceClass) {
         for (Piece piece : currentPieces) {
-            if (piece.getClass().equals(King.class)) {
+            if (piece.matches(pieceClass)) {
                 return piece;
             }
         }
         return null;
+    }
+
+    public Piece getLostPiece(Class pieceClass) {
+        for (Piece piece : lostPieces) {
+            if (piece.matches(pieceClass)) {
+                return piece;
+            }
+        }
+        return null;
+    }
+
+    public boolean isKingLastPieceStanding() {
+        return currentPieces.size() == 1;
+    }
+
+    public Piece resurrectPiece(Class pieceClass) {
+        return getLostPiece(pieceClass);
     }
 }

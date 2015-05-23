@@ -27,7 +27,9 @@ public class Players {
         for (Player player : players) {
             game.showBoard();
             game.showCurrentPlayer(player);
+            player.stopWatch.resume();
             player.play(game);
+            player.stopWatch.suspend();
         }
     }
 }
