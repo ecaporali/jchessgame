@@ -1,16 +1,16 @@
 package au.com.aitcollaboration.chessgame.controller;
 
+import au.com.aitcollaboration.chessgame.Color;
 import au.com.aitcollaboration.chessgame.model.game.structure.Board;
 import au.com.aitcollaboration.chessgame.model.game.structure.Square;
+import au.com.aitcollaboration.chessgame.model.moves.PieceMoves;
+import au.com.aitcollaboration.chessgame.model.moves.PlayerMoves;
+import au.com.aitcollaboration.chessgame.model.pieces.Piece;
+import au.com.aitcollaboration.chessgame.model.pieces.Pieces;
 import au.com.aitcollaboration.chessgame.view.exceptions.InvalidPieceException;
 import au.com.aitcollaboration.chessgame.view.exceptions.KingInCheckException;
 import au.com.aitcollaboration.chessgame.view.exceptions.KingInDangerException;
 import au.com.aitcollaboration.chessgame.view.exceptions.PieceCannotBeMovedException;
-import au.com.aitcollaboration.chessgame.model.pieces.Piece;
-import au.com.aitcollaboration.chessgame.model.moves.PieceMoves;
-import au.com.aitcollaboration.chessgame.model.pieces.Pieces;
-import au.com.aitcollaboration.chessgame.model.moves.PlayerMoves;
-import au.com.aitcollaboration.chessgame.Color;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -23,7 +23,7 @@ public class Rules {
     private MoveValidation moveValidation;
 
     public Rules() {
-        this.possibleMoves = new HashMap<Pieces, PlayerMoves>();
+        this.possibleMoves = new HashMap<>();
         this.moveValidation = new MoveValidation();
     }
 
@@ -97,7 +97,6 @@ public class Rules {
     private boolean kingCannotBeSaved(Square fromSquare, Square kingSquare, PieceMoves currentPieceMoves, Collection<PlayerMoves> opponentMoves) {
         if (fromSquare.equals(kingSquare))
             return false;
-
 
 
         for (PlayerMoves opponentPlayerMoves : opponentMoves)

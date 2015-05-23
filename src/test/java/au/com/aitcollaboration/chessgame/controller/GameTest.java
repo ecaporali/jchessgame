@@ -1,17 +1,18 @@
 package au.com.aitcollaboration.chessgame.controller;
 
+import au.com.aitcollaboration.chessgame.Color;
 import au.com.aitcollaboration.chessgame.model.game.structure.Board;
 import au.com.aitcollaboration.chessgame.model.game.structure.Position;
 import au.com.aitcollaboration.chessgame.model.game.structure.Square;
-import au.com.aitcollaboration.chessgame.view.exceptions.InvalidCoordinatesException;
-import au.com.aitcollaboration.chessgame.view.exceptions.InvalidPositionException;
 import au.com.aitcollaboration.chessgame.model.pieces.King;
-import au.com.aitcollaboration.chessgame.Color;
 import au.com.aitcollaboration.chessgame.model.player.ComputerPlayer;
 import au.com.aitcollaboration.chessgame.model.player.HumanPlayer;
 import au.com.aitcollaboration.chessgame.model.player.Player;
 import au.com.aitcollaboration.chessgame.support.In;
 import au.com.aitcollaboration.chessgame.support.Utils;
+import au.com.aitcollaboration.chessgame.view.GameView;
+import au.com.aitcollaboration.chessgame.view.exceptions.InvalidCoordinatesException;
+import au.com.aitcollaboration.chessgame.view.exceptions.InvalidPositionException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,6 +43,8 @@ public class GameTest {
     @Mock
     private Rules rules;
     @Mock
+    private GameView gameView;
+    @Mock
     private PrintStream printStream;
 
     private PrintStream originalOut = System.out;
@@ -56,14 +59,14 @@ public class GameTest {
 
         setMockedSystemOut();
 
-        game = new Game(board, rules);
+        game = new Game(board, rules, gameView);
 
         when(In.nextLine(anyString())).thenReturn("");
     }
 
     @Test
     public void testGetPlayersMapReturnsTwoHumanPlayers() {
-        when(In.nextInt(anyString())).thenReturn(2);
+        when(gameView.getNumericAnswer(any(String.class))).thenReturn(2);
 
         Map<Color, Player> colorPlayerMap = game.getPlayersMap();
 
@@ -71,8 +74,8 @@ public class GameTest {
         Player playerTwo = colorPlayerMap.get(Color.BLACK);
 
         assertThat(colorPlayerMap.size(), is(2));
-        assertEquals(playerOne.getClass(), HumanPlayer.class);
-        assertEquals(playerTwo.getClass(), HumanPlayer.class);
+        assertEquals(HumanPlayer.class, playerOne.getClass());
+        assertEquals(HumanPlayer.class, playerTwo.getClass());
     }
 
     @Test
@@ -92,7 +95,7 @@ public class GameTest {
 
     @Test
     public void testIsMultiPlayersShouldReturnTrueWhenMultiPlayersSelectionIsMoreThanOne() {
-        when(In.nextInt(anyString())).thenReturn(2);
+        when(gameView.getNumericAnswer(any(String.class))).thenReturn(2);
 
         boolean isMultiPlayers = game.isMultiPlayers();
 

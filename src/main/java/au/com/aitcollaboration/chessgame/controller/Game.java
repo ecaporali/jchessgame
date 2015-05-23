@@ -1,20 +1,18 @@
 package au.com.aitcollaboration.chessgame.controller;
 
+import au.com.aitcollaboration.chessgame.Color;
 import au.com.aitcollaboration.chessgame.model.game.structure.Board;
 import au.com.aitcollaboration.chessgame.model.game.structure.Position;
 import au.com.aitcollaboration.chessgame.model.game.structure.Square;
-import au.com.aitcollaboration.chessgame.model.pieces.Piece;
 import au.com.aitcollaboration.chessgame.model.moves.PieceMoves;
-import au.com.aitcollaboration.chessgame.model.pieces.Pieces;
 import au.com.aitcollaboration.chessgame.model.moves.PlayerMoves;
-import au.com.aitcollaboration.chessgame.Color;
+import au.com.aitcollaboration.chessgame.model.pieces.Piece;
+import au.com.aitcollaboration.chessgame.model.pieces.Pieces;
 import au.com.aitcollaboration.chessgame.model.player.ComputerPlayer;
 import au.com.aitcollaboration.chessgame.model.player.HumanPlayer;
 import au.com.aitcollaboration.chessgame.model.player.Player;
-import au.com.aitcollaboration.chessgame.support.In;
 import au.com.aitcollaboration.chessgame.support.UIMessages;
 import au.com.aitcollaboration.chessgame.support.Utils;
-import au.com.aitcollaboration.chessgame.view.ConsoleView;
 import au.com.aitcollaboration.chessgame.view.GameView;
 import au.com.aitcollaboration.chessgame.view.exceptions.*;
 
@@ -31,7 +29,7 @@ public class Game {
     private GameView gameView;
 
     public Game(Board board, Rules rules, GameView gameView) {
-        this.movesHistory = new LinkedList<Board>();
+        this.movesHistory = new LinkedList<>();
         this.board = board;
         this.rules = rules;
         this.gameView = gameView;
@@ -41,7 +39,7 @@ public class Game {
         Color color = tossCoin();
         Color flippedColor = color.flip();
 
-        Map<Color, Player> colorPlayerMap = new HashMap<Color, Player>(2);
+        Map<Color, Player> colorPlayerMap = new HashMap<>(2);
 
         if (isMultiPlayers())
             colorPlayerMap.put(flippedColor, new HumanPlayer(getTextAnswer(UIMessages.INSERT_PLAYER_NAME)));
@@ -59,7 +57,7 @@ public class Game {
     }
 
     public void showBoard() {
-        System.out.println(board);
+        gameView.showMessage(board.toString());
     }
 
     public boolean isGameOver() {
@@ -77,13 +75,20 @@ public class Game {
         return (coinMatched) ? Color.WHITE : Color.BLACK;
     }
 
+    public String getTextAnswer(String message) {
+        return gameView.getTextAnswer(message);
+    }
+
+    public int getNumericAnswer(String message) {
+        return gameView.getNumericAnswer(message);
+    }
 
     public void findPossibleMovesOnBoard() {
         rules.findAllPossibleMovesOn(board);
     }
 
     public void showCurrentPlayer(Player player) {
-        System.out.println("\n" + player);
+        gameView.showMessage("\n" + player);
     }
 
     public Square getFromSquare() {
@@ -92,7 +97,7 @@ public class Game {
             int[] fromPos = getValidCoordinates(UIMessages.PIECE_TO_MOVE);
             square = getSquareFromCoordinates(fromPos);
             if (!square.hasPiece())
-                System.out.println(UIMessages.PIECE_NOT_FOUND_EXCEPTION);
+                gameView.showError(UIMessages.PIECE_NOT_FOUND_EXCEPTION);
         } while (!square.hasPiece());
 
         return square;
@@ -118,7 +123,7 @@ public class Game {
             try {
                 coordinates = Utils.getConvertedPosition(coordinate);
             } catch (InvalidPositionException e) {
-                System.out.println(e.getMessage());
+                gameView.showError(e.getMessage());
             }
         }
         return coordinates;
@@ -129,15 +134,7 @@ public class Game {
     }
 
     public void showPracticalMoves(PieceMoves pieceMoves) {
-        System.out.println(pieceMoves);
-    }
-
-    public String getTextAnswer(String question) {
-        return In.nextLine(question);
-    }
-
-    public int getNumericAnswer(String question) {
-        return In.nextInt(question);
+        gameView.showMessage(pieceMoves.toString());
     }
 
     public List<Board> getMovesHistory() {
@@ -151,25 +148,15 @@ public class Game {
         board.movePiece(fromSquare, toSquare);
     }
 
-    public void showInvalidMoveSelected() {
-        System.out.println(UIMessages.INVALID_MOVE_EXCEPTION);
-    }
-
     public void validatePieceMove(Square fromSquare, Pieces pieces) {
         try {
             rules.validatePieceMove(fromSquare, board, pieces);
-        } catch (PieceCannotBeMovedException e) {
-            System.out.println(e.getMessage());
-        } catch (KingInDangerException e) {
-            System.out.println(e.getMessage());
-        } catch (InvalidPieceException e) {
-            System.out.println(e.getMessage());
-        }catch(KingInCheckException e){
-            System.out.println(e.getMessage());
+        } catch (PieceCannotBeMovedException | KingInDangerException | InvalidPieceException | KingInCheckException e) {
+            gameView.showError(e.getMessage());
         }
     }
 
-    public PlayerMoves getPlayerMoves(Pieces pieces){
+    public PlayerMoves getPlayerMoves(Pieces pieces) {
         return rules.getPlayerMoves(pieces);
     }
 
@@ -194,7 +181,7 @@ public class Game {
     public Square getToSquareFrom(PieceMoves pieceMoves) {
         Square toSquare = getToSquare();
         while (!pieceMoves.contains(toSquare)) {
-            showInvalidMoveSelected();
+            gameView.showError(UIMessages.INVALID_MOVE_EXCEPTION);
             toSquare = getToSquare();
         }
         return toSquare;
