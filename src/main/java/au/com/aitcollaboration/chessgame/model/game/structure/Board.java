@@ -1,6 +1,7 @@
 package au.com.aitcollaboration.chessgame.model.game.structure;
 
 import au.com.aitcollaboration.chessgame.Color;
+import au.com.aitcollaboration.chessgame.model.moves.PlayerMoves;
 import au.com.aitcollaboration.chessgame.model.pieces.*;
 
 import java.util.HashMap;
@@ -59,16 +60,17 @@ public class Board {
         Pieces whitePieces = new Pieces(Color.WHITE);
         Pieces blackPieces = new Pieces(Color.BLACK);
 
-        for (Square[] squares : grid) {
-            for (Square square : squares) {
-                Piece piece = square.getPiece();
-                if (piece != null) {
-                    if (piece.matches(Color.BLACK)) {
-                        blackPieces.add(piece);
-                    } else {
-                        whitePieces.add(piece);
-                    }
-                }
+        for (int row = 0; row <= 1; row++) {
+            for (int col = 0; col < BOARD_SIZE; col++) {
+                Square square = grid[row][col];
+                blackPieces.add(square.getPiece());
+            }
+        }
+
+        for (int row = 6; row < BOARD_SIZE; row++) {
+            for (int col = 0; col < BOARD_SIZE; col++) {
+                Square square = grid[row][col];
+                whitePieces.add(square.getPiece());
             }
         }
 
@@ -84,7 +86,7 @@ public class Board {
         return piecesMap;
     }
 
-    public Square getSquareOf(Piece piece) {
+    public Square getCurrentSquare(Piece piece) {
 
         for (Square[] squares : grid)
             for (Square square : squares)
@@ -120,5 +122,15 @@ public class Board {
         Piece piece = fromSquare.getPiece();
         fromSquare.setPiece(null);
         toSquare.setPiece(piece);
+    }
+
+    public Map<Pieces, PlayerMoves> getAllValidMoves() {
+        Map<Pieces, PlayerMoves> possibleMoves = new HashMap<>();
+
+        for (Pieces pieces : piecesMap.values()) {
+            PlayerMoves playerMoves = pieces.getValidMovesOn(this);
+            possibleMoves.put(pieces, playerMoves);
+        }
+        return possibleMoves;
     }
 }

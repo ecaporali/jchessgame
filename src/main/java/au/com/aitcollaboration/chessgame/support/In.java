@@ -20,6 +20,7 @@ public class In {
             try {
                 return Integer.parseInt(answer);
             } catch (NumberFormatException e) {
+                MyLogger.debug(e);
                 System.out.println(UIMessages.INVALID_NUMBER_EXCEPTION);
             }
         }

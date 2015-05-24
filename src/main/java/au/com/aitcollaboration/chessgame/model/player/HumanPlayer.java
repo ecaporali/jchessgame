@@ -1,9 +1,12 @@
 package au.com.aitcollaboration.chessgame.model.player;
 
+import au.com.aitcollaboration.chessgame.controller.GameController;
+import au.com.aitcollaboration.chessgame.controller.RulesController;
 import au.com.aitcollaboration.chessgame.model.game.structure.Square;
-import au.com.aitcollaboration.chessgame.controller.Game;
 import au.com.aitcollaboration.chessgame.model.moves.PieceMoves;
 import au.com.aitcollaboration.chessgame.model.moves.PlayerMoves;
+import au.com.aitcollaboration.chessgame.support.MyLogger;
+import au.com.aitcollaboration.chessgame.support.UIMessages;
 
 public class HumanPlayer extends Player {
 
@@ -12,17 +15,42 @@ public class HumanPlayer extends Player {
     }
 
     @Override
-    public void play(Game game) {
-        Square fromSquare = game.getFromSquare(pieces);
-
-        PlayerMoves playerMoves = game.getPlayerMoves(pieces);
+    public void play(GameController gameController, RulesController rulesController) {
+        Square fromSquare = getFromSquare(gameController, rulesController);
+        PlayerMoves playerMoves = rulesController.getPlayerMoves(pieces);
 
         PieceMoves pieceMoves = playerMoves.getPieceMoves(fromSquare.getPiece());
 
-        game.showPracticalMoves(pieceMoves);
+        gameController.showPracticalMoves(pieceMoves);
 
-        Square toSquare = game.getToSquareFrom(pieceMoves);
+        Square toSquare = getToSquare(gameController, pieceMoves);
 
-        game.movePiece(fromSquare, toSquare);
+        gameController.movePiece(fromSquare, toSquare);
+    }
+
+    private Square getFromSquare(GameController gameController, RulesController rulesController) {
+        PlayerMoves playerMoves = null;
+        Square fromSquare = null;
+
+        while (playerMoves == null) {
+            try {
+                fromSquare = gameController.getFromSquare();
+                playerMoves = rulesController.getPlayerMoves(fromSquare, pieces);
+            } catch (Exception e) {
+                MyLogger.debug(e);
+                gameController.showError(e.getMessage());
+            }
+        }
+
+        return fromSquare;
+    }
+
+    private Square getToSquare(GameController gameController, PieceMoves pieceMoves) {
+        Square toSquare = gameController.getToSquare();
+        while (!pieceMoves.contains(toSquare)) {
+            gameController.showError(UIMessages.INVALID_MOVE_EXCEPTION);
+            toSquare = gameController.getToSquare();
+        }
+        return toSquare;
     }
 }

@@ -36,12 +36,10 @@ import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Utils.class, In.class})
-public class GameTest {
+public class GameControllerTest {
 
     @Mock
     private Board board;
-    @Mock
-    private Rules rules;
     @Mock
     private GameView gameView;
     @Mock
@@ -49,7 +47,7 @@ public class GameTest {
 
     private PrintStream originalOut = System.out;
 
-    private Game game;
+    private GameController gameController;
 
     @Before
     public void setUp() throws Exception {
@@ -59,7 +57,7 @@ public class GameTest {
 
         setMockedSystemOut();
 
-        game = new Game(board, rules, gameView);
+        gameController = new GameController(board, gameView);
 
         when(In.nextLine(anyString())).thenReturn("");
     }
@@ -68,7 +66,7 @@ public class GameTest {
     public void testGetPlayersMapReturnsTwoHumanPlayers() {
         when(gameView.getNumericAnswer(any(String.class))).thenReturn(2);
 
-        Map<Color, Player> colorPlayerMap = game.getPlayersMap();
+        Map<Color, Player> colorPlayerMap = gameController.getPlayersMap();
 
         Player playerOne = colorPlayerMap.get(Color.WHITE);
         Player playerTwo = colorPlayerMap.get(Color.BLACK);
@@ -83,7 +81,7 @@ public class GameTest {
         when(In.nextInt(anyString())).thenReturn(1);
         when(Utils.tossCoin(any(String.class))).thenReturn(true);
 
-        Map<Color, Player> colorPlayerMap = game.getPlayersMap();
+        Map<Color, Player> colorPlayerMap = gameController.getPlayersMap();
 
         Player playerOne = colorPlayerMap.get(Color.WHITE);
         Player playerTwo = colorPlayerMap.get(Color.BLACK);
@@ -97,7 +95,7 @@ public class GameTest {
     public void testIsMultiPlayersShouldReturnTrueWhenMultiPlayersSelectionIsMoreThanOne() {
         when(gameView.getNumericAnswer(any(String.class))).thenReturn(2);
 
-        boolean isMultiPlayers = game.isMultiPlayers();
+        boolean isMultiPlayers = gameController.isMultiPlayers();
 
         assertTrue(isMultiPlayers);
     }
@@ -106,44 +104,24 @@ public class GameTest {
     public void testIsMultiPlayersShouldReturnFalseWhenMultiPlayersSelectionIsLessThanTwo() {
         when(In.nextInt(anyString())).thenReturn(1);
 
-        boolean isMultiPlayers = game.isMultiPlayers();
+        boolean isMultiPlayers = gameController.isMultiPlayers();
 
         assertFalse(isMultiPlayers);
     }
 
     @Test
-    public void testIsGameOverShouldReturnFalse() {
-        when(rules.isMatchDraw(any(List.class))).thenReturn(false);
-        when(rules.isCheckMate(board)).thenReturn(false);
-
-        boolean isGameOver = game.isGameOver();
-
-        assertFalse(isGameOver);
-    }
-
-    @Test
-    public void testIsGameOverShouldReturnTrue() {
-        when(rules.isMatchDraw(any(List.class))).thenReturn(false);
-        when(rules.isCheckMate(board)).thenReturn(true);
-
-        boolean isGameOver = game.isGameOver();
-
-        assertTrue(isGameOver);
-    }
-
-    @Test
     public void testAddMoveToHistoryShouldIncreaseListSize() {
-        assertThat(game.getMovesHistory().size(), is(0));
-        game.addMoveToHistory();
-        game.addMoveToHistory();
-        assertThat(game.getMovesHistory().size(), is(2));
+        assertThat(gameController.getMovesHistorySize(), is(0));
+        gameController.addMoveToHistory();
+        gameController.addMoveToHistory();
+        assertThat(gameController.getMovesHistorySize(), is(2));
     }
 
     @Test
     public void testTossCoinShouldReturnColorWhiteWhenTossCoinIsTrue() {
         when(Utils.tossCoin(any(String.class))).thenReturn(true);
 
-        Color whiteColor = game.tossCoin();
+        Color whiteColor = gameController.tossCoin();
 
         assertThat(whiteColor, is(Color.WHITE));
     }
@@ -152,16 +130,9 @@ public class GameTest {
     public void testTossCoinShouldReturnBlackWhiteWhenTossCoinIsFalse() {
         when(Utils.tossCoin(any(String.class))).thenReturn(false);
 
-        Color whiteColor = game.tossCoin();
+        Color whiteColor = gameController.tossCoin();
 
         assertThat(whiteColor, is(Color.BLACK));
-    }
-
-    @Test
-    public void testCalculatePossibleMovesOnBoardShouldCallRulesMethod() {
-        game.findPossibleMovesOnBoard();
-
-        verify(rules, times(1)).findAllPossibleMovesOn(any(Board.class));
     }
 
     @Test
@@ -173,7 +144,7 @@ public class GameTest {
         when(Utils.getConvertedPosition(any(String.class))).thenReturn(new int[]{0, 0});
         when(board.getSquareAtPosition(any(Position.class))).thenReturn(testSquare);
 
-        Square square = game.getFromSquare();
+        Square square = gameController.getFromSquare();
 
         assertNotNull(square);
         assertTrue(square.hasPiece());
@@ -181,14 +152,14 @@ public class GameTest {
 
     @Test(expected = InvalidCoordinatesException.class)
     public void testGetSquareFromCoordinatesShouldInvalidCoordinatesExceptionWhenNullCoordinates() {
-        game.getSquareFromCoordinates(null);
+        gameController.getSquareFromCoordinates(null);
     }
 
     @Test
     public void testGetValidCoordinatesShouldReturnValidCoordinates() throws InvalidPositionException {
         when(In.nextLine(anyString())).thenReturn("A1");
         when(Utils.getConvertedPosition(any(String.class))).thenReturn(new int[]{0, 0});
-        int[] coordinates = game.getValidCoordinates("");
+        int[] coordinates = gameController.getValidCoordinates("");
 
         assertNotNull(coordinates);
         assertEquals(coordinates.length, 2);
@@ -198,22 +169,22 @@ public class GameTest {
     public void testShouldReturnColorWhiteWhenTossCoinSideMatched() throws Exception {
         when(Utils.tossCoin(anyString())).thenReturn(true);
 
-        Color color = game.tossCoin();
+        Color color = gameController.tossCoin();
 
         assertEquals(color, Color.WHITE);
         assertFalse(color.equals(Color.BLACK));
-        PowerMockito.verifyPrivate(game).invoke("getTextAnswer", anyString());
+        PowerMockito.verifyPrivate(gameController).invoke("getTextAnswer", anyString());
     }
 
     @Test
     public void testShouldReturnColorBlackWhenTossCoinSideNotMatched() throws Exception {
         when(Utils.tossCoin(anyString())).thenReturn(false);
 
-        Color color = game.tossCoin();
+        Color color = gameController.tossCoin();
 
         assertEquals(color, Color.BLACK);
         assertFalse(color.equals(Color.WHITE));
-        PowerMockito.verifyPrivate(game).invoke("getTextAnswer", anyString());
+        PowerMockito.verifyPrivate(gameController).invoke("getTextAnswer", anyString());
     }
 
     private void setMockedSystemOut() {

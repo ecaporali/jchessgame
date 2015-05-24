@@ -11,7 +11,7 @@ public class SingleMovement implements MovingBehaviour {
 
     @Override
     public PieceMoves getMoves(Board board, Piece piece) {
-        Square square = board.getSquareOf(piece);
+        Square square = board.getCurrentSquare(piece);
 
         PieceMoves pieceMoves = new PieceMoves(square);
 

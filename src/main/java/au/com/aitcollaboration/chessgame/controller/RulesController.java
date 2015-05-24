@@ -1,10 +1,5 @@
 package au.com.aitcollaboration.chessgame.controller;
 
-import au.com.aitcollaboration.chessgame.Color;
-import au.com.aitcollaboration.chessgame.controller.validation.service.KingInCheckMateService;
-import au.com.aitcollaboration.chessgame.controller.validation.service.MoveSelectionService;
-import au.com.aitcollaboration.chessgame.controller.validation.service.MoveValidation;
-import au.com.aitcollaboration.chessgame.controller.validation.service.PieceSelectionService;
 import au.com.aitcollaboration.chessgame.model.game.structure.Board;
 import au.com.aitcollaboration.chessgame.model.game.structure.Square;
 import au.com.aitcollaboration.chessgame.model.moves.PieceMoves;
@@ -12,24 +7,31 @@ import au.com.aitcollaboration.chessgame.model.moves.PlayerMoves;
 import au.com.aitcollaboration.chessgame.model.pieces.King;
 import au.com.aitcollaboration.chessgame.model.pieces.Piece;
 import au.com.aitcollaboration.chessgame.model.pieces.Pieces;
-import au.com.aitcollaboration.chessgame.view.exceptions.InvalidPieceException;
-import au.com.aitcollaboration.chessgame.view.exceptions.KingInCheckException;
-import au.com.aitcollaboration.chessgame.view.exceptions.KingInDangerException;
-import au.com.aitcollaboration.chessgame.view.exceptions.PieceCannotBeMovedException;
+import au.com.aitcollaboration.chessgame.service.validation.KingInCheckMateService;
+import au.com.aitcollaboration.chessgame.service.validation.MoveSelectionService;
+import au.com.aitcollaboration.chessgame.service.validation.MoveValidation;
+import au.com.aitcollaboration.chessgame.service.validation.PieceSelectionService;
+import au.com.aitcollaboration.chessgame.view.exceptions.*;
 
 import java.util.*;
 
-public class Rules {
+public class RulesController {
 
     private Map<Pieces, PlayerMoves> possibleMoves;
     private List<MoveValidation> moveValidation;
+    private Board board;
 
-    public Rules() {
+    private RulesController() {
         this.possibleMoves = new HashMap<>();
-        this.moveValidation = Rules.buildMoveValidation();
     }
 
-    public static List<MoveValidation> buildMoveValidation(){
+    public RulesController(Board board) {
+        this();
+        this.board = board;
+        this.moveValidation = RulesController.buildMoveValidation();
+    }
+
+    public static List<MoveValidation> buildMoveValidation() {
         return Arrays.asList(
                 new KingInCheckMateService(),
                 new KingInCheckMateService(),
@@ -38,49 +40,36 @@ public class Rules {
         );
     }
 
-    public boolean isCheckMate(Board board) {
+    public boolean isGameOver() {
+        return isMatchDraw() ||
+                isCheckMate();
+    }
+
+    public boolean isCheckMate() {
         return false;
     }
 
-    public boolean isMatchDraw(List<Board> movesHistory) {
+    public boolean isMatchDraw() {
         return false;
     }
 
-
-    public void findAllPossibleMovesOn(Board board) {
+    public void findAllPossibleMovesOnBoard() {
         possibleMoves.clear();
-
-        Square[][] grid = board.getClonedGrid();
-
-        Map<Color, Pieces> piecesMap = board.getPiecesMap();
-        Pieces whitePieces = piecesMap.get(Color.WHITE);
-        Pieces blackPieces = piecesMap.get(Color.BLACK);
-
-        for (Square[] squares : grid) {
-            PlayerMoves playerMoves = new PlayerMoves();
-            for (Square square : squares) {
-                if (square.hasPiece()) {
-                    Piece piece = square.getPiece();
-                    PieceMoves pieceMoves = piece.getValidMovesOn(board);
-                    playerMoves.add(piece, pieceMoves);
-                    if (piece.matches(Color.WHITE))
-                        possibleMoves.put(whitePieces, playerMoves);
-                    else
-                        possibleMoves.put(blackPieces, playerMoves);
-                }
-            }
-        }
+        possibleMoves = board.getAllValidMoves();
     }
 
     public PlayerMoves getPlayerMoves(Pieces pieces) {
         return possibleMoves.get(pieces);
     }
 
-    public void validatePieceMove(Square fromSquare, Board board, Pieces pieces) throws PieceCannotBeMovedException, InvalidPieceException, KingInDangerException, KingInCheckException {
+    public void validatePieceMove(Square fromSquare, Pieces pieces) throws Exception {
         Piece king = pieces.getPiece(King.class);
-        Square kingSquare = board.getSquareOf(king);
+        Square kingSquare = board.getCurrentSquare(king);
 
         Piece currentPiece = fromSquare.getPiece();
+
+        if (currentPiece == null)
+            throw new PieceNotFoundException();
 
         PieceMoves currentPieceMoves = currentPiece.getValidMovesOn(board);
 
@@ -100,9 +89,6 @@ public class Rules {
                 throw new KingInCheckException();
             }
         }
-
-        PlayerMoves playerMoves = possibleMoves.get(pieces);
-        playerMoves.add(currentPiece, currentPieceMoves);
     }
 
     private boolean kingCannotBeSaved(Square fromSquare, Square kingSquare, PieceMoves currentPieceMoves, Collection<PlayerMoves> opponentMoves) {
@@ -118,11 +104,12 @@ public class Rules {
     }
 
 
-    public void runAllPossibleMoves(Square fromSquare, Board board) {
+    public void mockPieceMove(Square fromSquare) {
         Piece currentPiece = fromSquare.getPiece();
-        fromSquare.setPiece(null);
-        findAllPossibleMovesOn(board);
-        fromSquare.setPiece(currentPiece);
+        if (currentPiece != null) {
+            fromSquare.setPiece(null);
+            fromSquare.setPiece(currentPiece);
+        }
     }
 
     private boolean isKingInDanger(Square fromSquare, Square kingSquare, Collection<PlayerMoves> opponentMoves) {
@@ -142,8 +129,14 @@ public class Rules {
     }
 
     public Collection<PlayerMoves> getOpponentMoves(Pieces pieces) {
-        Map<Pieces, PlayerMoves> playerMovesMap = new HashMap<Pieces, PlayerMoves>(possibleMoves);
+        Map<Pieces, PlayerMoves> playerMovesMap = new HashMap<>(possibleMoves);
         playerMovesMap.remove(pieces);
         return playerMovesMap.values();
+    }
+
+    public PlayerMoves getPlayerMoves(Square fromSquare, Pieces pieces) throws Exception {
+        findAllPossibleMovesOnBoard();
+        validatePieceMove(fromSquare, pieces);
+        return getPlayerMoves(pieces);
     }
 }

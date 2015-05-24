@@ -1,6 +1,7 @@
 package au.com.aitcollaboration.chessgame.model.player;
 
-import au.com.aitcollaboration.chessgame.controller.Game;
+import au.com.aitcollaboration.chessgame.controller.GameController;
+import au.com.aitcollaboration.chessgame.controller.RulesController;
 import au.com.aitcollaboration.chessgame.model.moves.PlayerMoves;
 import au.com.aitcollaboration.chessgame.model.pieces.Piece;
 import au.com.aitcollaboration.chessgame.model.pieces.Pieces;
@@ -42,8 +43,8 @@ public abstract class Player {
 
     @Override
     public String toString() {
-        return "Player Name: " + name;
+        return "Player " + pieces + ": " + name;
     }
 
-    public abstract void play(Game game);
+    public abstract void play(GameController gameController, RulesController rulesController);
 }

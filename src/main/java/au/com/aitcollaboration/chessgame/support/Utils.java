@@ -36,7 +36,7 @@ public class Utils {
         return letter + "" + number;
     }
 
-    public static String boardToConsole(Board board){
+    public static String boardToConsole(Board board) {
         StringBuilder stringBuilder = new StringBuilder();
         Square[][] grid = board.getClonedGrid();
 

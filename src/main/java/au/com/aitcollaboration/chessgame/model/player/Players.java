@@ -1,7 +1,8 @@
 package au.com.aitcollaboration.chessgame.model.player;
 
 import au.com.aitcollaboration.chessgame.Color;
-import au.com.aitcollaboration.chessgame.controller.Game;
+import au.com.aitcollaboration.chessgame.controller.GameController;
+import au.com.aitcollaboration.chessgame.controller.RulesController;
 import au.com.aitcollaboration.chessgame.model.pieces.Pieces;
 
 import java.util.Map;
@@ -23,12 +24,12 @@ public class Players {
         players[color.position()] = player;
     }
 
-    public void play(Game game) {
+    public void play(GameController gameController, RulesController rulesController) {
         for (Player player : players) {
-            game.showBoard();
-            game.showCurrentPlayer(player);
+            gameController.showBoard();
+            gameController.showCurrentPlayer(player);
             player.stopWatch.resume();
-            player.play(game);
+            player.play(gameController, rulesController);
             player.stopWatch.suspend();
         }
     }

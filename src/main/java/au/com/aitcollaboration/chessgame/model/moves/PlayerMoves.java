@@ -11,7 +11,7 @@ public class PlayerMoves {
     private Map<Piece, PieceMoves> pieceMoveMap;
 
     public PlayerMoves() {
-        pieceMoveMap = new HashMap<Piece, PieceMoves>();
+        pieceMoveMap = new HashMap<>();
     }
 
     public void add(Piece piece, PieceMoves pieceMoves) {

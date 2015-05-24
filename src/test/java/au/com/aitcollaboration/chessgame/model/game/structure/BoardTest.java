@@ -79,7 +79,7 @@ public class BoardTest {
 
         Piece king = grid[0][3].getPiece();
 
-        Square square = board.getSquareOf(king);
+        Square square = board.getCurrentSquare(king);
 
         assertNotNull(square);
         assertNotNull(square.getPiece());

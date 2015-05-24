@@ -1,6 +1,9 @@
 package au.com.aitcollaboration.chessgame.model.pieces;
 
 import au.com.aitcollaboration.chessgame.Color;
+import au.com.aitcollaboration.chessgame.model.game.structure.Board;
+import au.com.aitcollaboration.chessgame.model.moves.PieceMoves;
+import au.com.aitcollaboration.chessgame.model.moves.PlayerMoves;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,5 +73,19 @@ public class Pieces {
 
     public Piece resurrectPiece(Class pieceClass) {
         return getLostPiece(pieceClass);
+    }
+
+    public PlayerMoves getValidMovesOn(Board board) {
+        PlayerMoves playerMoves = new PlayerMoves();
+        for (Piece piece : currentPieces) {
+            PieceMoves pieceMoves = piece.getValidMovesOn(board);
+            playerMoves.add(piece, pieceMoves);
+        }
+        return playerMoves;
+    }
+
+    @Override
+    public String toString(){
+        return this.color.toString();
     }
 }
