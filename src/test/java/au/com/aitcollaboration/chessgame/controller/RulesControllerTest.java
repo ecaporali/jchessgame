@@ -1,6 +1,7 @@
 package au.com.aitcollaboration.chessgame.controller;
 
 import au.com.aitcollaboration.chessgame.model.game.structure.Board;
+import au.com.aitcollaboration.chessgame.service.ValidationService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -12,13 +13,15 @@ public class RulesControllerTest {
 
     @Mock
     private Board board;
+    @Mock
+    private ValidationService validationService;
 
     private RulesController rulesController;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        rulesController = new RulesController(board);
+        rulesController = new RulesController(board, validationService);
     }
 
     @Test
