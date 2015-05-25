@@ -5,10 +5,10 @@ import au.com.aitcollaboration.chessgame.model.moves.PieceMoves;
 import au.com.aitcollaboration.chessgame.model.moves.PlayerMoves;
 import au.com.aitcollaboration.chessgame.model.pieces.Piece;
 import au.com.aitcollaboration.chessgame.model.pieces.Pieces;
-import au.com.aitcollaboration.chessgame.view.exceptions.InvalidPieceException;
-import au.com.aitcollaboration.chessgame.view.exceptions.KingInCheckException;
-import au.com.aitcollaboration.chessgame.view.exceptions.KingInDangerException;
-import au.com.aitcollaboration.chessgame.view.exceptions.PieceCannotBeMovedException;
+import au.com.aitcollaboration.chessgame.exceptions.InvalidPieceException;
+import au.com.aitcollaboration.chessgame.exceptions.KingInCheckException;
+import au.com.aitcollaboration.chessgame.exceptions.KingInDangerException;
+import au.com.aitcollaboration.chessgame.exceptions.PieceCannotBeMovedException;
 
 import java.util.Collection;
 

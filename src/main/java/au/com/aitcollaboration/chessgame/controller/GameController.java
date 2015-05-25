@@ -14,8 +14,8 @@ import au.com.aitcollaboration.chessgame.support.MyLogger;
 import au.com.aitcollaboration.chessgame.support.UIMessages;
 import au.com.aitcollaboration.chessgame.support.Utils;
 import au.com.aitcollaboration.chessgame.view.GameView;
-import au.com.aitcollaboration.chessgame.view.exceptions.InvalidCoordinatesException;
-import au.com.aitcollaboration.chessgame.view.exceptions.InvalidPositionException;
+import au.com.aitcollaboration.chessgame.exceptions.InvalidCoordinatesException;
+import au.com.aitcollaboration.chessgame.exceptions.InvalidPositionException;
 
 import java.util.HashMap;
 import java.util.LinkedList;

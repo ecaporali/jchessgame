@@ -1,4 +1,4 @@
-package au.com.aitcollaboration.chessgame.view.exceptions;
+package au.com.aitcollaboration.chessgame.exceptions;
 
 import au.com.aitcollaboration.chessgame.support.UIMessages;
 

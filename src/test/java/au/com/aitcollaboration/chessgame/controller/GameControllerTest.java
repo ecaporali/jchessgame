@@ -11,8 +11,8 @@ import au.com.aitcollaboration.chessgame.model.player.Player;
 import au.com.aitcollaboration.chessgame.support.In;
 import au.com.aitcollaboration.chessgame.support.Utils;
 import au.com.aitcollaboration.chessgame.view.GameView;
-import au.com.aitcollaboration.chessgame.view.exceptions.InvalidCoordinatesException;
-import au.com.aitcollaboration.chessgame.view.exceptions.InvalidPositionException;
+import au.com.aitcollaboration.chessgame.exceptions.InvalidCoordinatesException;
+import au.com.aitcollaboration.chessgame.exceptions.InvalidPositionException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +23,6 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.PrintStream;
-import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.core.Is.is;

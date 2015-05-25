@@ -8,7 +8,7 @@ import au.com.aitcollaboration.chessgame.model.pieces.King;
 import au.com.aitcollaboration.chessgame.model.pieces.Piece;
 import au.com.aitcollaboration.chessgame.model.pieces.Pieces;
 import au.com.aitcollaboration.chessgame.service.ValidationService;
-import au.com.aitcollaboration.chessgame.view.exceptions.*;
+import au.com.aitcollaboration.chessgame.exceptions.*;
 
 import java.util.*;
 

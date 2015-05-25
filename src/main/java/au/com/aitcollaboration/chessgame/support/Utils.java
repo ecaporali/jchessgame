@@ -2,7 +2,7 @@ package au.com.aitcollaboration.chessgame.support;
 
 import au.com.aitcollaboration.chessgame.model.game.structure.Board;
 import au.com.aitcollaboration.chessgame.model.game.structure.Square;
-import au.com.aitcollaboration.chessgame.view.exceptions.InvalidPositionException;
+import au.com.aitcollaboration.chessgame.exceptions.InvalidPositionException;
 
 public class Utils {
 
