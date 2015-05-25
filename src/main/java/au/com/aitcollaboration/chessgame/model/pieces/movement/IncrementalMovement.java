@@ -15,6 +15,9 @@ public class IncrementalMovement implements MovingBehaviour {
 
         PieceMoves pieceMoves = new PieceMoves(square);
 
+        if(square == null)
+            return pieceMoves;
+
         int[][] commonMoves = piece.commonMoves();
 
         for (int[] moveAt : commonMoves) {

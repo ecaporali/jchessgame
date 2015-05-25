@@ -6,6 +6,7 @@ import au.com.aitcollaboration.chessgame.controller.RulesController;
 import au.com.aitcollaboration.chessgame.model.pieces.Pieces;
 import au.com.aitcollaboration.chessgame.model.player.Player;
 import au.com.aitcollaboration.chessgame.model.player.Players;
+import au.com.aitcollaboration.chessgame.service.ValidationService;
 import au.com.aitcollaboration.chessgame.view.ConsoleView;
 
 import java.util.Map;
@@ -16,7 +17,7 @@ public class App {
 
         Board board = new Board();
         GameController gameController = new GameController(board, new ConsoleView());
-        RulesController rulesController = new RulesController(board);
+        RulesController rulesController = new RulesController(board, new ValidationService());
 
         Map<Color, Player> colorPlayerMap = gameController.getPlayersMap();
         Map<Color, Pieces> colorPiecesMap = gameController.getPiecesMap();

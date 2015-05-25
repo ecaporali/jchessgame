@@ -13,7 +13,7 @@ public class PieceMoves {
 
     public PieceMoves(Square currentSquare) {
         this.currentSquare = currentSquare;
-        this.practicalMoves = new ArrayList<Square>();
+        this.practicalMoves = new ArrayList<>();
     }
 
     public void add(Square square) {

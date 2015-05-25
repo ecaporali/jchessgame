@@ -85,7 +85,7 @@ public class Pieces {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return this.color.toString();
     }
 }

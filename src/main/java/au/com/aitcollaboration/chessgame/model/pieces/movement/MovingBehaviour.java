@@ -6,5 +6,5 @@ import au.com.aitcollaboration.chessgame.model.moves.PieceMoves;
 
 public interface MovingBehaviour {
 
-    public PieceMoves getMoves(Board board, Piece piece);
+    PieceMoves getMoves(Board board, Piece piece);
 }

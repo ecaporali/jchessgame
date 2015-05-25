@@ -7,10 +7,7 @@ import au.com.aitcollaboration.chessgame.model.moves.PlayerMoves;
 import au.com.aitcollaboration.chessgame.model.pieces.King;
 import au.com.aitcollaboration.chessgame.model.pieces.Piece;
 import au.com.aitcollaboration.chessgame.model.pieces.Pieces;
-import au.com.aitcollaboration.chessgame.service.validation.KingInCheckMateService;
-import au.com.aitcollaboration.chessgame.service.validation.MoveSelectionService;
-import au.com.aitcollaboration.chessgame.service.validation.MoveValidation;
-import au.com.aitcollaboration.chessgame.service.validation.PieceSelectionService;
+import au.com.aitcollaboration.chessgame.service.ValidationService;
 import au.com.aitcollaboration.chessgame.view.exceptions.*;
 
 import java.util.*;
@@ -18,31 +15,21 @@ import java.util.*;
 public class RulesController {
 
     private Map<Pieces, PlayerMoves> possibleMoves;
-    private List<MoveValidation> moveValidation;
+    private ValidationService validationService;
     private Board board;
 
     private RulesController() {
         this.possibleMoves = new HashMap<>();
     }
 
-    public RulesController(Board board) {
+    public RulesController(Board board, ValidationService validationService) {
         this();
         this.board = board;
-        this.moveValidation = RulesController.buildMoveValidation();
-    }
-
-    public static List<MoveValidation> buildMoveValidation() {
-        return Arrays.asList(
-                new KingInCheckMateService(),
-                new KingInCheckMateService(),
-                new MoveSelectionService(),
-                new PieceSelectionService()
-        );
+        this.validationService = validationService;
     }
 
     public boolean isGameOver() {
-        return isMatchDraw() ||
-                isCheckMate();
+        return isMatchDraw() || isCheckMate();
     }
 
     public boolean isCheckMate() {
@@ -71,61 +58,22 @@ public class RulesController {
         if (currentPiece == null)
             throw new PieceNotFoundException();
 
+        Collection<PlayerMoves> opponentMoves = getOpponentMoves(pieces);
         PieceMoves currentPieceMoves = currentPiece.getValidMovesOn(board);
 
-        Collection<PlayerMoves> opponentMoves = getOpponentMoves(pieces);
+        validationService.validateMove(fromSquare, kingSquare, pieces, opponentMoves, currentPieceMoves);
 
-        if (currentPieceMoves.isEmpty())
-            throw new PieceCannotBeMovedException();
-
-        if (!pieces.contains(currentPiece))
-            throw new InvalidPieceException();
-
-        if (isKingInDanger(fromSquare, kingSquare, opponentMoves))
-            throw new KingInDangerException();
-
-        if (isKingInCheck(kingSquare, opponentMoves)) {
-            if (kingCannotBeSaved(fromSquare, kingSquare, currentPieceMoves, opponentMoves)) {
-                throw new KingInCheckException();
-            }
-        }
+        PlayerMoves playerMoves = getPlayerMoves(pieces);
+        playerMoves.add(currentPiece, currentPieceMoves);
     }
-
-    private boolean kingCannotBeSaved(Square fromSquare, Square kingSquare, PieceMoves currentPieceMoves, Collection<PlayerMoves> opponentMoves) {
-        if (fromSquare.equals(kingSquare))
-            return false;
-
-
-        for (PlayerMoves opponentPlayerMoves : opponentMoves)
-            if (opponentPlayerMoves.canEatKing(currentPieceMoves))
-                return true;
-
-        return false;
-    }
-
 
     public void mockPieceMove(Square fromSquare) {
         Piece currentPiece = fromSquare.getPiece();
         if (currentPiece != null) {
             fromSquare.setPiece(null);
+            findAllPossibleMovesOnBoard();
             fromSquare.setPiece(currentPiece);
         }
-    }
-
-    private boolean isKingInDanger(Square fromSquare, Square kingSquare, Collection<PlayerMoves> opponentMoves) {
-        for (PlayerMoves opponentPlayerMoves : opponentMoves)
-            if (opponentPlayerMoves.isKingInDanger(fromSquare, kingSquare))
-                return true;
-
-        return false;
-    }
-
-    private boolean isKingInCheck(Square kingSquare, Collection<PlayerMoves> opponentMoves) {
-        for (PlayerMoves opponentPlayerMoves : opponentMoves)
-            if (opponentPlayerMoves.isKingInCheck(kingSquare))
-                return true;
-
-        return false;
     }
 
     public Collection<PlayerMoves> getOpponentMoves(Pieces pieces) {
@@ -135,7 +83,7 @@ public class RulesController {
     }
 
     public PlayerMoves getPlayerMoves(Square fromSquare, Pieces pieces) throws Exception {
-        findAllPossibleMovesOnBoard();
+        mockPieceMove(fromSquare);
         validatePieceMove(fromSquare, pieces);
         return getPlayerMoves(pieces);
     }

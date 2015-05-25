@@ -15,6 +15,9 @@ public class SingleMovement implements MovingBehaviour {
 
         PieceMoves pieceMoves = new PieceMoves(square);
 
+        if(square == null)
+            return pieceMoves;
+
         int[][] commonMoves = piece.commonMoves();
         int[] firstMove = commonMoves[0];
 
