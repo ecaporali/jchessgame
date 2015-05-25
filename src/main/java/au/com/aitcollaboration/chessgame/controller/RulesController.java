@@ -58,7 +58,7 @@ public class RulesController {
         if (currentPiece == null)
             throw new PieceNotFoundException();
 
-        Collection<PlayerMoves> opponentMoves = getOpponentMoves(pieces);
+        PlayerMoves opponentMoves = getOpponentMoves(pieces);
         PieceMoves currentPieceMoves = currentPiece.getValidMovesOn(board);
 
         validationService.validateMove(fromSquare, kingSquare, pieces, opponentMoves, currentPieceMoves);
@@ -76,10 +76,10 @@ public class RulesController {
         }
     }
 
-    public Collection<PlayerMoves> getOpponentMoves(Pieces pieces) {
+    public PlayerMoves getOpponentMoves(Pieces pieces) {
         Map<Pieces, PlayerMoves> playerMovesMap = new HashMap<>(possibleMoves);
         playerMovesMap.remove(pieces);
-        return playerMovesMap.values();
+        return playerMovesMap.values().iterator().next();
     }
 
     public PlayerMoves getPlayerMoves(Square fromSquare, Pieces pieces) throws Exception {
