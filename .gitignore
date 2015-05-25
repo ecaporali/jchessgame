@@ -4,3 +4,6 @@
 # User Related
 .idea/
 chessgame.iml
+
+# Maven Related
+target/
