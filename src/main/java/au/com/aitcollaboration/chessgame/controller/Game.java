@@ -22,17 +22,17 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class GameController {
+public class Game {
 
     private Board board;
     private GameView gameView;
     private List<Board> movesHistory;
 
-    private GameController() {
+    private Game() {
         this.movesHistory = new LinkedList<>();
     }
 
-    public GameController(Board board, GameView gameView) {
+    public Game(Board board, GameView gameView) {
         this();
         this.board = board;
         this.gameView = gameView;
@@ -104,7 +104,7 @@ public class GameController {
         while (coordinates == null) {
             String coordinate = getTextAnswer(message);
             try {
-                coordinates = Utils.getConvertedPosition(coordinate);
+                coordinates = Utils.toBoardPosition(coordinate);
             } catch (InvalidPositionException e) {
                 MyLogger.debug(e);
                 gameView.showError(e.getMessage());

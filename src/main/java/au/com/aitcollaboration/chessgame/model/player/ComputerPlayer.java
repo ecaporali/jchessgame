@@ -1,7 +1,7 @@
 package au.com.aitcollaboration.chessgame.model.player;
 
-import au.com.aitcollaboration.chessgame.controller.GameController;
-import au.com.aitcollaboration.chessgame.controller.RulesController;
+import au.com.aitcollaboration.chessgame.controller.Game;
+import au.com.aitcollaboration.chessgame.controller.Rules;
 import au.com.aitcollaboration.chessgame.support.Constants;
 
 public class ComputerPlayer extends Player {
@@ -11,7 +11,7 @@ public class ComputerPlayer extends Player {
     }
 
     @Override
-    public void play(GameController gameController, RulesController rulesController) {
+    public void play(Game game, Rules rules) {
 
     }
 }

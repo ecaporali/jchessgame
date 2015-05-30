@@ -12,17 +12,17 @@ import au.com.aitcollaboration.chessgame.exceptions.*;
 
 import java.util.*;
 
-public class RulesController {
+public class Rules {
 
     private Map<Pieces, PlayerMoves> possibleMoves;
     private ValidationService validationService;
     private Board board;
 
-    private RulesController() {
+    private Rules() {
         this.possibleMoves = new HashMap<>();
     }
 
-    public RulesController(Board board, ValidationService validationService) {
+    public Rules(Board board, ValidationService validationService) {
         this();
         this.board = board;
         this.validationService = validationService;

@@ -1,7 +1,7 @@
 package au.com.aitcollaboration.chessgame.model.player;
 
-import au.com.aitcollaboration.chessgame.controller.GameController;
-import au.com.aitcollaboration.chessgame.controller.RulesController;
+import au.com.aitcollaboration.chessgame.controller.Game;
+import au.com.aitcollaboration.chessgame.controller.Rules;
 import au.com.aitcollaboration.chessgame.model.moves.PlayerMoves;
 import au.com.aitcollaboration.chessgame.model.pieces.Piece;
 import au.com.aitcollaboration.chessgame.model.pieces.Pieces;
@@ -46,5 +46,5 @@ public abstract class Player {
         return "Player " + pieces + ": " + name;
     }
 
-    public abstract void play(GameController gameController, RulesController rulesController);
+    public abstract void play(Game game, Rules rules);
 }

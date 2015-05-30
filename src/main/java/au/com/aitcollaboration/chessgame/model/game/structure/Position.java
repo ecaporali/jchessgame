@@ -43,6 +43,6 @@ public class Position {
 
     @Override
     public String toString() {
-        return "[" + Utils.getGamePosition(new int[]{myX, myY}) + "]";
+        return "[" + Utils.toGamePosition(new int[]{myX, myY}) + "]";
     }
 }

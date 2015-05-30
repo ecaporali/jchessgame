@@ -1,24 +1,39 @@
 package au.com.aitcollaboration.chessgame.support;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 public class In {
-    private static final Scanner in = new Scanner(System.in);
+    private static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
     public static String nextLine(String question) {
         System.out.print("\n" + question);
-        return in.nextLine();
+
+        String line = "";
+        try {
+            line = in.readLine();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                in.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return line;
     }
 
-    public static char nextChar() {
-        return in.nextLine().charAt(0);
+    public static char nextChar(String question) {
+        return nextLine(question).charAt(0);
     }
 
     public static int nextInt(String question) {
         while (true) {
-            String answer = nextLine(question);
             try {
-                return Integer.parseInt(answer);
+                String answer = nextLine(question);
+                return Integer.valueOf(answer);
             } catch (NumberFormatException e) {
                 MyLogger.debug(e);
                 System.out.println(UIMessages.INVALID_NUMBER_EXCEPTION);
@@ -26,9 +41,12 @@ public class In {
         }
     }
 
-    public static double nextDouble() {
-        double d = in.nextDouble();
-        in.nextLine();
-        return d;
+    public static double nextDouble(String question) {
+        return Double.valueOf(nextLine(question));
+    }
+
+    //Used only for testing
+    public static void setInputStream(BufferedReader bufferedReader) {
+        In.in = bufferedReader;
     }
 }

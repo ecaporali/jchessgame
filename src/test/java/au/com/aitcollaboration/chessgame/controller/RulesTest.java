@@ -9,24 +9,24 @@ import org.mockito.Mock;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class RulesControllerTest {
+public class RulesTest {
 
     @Mock
     private Board board;
     @Mock
     private ValidationService validationService;
 
-    private RulesController rulesController;
+    private Rules rules;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        rulesController = new RulesController(board, validationService);
+        rules = new Rules(board, validationService);
     }
 
     @Test
     public void testIsGameOverShouldReturnFalse() {
-        boolean isGameOver = rulesController.isGameOver();
+        boolean isGameOver = rules.isGameOver();
         assertFalse(isGameOver);
     }
 }

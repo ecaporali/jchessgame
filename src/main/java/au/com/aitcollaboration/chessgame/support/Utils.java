@@ -12,7 +12,7 @@ public class Utils {
         return coinSideResult.equalsIgnoreCase(coinSide);
     }
 
-    public static int[] getConvertedPosition(String answer) throws InvalidPositionException {
+    public static int[] toBoardPosition(String answer) throws InvalidPositionException {
         if (answer.isEmpty() || answer.length() != 2)
             throw new InvalidPositionException();
 
@@ -26,7 +26,7 @@ public class Utils {
         return new int[]{x, y};
     }
 
-    public static String getGamePosition(int[] position) {
+    public static String toGamePosition(int[] position) {
         int numeric = position[0];
         int alpha = position[1];
 
