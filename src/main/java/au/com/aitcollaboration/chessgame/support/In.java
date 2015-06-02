@@ -14,12 +14,6 @@ public class In {
             line = in.readLine();
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                in.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
 
         return line;
