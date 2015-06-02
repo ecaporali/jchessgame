@@ -4,14 +4,13 @@ import au.com.aitcollaboration.chessgame.support.Utils;
 
 public class Position {
 
-    private int myX;
-    private int myY;
+    private final int myX;
+    private final int myY;
 
     public Position(int myX, int myY) {
         this.myX = myX;
         this.myY = myY;
     }
-
 
     public Position nextPosition(int myX, int myY) {
         int incrementedX = this.myX + myX;

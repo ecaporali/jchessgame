@@ -11,8 +11,8 @@ import java.util.List;
 public class Pieces {
 
     private Color color;
-    private List<Piece> currentPieces;
-    private List<Piece> lostPieces;
+    private final List<Piece> currentPieces;
+    private final List<Piece> lostPieces;
 
     private Pieces() {
         this.currentPieces = new ArrayList<>(16);

@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class PlayerMoves {
 
-    private Map<Piece, PieceMoves> pieceMoveMap;
+    private final Map<Piece, PieceMoves> pieceMoveMap;
 
     public PlayerMoves() {
         pieceMoveMap = new HashMap<>();

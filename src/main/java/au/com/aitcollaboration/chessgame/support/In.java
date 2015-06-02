@@ -4,14 +4,14 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 public class In {
-    private static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+    private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
     public static String nextLine(String question) {
         System.out.print("\n" + question);
 
         String line = "";
         try {
-            line = in.readLine();
+            line = reader.readLine();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -41,6 +41,6 @@ public class In {
 
     //Used only for testing
     public static void setInputStream(BufferedReader bufferedReader) {
-        In.in = bufferedReader;
+        In.reader = bufferedReader;
     }
 }

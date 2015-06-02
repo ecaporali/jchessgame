@@ -8,8 +8,8 @@ import java.util.List;
 
 public class PieceMoves {
 
-    private Square currentSquare;
-    private List<Square> practicalMoves;
+    private final Square currentSquare;
+    private final List<Square> practicalMoves;
 
     public PieceMoves(Square currentSquare) {
         this.currentSquare = currentSquare;

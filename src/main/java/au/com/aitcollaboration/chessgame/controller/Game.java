@@ -26,7 +26,7 @@ public class Game {
 
     private Board board;
     private GameView gameView;
-    private List<Board> movesHistory;
+    private final List<Board> movesHistory;
 
     private Game() {
         this.movesHistory = new LinkedList<>();

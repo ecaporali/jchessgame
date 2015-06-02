@@ -5,8 +5,8 @@ import au.com.aitcollaboration.chessgame.Color;
 
 public class Square {
 
+    private final Position position;
     private Piece piece;
-    private Position position;
 
     public Square(int myX, int myY) {
         position = new Position(myX, myY);

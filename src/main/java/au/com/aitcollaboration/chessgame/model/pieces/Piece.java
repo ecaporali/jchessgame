@@ -7,8 +7,8 @@ import au.com.aitcollaboration.chessgame.Color;
 
 public abstract class Piece {
 
-    private Color color;
-    private MovingBehaviour movingBehaviour;
+    private final Color color;
+    private final MovingBehaviour movingBehaviour;
 
     protected Piece(Color color, MovingBehaviour movingBehaviour) {
         this.color = color;

@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class Players {
 
-    private Player[] players;
+    private final Player[] players;
 
     public Players(Map<Color, Player> colorPlayerMap, Map<Color, Pieces> colorPiecesMap) {
         this.players = new Player[2];
