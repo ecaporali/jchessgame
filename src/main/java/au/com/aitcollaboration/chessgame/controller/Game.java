@@ -54,7 +54,7 @@ public class Game {
         return colorPlayerMap;
     }
 
-    public boolean isMultiPlayers() {
+    boolean isMultiPlayers() {
         int numericAnswer = getNumericAnswer(UIMessages.SELECT_NUMBER_OF_PLAYERS);
         return numericAnswer > 1;
     }
@@ -63,17 +63,17 @@ public class Game {
         gameView.showBoard(board);
     }
 
-    public Color tossCoin() {
+    Color tossCoin() {
         String coinSide = getTextAnswer(UIMessages.CHOOSE_COIN_SIDE);
         boolean coinMatched = Utils.tossCoin(coinSide);
         return (coinMatched) ? Color.WHITE : Color.BLACK;
     }
 
-    public String getTextAnswer(String message) {
+    private String getTextAnswer(String message) {
         return gameView.getTextAnswer(message);
     }
 
-    public int getNumericAnswer(String message) {
+    private int getNumericAnswer(String message) {
         return gameView.getNumericAnswer(message);
     }
 
@@ -91,14 +91,14 @@ public class Game {
         return getSquareFromCoordinates(toPos);
     }
 
-    public Square getSquareFromCoordinates(int[] coordinates) {
+    Square getSquareFromCoordinates(int[] coordinates) {
         if (coordinates == null || coordinates.length < 1)
             throw new InvalidCoordinatesException();
 
         return board.getSquareAtPosition(new Position(coordinates[0], coordinates[1]));
     }
 
-    public int[] getValidCoordinates(String message) {
+    int[] getValidCoordinates(String message) {
         int[] coordinates = null;
 
         while (coordinates == null) {

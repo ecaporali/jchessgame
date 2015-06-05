@@ -38,9 +38,7 @@ public class ValidationService {
     }
 
     private boolean kingCannotBeSaved(Square fromSquare, Square kingSquare, PieceMoves currentPieceMoves, PlayerMoves opponentMoves) {
-        if (fromSquare.equals(kingSquare))
-            return false;
-
-        return opponentMoves.canEatKing(currentPieceMoves);
+        return !fromSquare.equals(kingSquare) &&
+                opponentMoves.canEatKing(currentPieceMoves);
     }
 }

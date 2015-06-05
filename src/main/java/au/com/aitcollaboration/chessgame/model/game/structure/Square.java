@@ -48,10 +48,6 @@ public class Square {
         return position;
     }
 
-    public boolean matches(Position position){
-        return this.position.equals(position);
-    }
-
     @Override
     public String toString() {
         String s = (piece != null) ? piece.toString() : " ";

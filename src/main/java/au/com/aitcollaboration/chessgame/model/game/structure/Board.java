@@ -106,12 +106,6 @@ public class Board {
         return null;
     }
 
-    public void clear() {
-        for (Square[] squares : grid)
-            for (Square square : squares)
-                square.setPiece(null);
-    }
-
     public void removePiece(Piece piece) {
         for (Pieces pieces : piecesMap.values())
             if (pieces.contains(piece))
@@ -132,5 +126,13 @@ public class Board {
             possibleMoves.put(pieces, playerMoves);
         }
         return possibleMoves;
+    }
+
+    /* Used in tests */
+
+    public void clear() {
+        for (Square[] squares : grid)
+            for (Square square : squares)
+                square.setPiece(null);
     }
 }

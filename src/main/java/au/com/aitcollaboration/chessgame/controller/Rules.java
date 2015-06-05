@@ -40,7 +40,7 @@ public class Rules {
         return false;
     }
 
-    public void findAllPossibleMovesOnBoard() {
+    private void findAllPossibleMovesOnBoard() {
         possibleMoves.clear();
         possibleMoves = board.getAllValidMoves();
     }
@@ -49,7 +49,7 @@ public class Rules {
         return possibleMoves.get(pieces);
     }
 
-    public void validatePieceMove(Square fromSquare, Pieces pieces) throws Exception {
+    void validatePieceMove(Square fromSquare, Pieces pieces) throws Exception {
         Piece king = pieces.getPiece(King.class);
         Square kingSquare = board.getCurrentSquare(king);
 
@@ -67,7 +67,7 @@ public class Rules {
         playerMoves.add(currentPiece, currentPieceMoves);
     }
 
-    public void mockPieceMove(Square fromSquare) {
+    void mockPieceMove(Square fromSquare) {
         Piece currentPiece = fromSquare.getPiece();
         if (currentPiece != null) {
             fromSquare.setPiece(null);
@@ -76,7 +76,7 @@ public class Rules {
         }
     }
 
-    public PlayerMoves getOpponentMoves(Pieces pieces) {
+    private PlayerMoves getOpponentMoves(Pieces pieces) {
         Map<Pieces, PlayerMoves> playerMovesMap = new HashMap<>(possibleMoves);
         playerMovesMap.remove(pieces);
         return playerMovesMap.values().iterator().next();
