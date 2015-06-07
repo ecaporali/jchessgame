@@ -40,7 +40,7 @@ public abstract class Player {
         suspendWatch();
     }
 
-    public Map<String, Square> move(Board board, Rules rules) {
+    public Map<String, Square> chooseMove(Board board, Rules rules) {
         Square fromSquare = getFromSquare(board, rules);
         PlayerMoves playerMoves = rules.getPlayerMoves(pieces);
 

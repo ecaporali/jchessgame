@@ -2,7 +2,6 @@ package au.com.aitcollaboration.chessgame.controller;
 
 import au.com.aitcollaboration.chessgame.model.game.structure.Board;
 import au.com.aitcollaboration.chessgame.model.game.structure.Square;
-import au.com.aitcollaboration.chessgame.model.pieces.Piece;
 import au.com.aitcollaboration.chessgame.model.player.Player;
 import au.com.aitcollaboration.chessgame.model.player.Players;
 import au.com.aitcollaboration.chessgame.support.Constants;
@@ -21,13 +20,6 @@ public class Game {
         this.players = players;
     }
 
-    public void movePiece(Square fromSquare, Square toSquare) {
-        board.addToMoveHistory();
-        Piece piece = toSquare.getPiece();
-        board.removePiece(piece);
-        board.movePiece(fromSquare, toSquare);
-    }
-
     public void play() {
         Player[] gamePlayers = players.getPlayers();
 
@@ -36,11 +28,16 @@ public class Game {
             player.showPlayerName();
             player.resumeWatch();
 
-            Map<String, Square> moveMap = player.move(board, rules);
+            Map<String, Square> moveMap = player.chooseMove(board, rules);
 
             movePiece(moveMap.get(Constants.FROM_SQUARE), moveMap.get(Constants.TO_SQUARE));
 
             player.suspendWatch();
         }
+    }
+
+    public void movePiece(Square fromSquare, Square toSquare) {
+        board.addToMoveHistory();
+        board.movePiece(fromSquare, toSquare);
     }
 }

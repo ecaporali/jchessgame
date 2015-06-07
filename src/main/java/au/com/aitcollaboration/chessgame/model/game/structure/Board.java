@@ -115,7 +115,8 @@ public class Board {
         return null;
     }
 
-    public void removePiece(Piece piece) {
+    public void removePiece(Square square) {
+        Piece piece = square.getPiece();
         for (Pieces pieces : piecesMap.values())
             if (pieces.contains(piece))
                 pieces.remove(piece);
@@ -124,6 +125,9 @@ public class Board {
     public void movePiece(Square fromSquare, Square toSquare) {
         Piece piece = fromSquare.getPiece();
         fromSquare.setPiece(null);
+
+        //TODO: remove this method as the PieceMap should be immutable, only the board should get updated
+        removePiece(toSquare);
         toSquare.setPiece(piece);
     }
 
