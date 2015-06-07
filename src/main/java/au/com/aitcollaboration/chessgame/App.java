@@ -1,30 +1,32 @@
 package au.com.aitcollaboration.chessgame;
 
-import au.com.aitcollaboration.chessgame.model.game.structure.Board;
+import au.com.aitcollaboration.chessgame.configuration.GameConfig;
+import au.com.aitcollaboration.chessgame.configuration.InitialSetup;
 import au.com.aitcollaboration.chessgame.controller.Game;
 import au.com.aitcollaboration.chessgame.controller.Rules;
-import au.com.aitcollaboration.chessgame.model.pieces.Pieces;
-import au.com.aitcollaboration.chessgame.model.player.Player;
+import au.com.aitcollaboration.chessgame.model.game.structure.Board;
 import au.com.aitcollaboration.chessgame.model.player.Players;
 import au.com.aitcollaboration.chessgame.service.ValidationService;
-import au.com.aitcollaboration.chessgame.view.ConsoleView;
-
-import java.util.Map;
+import au.com.aitcollaboration.chessgame.view.GameView;
+import au.com.aitcollaboration.chessgame.view.console.ConsoleView;
 
 public class App {
 
     public static void main(String[] args) {
 
         Board board = new Board();
-        Game game = new Game(board, new ConsoleView());
-        Rules rules = new Rules(board, new ValidationService());
+        GameView gameView = new ConsoleView();
 
-        Map<Color, Player> colorPlayerMap = game.getPlayersMap();
-        Map<Color, Pieces> colorPiecesMap = game.getPiecesMap();
-        Players players = new Players(colorPlayerMap, colorPiecesMap);
+        GameConfig gameConfig = new GameConfig(gameView, board);
+        InitialSetup initialSetup = gameConfig.getInitialSetup();
+
+        Players players = new Players(initialSetup);
+        Rules rules = new Rules(new ValidationService());
+
+        Game game = new Game(board, rules, players);
 
         do {
-            players.play(game, rules);
+            game.play();
         } while (!rules.isGameOver());
     }
 }

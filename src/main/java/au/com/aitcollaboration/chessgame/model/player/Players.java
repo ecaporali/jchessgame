@@ -1,36 +1,31 @@
 package au.com.aitcollaboration.chessgame.model.player;
 
 import au.com.aitcollaboration.chessgame.Color;
+import au.com.aitcollaboration.chessgame.configuration.InitialSetup;
 import au.com.aitcollaboration.chessgame.controller.Game;
 import au.com.aitcollaboration.chessgame.controller.Rules;
+import au.com.aitcollaboration.chessgame.model.game.structure.Board;
 import au.com.aitcollaboration.chessgame.model.pieces.Pieces;
-
-import java.util.Map;
+import au.com.aitcollaboration.chessgame.view.GameView;
 
 public class Players {
 
     private final Player[] players;
 
-    public Players(Map<Color, Player> colorPlayerMap, Map<Color, Pieces> colorPiecesMap) {
+    public Players(InitialSetup initialSetup) {
         this.players = new Player[2];
-        addPlayer(Color.WHITE, colorPlayerMap, colorPiecesMap);
-        addPlayer(Color.BLACK, colorPlayerMap, colorPiecesMap);
+        addPlayer(Color.WHITE, initialSetup);
+        addPlayer(Color.BLACK, initialSetup);
     }
 
-    private void addPlayer(Color color, Map<Color, Player> colorPlayerMap, Map<Color, Pieces> colorPiecesMap) {
-        Pieces pieces = colorPiecesMap.get(color);
-        Player player = colorPlayerMap.get(color);
+    private void addPlayer(Color color, InitialSetup initialSetup) {
+        Pieces pieces = initialSetup.getPiecesFrom(color);
+        Player player = initialSetup.getPlayerFrom(color);
         player.setPieces(pieces);
         players[color.position()] = player;
     }
 
-    public void play(Game game, Rules rules) {
-        for (Player player : players) {
-            game.showBoard();
-            game.showCurrentPlayer(player);
-            player.stopWatch.resume();
-            player.play(game, rules);
-            player.stopWatch.suspend();
-        }
+    public Player[] getPlayers() {
+        return players.clone();
     }
 }

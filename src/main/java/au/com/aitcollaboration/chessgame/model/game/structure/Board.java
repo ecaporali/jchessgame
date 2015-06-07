@@ -1,20 +1,25 @@
 package au.com.aitcollaboration.chessgame.model.game.structure;
 
 import au.com.aitcollaboration.chessgame.Color;
+import au.com.aitcollaboration.chessgame.exceptions.InvalidCoordinatesException;
 import au.com.aitcollaboration.chessgame.model.moves.PlayerMoves;
 import au.com.aitcollaboration.chessgame.model.pieces.*;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class Board {
 
     private final Square[][] grid;
     private final Map<Color, Pieces> piecesMap;
+    private final List<Square[][]> movesHistory;
     public static final int BOARD_SIZE = 8;
 
     public Board() {
         this.piecesMap = new HashMap<>(2);
+        this.movesHistory = new LinkedList<>();
         this.grid = new Square[BOARD_SIZE][BOARD_SIZE];
         createBoard();
         createPieces();
@@ -25,6 +30,10 @@ public class Board {
         for (int row = 0; row < BOARD_SIZE; row++)
             for (int col = 0; col < BOARD_SIZE; col++)
                 grid[row][col] = new Square(row, col);
+    }
+
+    public void addToMoveHistory(){
+        movesHistory.add(getClonedGrid());
     }
 
     private void createPieces() {
@@ -128,11 +137,21 @@ public class Board {
         return possibleMoves;
     }
 
-    /* Used in tests */
+    public Square getSquareFromCoordinates(int[] coordinates) {
+        if (coordinates == null || coordinates.length < 1)
+            throw new InvalidCoordinatesException();
 
+        return this.getSquareAtPosition(new Position(coordinates[0], coordinates[1]));
+    }
+
+    /***** Used only for testing ******/
     public void clear() {
         for (Square[] squares : grid)
             for (Square square : squares)
                 square.setPiece(null);
+    }
+
+    public int getMovesHistorySize() {
+        return movesHistory.size();
     }
 }

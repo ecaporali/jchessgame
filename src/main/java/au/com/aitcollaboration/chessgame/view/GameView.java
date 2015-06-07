@@ -13,4 +13,6 @@ public interface GameView {
     void showError(String error);
 
     void showBoard(Board board);
+
+    void showGreetings();
 }

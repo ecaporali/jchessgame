@@ -1,5 +1,6 @@
 package au.com.aitcollaboration.chessgame.controller;
 
+import au.com.aitcollaboration.chessgame.exceptions.PieceNotFoundException;
 import au.com.aitcollaboration.chessgame.model.game.structure.Board;
 import au.com.aitcollaboration.chessgame.model.game.structure.Square;
 import au.com.aitcollaboration.chessgame.model.moves.PieceMoves;
@@ -8,23 +9,21 @@ import au.com.aitcollaboration.chessgame.model.pieces.King;
 import au.com.aitcollaboration.chessgame.model.pieces.Piece;
 import au.com.aitcollaboration.chessgame.model.pieces.Pieces;
 import au.com.aitcollaboration.chessgame.service.ValidationService;
-import au.com.aitcollaboration.chessgame.exceptions.*;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Rules {
 
     private Map<Pieces, PlayerMoves> possibleMoves;
     private ValidationService validationService;
-    private Board board;
 
     private Rules() {
         this.possibleMoves = new HashMap<>();
     }
 
-    public Rules(Board board, ValidationService validationService) {
+    public Rules(ValidationService validationService) {
         this();
-        this.board = board;
         this.validationService = validationService;
     }
 
@@ -40,8 +39,7 @@ public class Rules {
         return false;
     }
 
-    private void findAllPossibleMovesOnBoard() {
-        possibleMoves.clear();
+    public void findAllPossibleMovesOnBoard(Board board) {
         possibleMoves = board.getAllValidMoves();
     }
 
@@ -49,7 +47,7 @@ public class Rules {
         return possibleMoves.get(pieces);
     }
 
-    void validatePieceMove(Square fromSquare, Pieces pieces) throws Exception {
+    public void validatePieceMove(Square fromSquare, Pieces pieces, Board board) throws Exception {
         Piece king = pieces.getPiece(King.class);
         Square kingSquare = board.getCurrentSquare(king);
 
@@ -67,24 +65,9 @@ public class Rules {
         playerMoves.add(currentPiece, currentPieceMoves);
     }
 
-    void mockPieceMove(Square fromSquare) {
-        Piece currentPiece = fromSquare.getPiece();
-        if (currentPiece != null) {
-            fromSquare.setPiece(null);
-            findAllPossibleMovesOnBoard();
-            fromSquare.setPiece(currentPiece);
-        }
-    }
-
     private PlayerMoves getOpponentMoves(Pieces pieces) {
         Map<Pieces, PlayerMoves> playerMovesMap = new HashMap<>(possibleMoves);
         playerMovesMap.remove(pieces);
         return playerMovesMap.values().iterator().next();
-    }
-
-    public PlayerMoves getPlayerMoves(Square fromSquare, Pieces pieces) throws Exception {
-        mockPieceMove(fromSquare);
-        validatePieceMove(fromSquare, pieces);
-        return getPlayerMoves(pieces);
     }
 }
