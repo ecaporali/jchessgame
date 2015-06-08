@@ -1,6 +1,6 @@
 package au.com.aitcollaboration.chessgame.controller;
 
-import au.com.aitcollaboration.chessgame.exceptions.PieceNotFoundException;
+import au.com.aitcollaboration.chessgame.exceptions.*;
 import au.com.aitcollaboration.chessgame.model.game.structure.Board;
 import au.com.aitcollaboration.chessgame.model.game.structure.Square;
 import au.com.aitcollaboration.chessgame.model.moves.PieceMoves;
@@ -16,14 +16,10 @@ import java.util.Map;
 public class Rules {
 
     private Map<Pieces, PlayerMoves> possibleMoves;
-    private ValidationService validationService;
-
-    private Rules() {
-        this.possibleMoves = new HashMap<>();
-    }
+    private final ValidationService validationService;
 
     public Rules(ValidationService validationService) {
-        this();
+        this.possibleMoves = new HashMap<>();
         this.validationService = validationService;
     }
 
@@ -47,7 +43,7 @@ public class Rules {
         return possibleMoves.get(pieces);
     }
 
-    public void validatePieceMove(Square fromSquare, Pieces pieces, Board board) throws Exception {
+    public void validatePieceMove(Square fromSquare, Pieces pieces, Board board) throws InvalidMoveException {
         Piece king = pieces.getPiece(King.class);
         Square kingSquare = board.getCurrentSquare(king);
 
@@ -59,7 +55,11 @@ public class Rules {
         PlayerMoves opponentMoves = getOpponentMoves(pieces);
         PieceMoves currentPieceMoves = currentPiece.getValidMovesOn(board);
 
-        validationService.validateMove(fromSquare, kingSquare, pieces, opponentMoves, currentPieceMoves);
+        try{
+            validationService.validateMove(fromSquare, kingSquare, pieces, opponentMoves, currentPieceMoves);
+        }catch (PieceCannotBeMovedException | InvalidPieceException | KingInDangerException | KingInCheckException e){
+            throw new InvalidMoveException(e);
+        }
 
         PlayerMoves playerMoves = getPlayerMoves(pieces);
         playerMoves.add(currentPiece, currentPieceMoves);

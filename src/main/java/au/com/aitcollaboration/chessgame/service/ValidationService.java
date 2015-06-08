@@ -12,7 +12,8 @@ import au.com.aitcollaboration.chessgame.model.pieces.Pieces;
 
 public class ValidationService {
 
-    public void validateMove(Square fromSquare, Square kingSquare, Pieces pieces, PlayerMoves opponentMoves, PieceMoves currentPieceMoves) throws Exception {
+    public void validateMove(Square fromSquare, Square kingSquare, Pieces pieces, PlayerMoves opponentMoves, PieceMoves currentPieceMoves)
+            throws PieceCannotBeMovedException, InvalidPieceException, KingInDangerException, KingInCheckException {
         Piece currentPiece = fromSquare.getPiece();
 
         if (currentPieceMoves.isEmpty())

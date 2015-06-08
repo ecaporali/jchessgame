@@ -141,13 +141,6 @@ public class Board {
         return possibleMoves;
     }
 
-    public Square getSquareFromCoordinates(int[] coordinates) {
-        if (coordinates == null || coordinates.length < 1)
-            throw new InvalidCoordinatesException();
-
-        return this.getSquareAtPosition(new Position(coordinates[0], coordinates[1]));
-    }
-
     /***** Used only for testing ******/
     public void clear() {
         for (Square[] squares : grid)

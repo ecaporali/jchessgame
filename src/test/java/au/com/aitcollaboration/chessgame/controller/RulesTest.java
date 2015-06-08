@@ -21,7 +21,7 @@ public class RulesTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        rules = new Rules(board, validationService);
+        rules = new Rules(validationService);
     }
 
     @Test
