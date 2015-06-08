@@ -82,10 +82,6 @@ public class Game {
     }
 
     private Square getSquare(int[] coordinates) {
-        return getSquareCoordinates(coordinates);
-    }
-
-    private Square getSquareCoordinates(int[] coordinates) {
         if (coordinates == null || coordinates.length < 1)
             throw new InvalidCoordinatesException();
 
