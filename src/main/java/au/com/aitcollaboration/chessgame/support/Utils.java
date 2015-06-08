@@ -6,10 +6,9 @@ import au.com.aitcollaboration.chessgame.exceptions.InvalidPositionException;
 
 public class Utils {
 
-    public static boolean tossCoin(String coinSide) {
+    public static String tossCoin() {
         int chance = (int) (Math.random() * 10);
-        String coinSideResult = (chance > 4) ? Constants.COIN_HEAD : Constants.COIN_TAIL;
-        return coinSideResult.equalsIgnoreCase(coinSide);
+        return (chance > 4) ? Constants.COIN_HEAD : Constants.COIN_TAIL;
     }
 
     public static int[] toBoardPosition(String answer) throws InvalidPositionException {

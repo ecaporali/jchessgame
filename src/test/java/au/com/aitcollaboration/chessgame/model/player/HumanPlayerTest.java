@@ -34,7 +34,7 @@ public class HumanPlayerTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        player = new HumanPlayer(gameView);
+        player = new HumanPlayer("", gameView);
         player.setPieces(pieces);
     }
 

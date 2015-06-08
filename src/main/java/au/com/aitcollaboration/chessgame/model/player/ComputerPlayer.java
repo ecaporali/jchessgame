@@ -7,8 +7,7 @@ import au.com.aitcollaboration.chessgame.view.GameView;
 public class ComputerPlayer extends Player {
 
     public ComputerPlayer(GameView gameView) {
-        super(gameView);
-        name = Constants.COMPUTER_NAME;
+        super(Constants.COMPUTER_NAME, gameView);
     }
 
     @Override

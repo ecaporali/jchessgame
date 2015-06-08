@@ -8,6 +8,7 @@ import au.com.aitcollaboration.chessgame.model.player.Player;
 import au.com.aitcollaboration.chessgame.support.UIMessages;
 import au.com.aitcollaboration.chessgame.support.Utils;
 import au.com.aitcollaboration.chessgame.view.GameView;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,12 +31,12 @@ public class GameConfig {
 
         Map<Color, Player> playerMap = new HashMap<>(2);
 
+        playerMap.put(color, new HumanPlayer(getPlayerOneName(), gameView));
+
         if (isMultiPlayers())
-            playerMap.put(flippedColor, new HumanPlayer(gameView));
+            playerMap.put(flippedColor, new HumanPlayer(getPlayerTwoName(), gameView));
         else
             playerMap.put(flippedColor, new ComputerPlayer(gameView));
-
-        playerMap.put(color, new HumanPlayer(gameView));
 
         initialSetup.setPlayerMap(playerMap);
     }
@@ -44,15 +45,24 @@ public class GameConfig {
         initialSetup.setPiecesMap(board.getPiecesMap());
     }
 
+    private String getPlayerOneName(){
+        return gameView.getTextAnswer(UIMessages.INSERT_PLAYER_ONE_NAME);
+    }
+
+    private String getPlayerTwoName(){
+        return gameView.getTextAnswer(UIMessages.INSERT_PLAYER_TWO_NAME);
+    }
+
     boolean isMultiPlayers() {
         int numericAnswer = gameView.getNumericAnswer(UIMessages.SELECT_NUMBER_OF_PLAYERS);
         return numericAnswer > 1;
     }
 
     Color tossCoin() {
-        String coinSide = gameView.getTextAnswer(UIMessages.CHOOSE_COIN_SIDE);
-        boolean coinMatched = Utils.tossCoin(coinSide);
-        return (coinMatched) ? Color.WHITE : Color.BLACK;
+        String chosenSide = gameView.getTextAnswer(UIMessages.CHOOSE_COIN_SIDE);
+        String winningSide = Utils.tossCoin().toUpperCase();
+        gameView.showMessage(UIMessages.DISPLAY_WINNING_SIDE + winningSide);
+        return (StringUtils.equalsIgnoreCase(winningSide, chosenSide)) ? Color.WHITE : Color.BLACK;
     }
 
     public InitialSetup getInitialSetup() {

@@ -3,7 +3,9 @@ package au.com.aitcollaboration.chessgame.support;
 public class UIMessages {
 
     public static final String CHOOSE_COIN_SIDE = "Please choose a coin side [head/tail]: ";
-    public static final String INSERT_PLAYER_NAME = "Please insert your name: ";
+    public static final String INSERT_PLAYER_ONE_NAME = "Please insert first player's name: ";
+    public static final String INSERT_PLAYER_TWO_NAME = "Please insert second player's name: ";
+    public static final String DISPLAY_WINNING_SIDE = "The winning coin side is: ";
     public static final String SELECT_NUMBER_OF_PLAYERS = "Please insert the number of players [1/2]: ";
     public static final String PIECE_TO_MOVE = "What piece do you want to move? : ";
     public static final String WHERE_TO_MOVE_PIECE = "Where do you wanna move it? : ";

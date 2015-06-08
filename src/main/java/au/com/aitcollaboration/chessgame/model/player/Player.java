@@ -9,7 +9,7 @@ import org.apache.commons.lang3.time.StopWatch;
 
 public abstract class Player {
 
-    protected String name;
+    protected String playerName;
     protected StopWatch stopWatch;
     protected Pieces pieces;
     protected GameView gameView;
@@ -18,8 +18,9 @@ public abstract class Player {
         this.stopWatch = new StopWatch();
     }
 
-    protected Player(GameView gameView) {
+    protected Player(String playerName, GameView gameView) {
         this();
+        this.playerName = playerName;
         this.gameView = gameView;
         stopWatchSetup();
     }
@@ -73,6 +74,6 @@ public abstract class Player {
 
     @Override
     public String toString() {
-        return "\nPlayer " + pieces + ": " + name;
+        return "\nPlayer " + pieces + ": " + playerName;
     }
 }

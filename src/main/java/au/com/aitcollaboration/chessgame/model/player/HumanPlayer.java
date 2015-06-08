@@ -9,9 +9,8 @@ import au.com.aitcollaboration.chessgame.view.GameView;
 
 public class HumanPlayer extends Player {
 
-    public HumanPlayer(GameView gameView) {
-        super(gameView);
-        name = gameView.getTextAnswer(UIMessages.INSERT_PLAYER_NAME);
+    public HumanPlayer(String playerName, GameView gameView) {
+        super(playerName, gameView);
     }
 
     @Override
