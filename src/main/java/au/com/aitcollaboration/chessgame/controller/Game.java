@@ -6,24 +6,28 @@ import au.com.aitcollaboration.chessgame.model.game.structure.Board;
 import au.com.aitcollaboration.chessgame.model.game.structure.Position;
 import au.com.aitcollaboration.chessgame.model.game.structure.Square;
 import au.com.aitcollaboration.chessgame.model.moves.PieceMoves;
-import au.com.aitcollaboration.chessgame.model.moves.PlayerMoves;
-import au.com.aitcollaboration.chessgame.model.pieces.Piece;
 import au.com.aitcollaboration.chessgame.model.pieces.Pieces;
 import au.com.aitcollaboration.chessgame.model.player.Player;
 import au.com.aitcollaboration.chessgame.model.player.Players;
 import au.com.aitcollaboration.chessgame.support.MyLogger;
 import au.com.aitcollaboration.chessgame.support.UIMessages;
+import au.com.aitcollaboration.chessgame.support.Utils;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class Game {
 
     private Board board;
     private Rules rules;
     private Players players;
+    private List<Board> boardHistory;
 
     public Game(Board board, Rules rules, Players players) {
         this.board = board;
         this.rules = rules;
         this.players = players;
+        this.boardHistory = new LinkedList<>();
     }
 
     public void play() {
@@ -41,36 +45,59 @@ public class Game {
     }
 
     private void makeMove(Player player) {
-        Square fromSquare = getFromSquare(player);
-
-        PlayerMoves playerMoves = rules.getPlayerMoves(player.getPieces());
-
-        PieceMoves pieceMoves = playerMoves.getPieceMoves(fromSquare.getPiece());
+        PieceMoves pieceMoves = this.getValidPieceMoves(player);
 
         player.showPracticalMoves(pieceMoves);
 
-        Square toSquare = getToSquare(player, pieceMoves);
+        Square fromSquare = pieceMoves.getCurrentSquare();
+        Square toSquare = this.getToSquare(player, pieceMoves);
 
         this.movePiece(fromSquare, toSquare);
     }
 
-    Square getFromSquare(Player player) {
-        PlayerMoves playerMoves = null;
-        Square fromSquare = null;
+    PieceMoves getValidPieceMoves(Player player) {
+        PieceMoves pieceMoves;
+        do {
+            pieceMoves = getPieceMoves(player);
+        } while (pieceMoves == null);
 
-        while (playerMoves == null) {
-            try {
-                fromSquare = this.getSquare(player.getFromSquareCoordinate());
-                playerMoves = this.getPlayerMoves(fromSquare, player.getPieces());
-            } catch (InvalidMoveException e) {
-                player.showError(e.getMessage());
-            } catch (Exception e){
-                MyLogger.debug(e);
-            }
+        return pieceMoves;
+    }
+
+    PieceMoves getPieceMoves(Player player) {
+        PieceMoves pieceMoves = null;
+        try {
+            pieceMoves = this.getPlayerMoves(player);
+        } catch (InvalidMoveException e) {
+            player.showError(e.getCause().getMessage());
+        } catch (Exception e) {
+            MyLogger.debug(e);
         }
 
-        return fromSquare;
+        return pieceMoves;
     }
+
+    Square getFromSquare(Player player) {
+        return this.getSquare(player.getFromSquareCoordinate());
+    }
+
+//    Square getFromSquare(Player player) {
+//        PlayerMoves playerMoves = null;
+//        Square fromSquare = null;
+//
+//        while (playerMoves == null) {
+//            try {
+//                fromSquare = this.getSquare(player.getFromSquareCoordinate());
+//                playerMoves = this.getPlayerMoves(fromSquare, player.getPieces());
+//            } catch (InvalidMoveException e) {
+//                player.showError(e.getMessage());
+//            } catch (Exception e) {
+//                MyLogger.debug(e);
+//            }
+//        }
+//
+//        return fromSquare;
+//    }
 
     Square getToSquare(Player player, PieceMoves pieceMoves) {
         Square toSquare = this.getSquare(player.getToSquareCoordinate());
@@ -88,23 +115,31 @@ public class Game {
         return board.getSquareAtPosition(new Position(coordinates[0], coordinates[1]));
     }
 
-    private void mockPieceMove(Square fromSquare) {
-        Piece currentPiece = fromSquare.getPiece();
-        if (currentPiece != null) {
-            fromSquare.setPiece(null);
-            rules.findAllPossibleMovesOnBoard(board);
-            fromSquare.setPiece(currentPiece);
-        }
-    }
+//    private void mockPieceMove(Square fromSquare) {
+//        Piece currentPiece = fromSquare.getPiece();
+//        if (currentPiece != null) {
+//            fromSquare.setPiece(null);
+//            rules.findAllPossibleMovesOnBoard(board);
+//            fromSquare.setPiece(currentPiece);
+//        }
+//    }
 
-    private PlayerMoves getPlayerMoves(Square fromSquare, Pieces pieces) throws InvalidMoveException {
-        this.mockPieceMove(fromSquare);
-        rules.validatePieceMove(fromSquare, pieces, board);
-        return rules.getPlayerMoves(pieces);
+    private PieceMoves getPlayerMoves(Player player) throws InvalidMoveException {
+        Square fromSquare = this.getFromSquare(player);
+        return rules.validatePieceMove(fromSquare, board, player.getPieces());
     }
 
     void movePiece(Square fromSquare, Square toSquare) {
-        board.addToMoveHistory();
+        addBoardToHistory();
         board.movePiece(fromSquare, toSquare);
+    }
+
+    public int getBoardHistorySize() {
+        return boardHistory.size();
+    }
+
+    public void addBoardToHistory() {
+        Board clonedBoard = Utils.deepCopyOf(board);
+        boardHistory.add(clonedBoard);
     }
 }

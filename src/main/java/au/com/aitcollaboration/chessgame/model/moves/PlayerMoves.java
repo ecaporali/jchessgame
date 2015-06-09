@@ -8,50 +8,55 @@ import java.util.Map;
 
 public class PlayerMoves {
 
-    private final Map<Piece, PieceMoves> pieceMoveMap;
+    private final Map<Piece, PieceMoves> pieceMovesMap;
 
     public PlayerMoves() {
-        pieceMoveMap = new HashMap<>();
+        pieceMovesMap = new HashMap<>();
     }
 
     public void add(Piece piece, PieceMoves pieceMoves) {
-        pieceMoveMap.put(piece, pieceMoves);
-    }
-
-    public boolean isKingInDanger(Square fromSquare, Square kingSquare) {
-        for (PieceMoves pieceMoves : pieceMoveMap.values())
-            if (pieceMoves.isKingInDanger(fromSquare, kingSquare))
-                return true;
-
-        return false;
-    }
-
-    public boolean isKingInCheck(Square kingSquare) {
-        for (PieceMoves pieceMoves : pieceMoveMap.values())
-            if (pieceMoves.isKingInCheck(kingSquare))
-                return true;
-
-        return false;
+        pieceMovesMap.put(piece, pieceMoves);
     }
 
     public boolean contains(Square square) {
-        PieceMoves pieceMoves = pieceMoveMap.get(square.getPiece());
-        return pieceMoves.contains(square);
+        for(PieceMoves pieceMoves : pieceMovesMap.values())
+            if(pieceMoves.contains(square))
+                return true;
+
+        return false;
+//        PieceMoves pieceMoves = pieceMovesMap.get(square.getPiece());
+//        return pieceMoves.contains(square)
     }
 
-    public boolean hasEmptyMoveFor(Piece piece) {
-        return pieceMoveMap.get(piece) == null;
-    }
+//    public boolean isKingInDanger(Square fromSquare, Square kingSquare) {
+//        for (PieceMoves pieceMoves : pieceMovesMap.values())
+//            if (pieceMoves.isKingInDanger(fromSquare, kingSquare))
+//                return true;
+//
+//        return false;
+//    }
+//
+//    public boolean isKingInCheck(Square kingSquare) {
+//        for (PieceMoves pieceMoves : pieceMovesMap.values())
+//            if (pieceMoves.isKingInCheck(kingSquare))
+//                return true;
+//
+//        return false;
+//    }
 
-    public PieceMoves getPieceMoves(Piece piece) {
-        return pieceMoveMap.get(piece);
-    }
-
-    public boolean canEatKing(PieceMoves currentPieceMoves) {
-        for (PieceMoves pieceMoves : pieceMoveMap.values())
-            if (currentPieceMoves.contains(pieceMoves.getCurrentSquare()) || currentPieceMoves.canBeSacrificed(pieceMoves))
-                return false;
-
-        return true;
-    }
+//    public boolean hasEmptyMoveFor(Piece piece) {
+//        return pieceMovesMap.get(piece) == null;
+//    }
+//
+//    public PieceMoves getPieceMoves(Piece piece) {
+//        return pieceMovesMap.get(piece);
+//    }
+//
+//    public boolean canEatKing(PieceMoves currentPieceMoves) {
+//        for (PieceMoves pieceMoves : pieceMovesMap.values())
+//            if (currentPieceMoves.contains(pieceMoves.getCurrentSquare()) || currentPieceMoves.canBeSacrificed(pieceMoves))
+//                return false;
+//
+//        return true;
+//    }
 }

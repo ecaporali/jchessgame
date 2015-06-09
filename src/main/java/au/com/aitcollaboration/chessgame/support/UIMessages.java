@@ -16,7 +16,7 @@ public class UIMessages {
     public static final String PIECE_NOT_FOUND_EXCEPTION = "This piece cannot be found. Please select another one.";
     public static final String PIECE_CANNOT_BE_MOVED_EXCEPTION = "This piece cannot be moved. Please select another one.";
     public static final String INVALID_PIECE_EXCEPTION = "Please select a valid piece matching your own colour.";
-    public static final String KING_IN_DANGER_EXCEPTION = "Piece cannot be moved otherwise the King is under check mate.";
+    public static final String KING_IN_DANGER_EXCEPTION = "Piece cannot be moved either because the King is in danger.";
     public static final String KING_IN_CHECK_EXCEPTION = "The King is under check. Please move another piece or move the King.";
 
 

@@ -3,6 +3,7 @@ package au.com.aitcollaboration.chessgame.support;
 import au.com.aitcollaboration.chessgame.model.game.structure.Board;
 import au.com.aitcollaboration.chessgame.model.game.structure.Square;
 import au.com.aitcollaboration.chessgame.exceptions.InvalidPositionException;
+import com.rits.cloning.Cloner;
 
 public class Utils {
 
@@ -72,5 +73,10 @@ public class Utils {
 
     private static String addHorizontalLetters(int position) {
         return "  " + Character.toChars(position)[0] + " ";
+    }
+
+    public static Board deepCopyOf(Board board){
+        Cloner cloner = new Cloner();
+        return cloner.deepClone(board);
     }
 }

@@ -1,25 +1,20 @@
 package au.com.aitcollaboration.chessgame.model.game.structure;
 
 import au.com.aitcollaboration.chessgame.Color;
-import au.com.aitcollaboration.chessgame.exceptions.InvalidCoordinatesException;
 import au.com.aitcollaboration.chessgame.model.moves.PlayerMoves;
 import au.com.aitcollaboration.chessgame.model.pieces.*;
 
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 public class Board {
 
     private final Square[][] grid;
     private final Map<Color, Pieces> piecesMap;
-    private final List<Square[][]> movesHistory;
     public static final int BOARD_SIZE = 8;
 
     public Board() {
         this.piecesMap = new HashMap<>(2);
-        this.movesHistory = new LinkedList<>();
         this.grid = new Square[BOARD_SIZE][BOARD_SIZE];
         createBoard();
         createPieces();
@@ -30,10 +25,6 @@ public class Board {
         for (int row = 0; row < BOARD_SIZE; row++)
             for (int col = 0; col < BOARD_SIZE; col++)
                 grid[row][col] = new Square(row, col);
-    }
-
-    public void addToMoveHistory(){
-        movesHistory.add(getClonedGrid());
     }
 
     private void createPieces() {
@@ -126,29 +117,71 @@ public class Board {
         Piece piece = fromSquare.getPiece();
         fromSquare.setPiece(null);
 
-        //TODO: remove this method as the PieceMap should be immutable, only the board should get updated
         removePiece(toSquare);
         toSquare.setPiece(piece);
     }
 
-    public Map<Pieces, PlayerMoves> getAllValidMoves() {
-        Map<Pieces, PlayerMoves> possibleMoves = new HashMap<>();
-
-        for (Pieces pieces : piecesMap.values()) {
-            PlayerMoves playerMoves = pieces.getValidMovesOn(this);
-            possibleMoves.put(pieces, playerMoves);
-        }
-        return possibleMoves;
+    public void undoMovePiece(Square currentSquare, Square toSquare, Piece toPiece) {
+        Piece currentPiece = toSquare.getPiece();
+        currentSquare.setPiece(currentPiece);
+        toSquare.setPiece(toPiece);
     }
 
-    /***** Used only for testing ******/
+//    public Map<Color, PlayerMoves> getPlayersPossibleMoves() {
+//        Map<Color, PlayerMoves> possibleMoves = new HashMap<>();
+//
+//        for (Pieces pieces : piecesMap.values()) {
+//            Color color = pieces.getColor();
+//            PlayerMoves playerMoves = pieces.getValidMovesOn(this);
+//            possibleMoves.put(color, playerMoves);
+//        }
+//        return possibleMoves;
+//    }
+
+    public PlayerMoves getOpponentPossibleMoves(Color color) {
+        Pieces opponentPieces = piecesMap.get(color);
+        return opponentPieces.getValidMovesOn(this);
+    }
+
+    /******
+     * Used only for testing
+     ******/
     public void clear() {
         for (Square[] squares : grid)
             for (Square square : squares)
                 square.setPiece(null);
     }
 
-    public int getMovesHistorySize() {
-        return movesHistory.size();
+    public Square getCurrentKingSquare(Color color) {
+        for (Square[] squares : grid)
+            for (Square square : squares)
+                if (square.hasPiece()) {
+                    Piece piece = square.getPiece();
+                    if (piece.matches(color) && piece.matches(King.class))
+                        return square;
+                }
+        return null;
     }
+
+//    public Map<Color, PlayerMoves> getPlayersPossibleMoves() {
+//        Map<Color, PlayerMoves> allPossibleMovesOnBoard = new HashMap<>();
+//        PlayerMoves whitePlayerMoves = new PlayerMoves();
+//        PlayerMoves blackPlayerMoves = new PlayerMoves();
+//
+//        for (Square[] squares : grid) {
+//            for (Square square : squares) {
+//                Piece piece = square.getPiece();
+//                PieceMoves pieceMoves = piece.getValidMovesOn(this);
+//
+//                if (piece.matches(Color.WHITE)) {
+//                    whitePlayerMoves.add(piece, pieceMoves);
+//                    allPossibleMovesOnBoard.put(Color.WHITE, whitePlayerMoves);
+//                } else {
+//                    blackPlayerMoves.add(piece, pieceMoves);
+//                    allPossibleMovesOnBoard.put(Color.BLACK, blackPlayerMoves);
+//                }
+//            }
+//        }
+//        return allPossibleMovesOnBoard;
+//    }
 }
