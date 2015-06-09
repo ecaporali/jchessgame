@@ -34,7 +34,7 @@ public class Game {
             player.showPlayerName();
             player.resumeWatch();
 
-            makeMove(player);
+            this.makeMove(player);
 
             player.suspendWatch();
         }
@@ -51,16 +51,16 @@ public class Game {
 
         Square toSquare = getToSquare(player, pieceMoves);
 
-        movePiece(fromSquare, toSquare);
+        this.movePiece(fromSquare, toSquare);
     }
 
-    public Square getFromSquare(Player player) {
+    Square getFromSquare(Player player) {
         PlayerMoves playerMoves = null;
         Square fromSquare = null;
 
         while (playerMoves == null) {
             try {
-                fromSquare = getSquare(player.getFromSquareCoordinate());
+                fromSquare = this.getSquare(player.getFromSquareCoordinate());
                 playerMoves = this.getPlayerMoves(fromSquare, player.getPieces());
             } catch (InvalidMoveException e) {
                 player.showError(e.getMessage());
@@ -72,11 +72,11 @@ public class Game {
         return fromSquare;
     }
 
-    public Square getToSquare(Player player, PieceMoves pieceMoves) {
-        Square toSquare = getSquare(player.getToSquareCoordinate());
+    Square getToSquare(Player player, PieceMoves pieceMoves) {
+        Square toSquare = this.getSquare(player.getToSquareCoordinate());
         while (!pieceMoves.contains(toSquare)) {
             player.showError(UIMessages.INVALID_MOVE_EXCEPTION);
-            toSquare = getSquare(player.getToSquareCoordinate());
+            toSquare = this.getSquare(player.getToSquareCoordinate());
         }
         return toSquare;
     }
@@ -88,7 +88,7 @@ public class Game {
         return board.getSquareAtPosition(new Position(coordinates[0], coordinates[1]));
     }
 
-    private void mockPieceMove(Square fromSquare, Board board, Rules rules) {
+    private void mockPieceMove(Square fromSquare) {
         Piece currentPiece = fromSquare.getPiece();
         if (currentPiece != null) {
             fromSquare.setPiece(null);
@@ -98,12 +98,12 @@ public class Game {
     }
 
     private PlayerMoves getPlayerMoves(Square fromSquare, Pieces pieces) throws InvalidMoveException {
-        mockPieceMove(fromSquare, board, rules);
+        this.mockPieceMove(fromSquare);
         rules.validatePieceMove(fromSquare, pieces, board);
         return rules.getPlayerMoves(pieces);
     }
 
-    public void movePiece(Square fromSquare, Square toSquare) {
+    void movePiece(Square fromSquare, Square toSquare) {
         board.addToMoveHistory();
         board.movePiece(fromSquare, toSquare);
     }
