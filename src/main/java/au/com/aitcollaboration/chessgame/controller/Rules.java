@@ -1,13 +1,9 @@
 package au.com.aitcollaboration.chessgame.controller;
 
-import au.com.aitcollaboration.chessgame.exceptions.InvalidMoveException;
-import au.com.aitcollaboration.chessgame.exceptions.InvalidPieceException;
-import au.com.aitcollaboration.chessgame.exceptions.PieceCannotBeMovedException;
-import au.com.aitcollaboration.chessgame.exceptions.PieceNotFoundException;
+import au.com.aitcollaboration.chessgame.exceptions.*;
 import au.com.aitcollaboration.chessgame.model.game.structure.Board;
 import au.com.aitcollaboration.chessgame.model.game.structure.Square;
 import au.com.aitcollaboration.chessgame.model.moves.PieceMoves;
-import au.com.aitcollaboration.chessgame.model.pieces.Piece;
 import au.com.aitcollaboration.chessgame.model.pieces.Pieces;
 import au.com.aitcollaboration.chessgame.service.ValidationService;
 
@@ -38,7 +34,7 @@ public class Rules {
 
         try {
             return validationService.validateMove(fromSquare, board, pieces);
-        } catch (PieceCannotBeMovedException | InvalidPieceException | PieceNotFoundException e) {
+        } catch (PieceCannotBeMovedException | InvalidPieceException | PieceNotFoundException | KingInCheckException | KingInDangerException e) {
             throw new InvalidMoveException(e);
         }
     }

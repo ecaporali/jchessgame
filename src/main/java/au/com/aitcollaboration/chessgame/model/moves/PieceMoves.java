@@ -28,10 +28,6 @@ public class PieceMoves {
         return practicalMoves.size();
     }
 
-//    public boolean isKingInDanger(Square fromSquare, Square kingSquare) {
-//        return practicalMoves.contains(fromSquare) && practicalMoves.contains(kingSquare);
-//    }
-
     public boolean contains(Square square) {
         return this.practicalMoves.contains(square);
     }
@@ -39,10 +35,6 @@ public class PieceMoves {
     public Square getCurrentSquare() {
         return currentSquare;
     }
-
-//    public boolean matches(Square opponentSquare) {
-//        return currentSquare.equals(opponentSquare);
-//    }
 
     @Override
     public String toString() {
@@ -55,23 +47,6 @@ public class PieceMoves {
         }
         return s;
     }
-
-//    public void clear() {
-//        practicalMoves.clear();
-//    }
-//
-//    public boolean isKingInCheck(Square kingSquare) {
-//        return practicalMoves.contains(kingSquare);
-//    }
-//
-//    public boolean canBeSacrificed(PieceMoves pieceMoves) {
-//        //TODO: finish this
-//        return false;
-//    }
-//
-//    public List<Square> getPracticalMoves() {
-//        return practicalMoves;
-//    }
 
 //    public PieceMoves getValidMoves(Color color, Board board) {
 //        ValidationResult validationResult = new ValidationResult(currentSquare);

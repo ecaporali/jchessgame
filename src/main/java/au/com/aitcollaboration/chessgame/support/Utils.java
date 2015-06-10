@@ -13,7 +13,7 @@ public class Utils {
     }
 
     public static int[] toBoardPosition(String answer) throws InvalidPositionException {
-        if (answer.isEmpty() || answer.length() != 2)
+        if (answer == null || answer.isEmpty() || answer.length() != 2)
             throw new InvalidPositionException();
 
         int x = "87654321".indexOf(answer.charAt(1));

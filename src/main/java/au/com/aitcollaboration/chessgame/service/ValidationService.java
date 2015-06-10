@@ -1,41 +1,20 @@
 package au.com.aitcollaboration.chessgame.service;
 
 import au.com.aitcollaboration.chessgame.Color;
-import au.com.aitcollaboration.chessgame.exceptions.InvalidPieceException;
-import au.com.aitcollaboration.chessgame.exceptions.PieceCannotBeMovedException;
-import au.com.aitcollaboration.chessgame.exceptions.PieceNotFoundException;
+import au.com.aitcollaboration.chessgame.exceptions.*;
 import au.com.aitcollaboration.chessgame.model.game.structure.Board;
 import au.com.aitcollaboration.chessgame.model.game.structure.Square;
 import au.com.aitcollaboration.chessgame.model.moves.PieceMoves;
 import au.com.aitcollaboration.chessgame.model.moves.PlayerMoves;
 import au.com.aitcollaboration.chessgame.model.pieces.Piece;
 import au.com.aitcollaboration.chessgame.model.pieces.Pieces;
-import au.com.aitcollaboration.chessgame.support.UIMessages;
 
 import java.util.List;
 
 public class ValidationService {
 
-//    public void validateMove(Square fromSquare, Square kingSquare, Pieces pieces, PlayerMoves opponentMoves, PieceMoves currentPieceMoves)
-//            throws PieceCannotBeMovedException, InvalidPieceException, KingInDangerException, KingInCheckException {
-//        Piece currentPiece = fromSquare.getPiece();
-//
-//        if (currentPieceMoves.isEmpty())
-//            throw new PieceCannotBeMovedException();
-//
-//        if (!pieces.contains(currentPiece))
-//            throw new InvalidPieceException();
-//
-//        if (isKingInDanger(fromSquare, kingSquare, opponentMoves))
-//            throw new KingInDangerException();
-//
-//        if (isKingInCheck(kingSquare, opponentMoves))
-//            if (kingCannotBeSaved(fromSquare, kingSquare, currentPieceMoves, opponentMoves))
-//                throw new KingInCheckException();
-//    }
-
     public PieceMoves validateMove(Square fromSquare, Board board, Pieces pieces)
-            throws PieceCannotBeMovedException, InvalidPieceException, PieceNotFoundException {
+            throws PieceCannotBeMovedException, InvalidPieceException, PieceNotFoundException, KingInDangerException, KingInCheckException {
 
         Piece currentPiece = fromSquare.getPiece();
 
@@ -45,7 +24,7 @@ public class ValidationService {
 
         PieceMoves currentPieceMoves = currentPiece.getValidMovesOn(board);
 
-        PieceMoves validPieceMoves = getValidPieceMoves (fromSquare, currentPieceMoves, board);
+        PieceMoves validPieceMoves = getValidPieceMoves(fromSquare, board, currentPieceMoves);
 
 
 //        currentPieceMoves.getValidMoves(currentPiece.getColor(), board);
@@ -62,44 +41,54 @@ public class ValidationService {
         return validPieceMoves;
     }
 
-    private PieceMoves getValidPieceMoves(Square currentSquare, PieceMoves currentPieceMoves, Board board)
-            throws PieceCannotBeMovedException, InvalidPieceException, PieceNotFoundException {
+    PieceMoves getValidPieceMoves(Square currentSquare, Board board, PieceMoves currentPieceMoves)
+            throws KingInDangerException, KingInCheckException {
 
-        PieceMoves validPieceMoved = new PieceMoves(currentSquare);
+        PieceMoves validPieceMove = new PieceMoves(currentSquare);
 
         List<Square> practicalMoves = currentPieceMoves.getPracticalMoves();
 
         Color color = currentSquare.getPiece().getColor();
 
-        for (Square toSquare : practicalMoves) {
+        PlayerMoves beforeOpponentMoves = board.getOpponentPossibleMoves(color.flip());
 
-            Piece toPiece = toSquare.getPiece();
+        Square kingSquare = board.getCurrentKingSquare(color);
 
-            board.movePiece(currentSquare, toSquare);
+        Piece king = kingSquare.getPiece();
 
-            PlayerMoves opponentPossibleMoves = board.getOpponentPossibleMoves(color.flip());
+        boolean kingInCheck = false;
 
-            board.undoMovePiece(currentSquare, toSquare, toPiece);
+        if (beforeOpponentMoves.contains(kingSquare))
+            kingInCheck = true;
 
-            Square kingSquare = board.getCurrentKingSquare(color);
+        int kingInDangerCounter = 0;
 
-            if (!opponentPossibleMoves.contains(kingSquare))
-                validPieceMoved.add(currentSquare);
+        for (Square possibleToSquare : practicalMoves) {
 
+            Piece toPiece = possibleToSquare.getPiece();
+
+            board.mockMovePiece(currentSquare, possibleToSquare);
+
+            if (!possibleToSquare.contains(king))
+                kingSquare = board.getCurrentKingSquare(color);
+
+            PlayerMoves afterOpponentMoves = board.getOpponentPossibleMoves(color.flip());
+
+            board.undoMockMovePiece(currentSquare, possibleToSquare, toPiece);
+
+            if (!afterOpponentMoves.contains(kingSquare))
+                validPieceMove.add(possibleToSquare);
+            else
+                kingInDangerCounter++;
         }
-        return validPieceMoved;
-    }
 
-//    private boolean isKingInDanger(Square fromSquare, Square kingSquare, PlayerMoves opponentMoves) {
-//        return opponentMoves.isKingInDanger(fromSquare, kingSquare);
-//    }
-//
-//    private boolean isKingInCheck(Square kingSquare, PlayerMoves opponentMoves) {
-//        return opponentMoves.isKingInCheck(kingSquare);
-//    }
-//
-//    private boolean kingCannotBeSaved(Square fromSquare, Square kingSquare, PieceMoves currentPieceMoves, PlayerMoves opponentMoves) {
-//        return !fromSquare.equals(kingSquare) &&
-//                opponentMoves.canEatKing(currentPieceMoves);
-//    }
+        if (!practicalMoves.isEmpty() && kingInDangerCounter == practicalMoves.size()) {
+            if (kingInCheck)
+                throw new KingInCheckException();
+            else
+                throw new KingInDangerException();
+        }
+
+        return validPieceMove;
+    }
 }

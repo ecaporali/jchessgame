@@ -13,7 +13,7 @@ public class In {
         try {
             line = reader.readLine();
         } catch (Exception e) {
-            e.printStackTrace();
+            MyLogger.debug(e);
         }
 
         return line;

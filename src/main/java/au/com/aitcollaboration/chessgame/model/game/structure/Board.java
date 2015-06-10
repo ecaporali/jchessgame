@@ -121,7 +121,13 @@ public class Board {
         toSquare.setPiece(piece);
     }
 
-    public void undoMovePiece(Square currentSquare, Square toSquare, Piece toPiece) {
+    public void mockMovePiece(Square fromSquare, Square toSquare){
+        Piece piece = fromSquare.getPiece();
+        fromSquare.setPiece(null);
+        toSquare.setPiece(piece);
+    }
+
+    public void undoMockMovePiece(Square currentSquare, Square toSquare, Piece toPiece) {
         Piece currentPiece = toSquare.getPiece();
         currentSquare.setPiece(currentPiece);
         toSquare.setPiece(toPiece);
@@ -153,14 +159,9 @@ public class Board {
     }
 
     public Square getCurrentKingSquare(Color color) {
-        for (Square[] squares : grid)
-            for (Square square : squares)
-                if (square.hasPiece()) {
-                    Piece piece = square.getPiece();
-                    if (piece.matches(color) && piece.matches(King.class))
-                        return square;
-                }
-        return null;
+        Pieces currentPieces = piecesMap.get(color);
+        Piece king = currentPieces.getPiece(King.class);
+        return this.getCurrentSquare(king);
     }
 
 //    public Map<Color, PlayerMoves> getPlayersPossibleMoves() {
