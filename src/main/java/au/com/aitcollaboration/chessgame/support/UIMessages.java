@@ -3,8 +3,12 @@ package au.com.aitcollaboration.chessgame.support;
 public class UIMessages {
 
     public static final String CHOOSE_COIN_SIDE = "Please choose a coin side [head/tail]: ";
-    public static final String INSERT_PLAYER_ONE_NAME = "Please insert first player's name: ";
-    public static final String INSERT_PLAYER_TWO_NAME = "Please insert second player's name: ";
+    public static final String INVALID_COIN_INPUT = "Valid input is either HEAD or TAIL";
+    public static final String RIGHT_COIN_SIDE = "You Won!!";
+    public static final String WRONG_COIN_SIDE = "You Lose!!";
+    public static final String PLAYER_ONE_NAME = "Please insert first player's name: ";
+    public static final String PLAYER_TWO_NAME = "Please insert second player's name: ";
+    public static final String WRONG_PLAYER_NAME = "Come on, you must have a name!";
     public static final String DISPLAY_WINNING_SIDE = "The winning coin side is: ";
     public static final String SELECT_NUMBER_OF_PLAYERS = "Please insert the number of players [1/2]: ";
     public static final String PIECE_TO_MOVE = "What piece do you want to move? : ";
@@ -20,10 +24,8 @@ public class UIMessages {
     public static final String KING_IN_CHECK_EXCEPTION = "The King is under check. Please move another piece or move the King.";
 
 
-
-
-    public static final String GREETINGS =  "\\     _     /  __      ___  __          __     \\||/|\\/  ||\n" +
-                                            " \\   / \\   /  |_  |   |    |  | |\\  /| |_       o | o   ||\n" +
-                                            "  \\_/   \\_/   |__ |__ |___ |__| | \\/ | |__       \\_/    ..\n" +
-                                            "\n\n";
+    public static final String GREETINGS = "\\     _     /  __      ___  __          __     \\||/|\\/  ||\n" +
+            " \\   / \\   /  |_  |   |    |  | |\\  /| |_       o | o   ||\n" +
+            "  \\_/   \\_/   |__ |__ |___ |__| | \\/ | |__       \\_/    ..\n" +
+            "\n\n";
 }

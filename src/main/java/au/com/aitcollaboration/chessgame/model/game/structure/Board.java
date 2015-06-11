@@ -57,8 +57,8 @@ public class Board {
     }
 
     private void buildPieceMap() {
-        Pieces whitePieces = new Pieces(Color.WHITE);
-        Pieces blackPieces = new Pieces(Color.BLACK);
+        Pieces whitePieces = new Pieces();
+        Pieces blackPieces = new Pieces();
 
         for (int row = 0; row <= 1; row++) {
             for (int col = 0; col < BOARD_SIZE; col++) {
@@ -87,7 +87,6 @@ public class Board {
     }
 
     public Square getCurrentSquare(Piece piece) {
-
         for (Square[] squares : grid)
             for (Square square : squares)
                 if (square.contains(piece))
@@ -121,7 +120,7 @@ public class Board {
         toSquare.setPiece(piece);
     }
 
-    public void mockMovePiece(Square fromSquare, Square toSquare){
+    public void mockMovePiece(Square fromSquare, Square toSquare) {
         Piece piece = fromSquare.getPiece();
         fromSquare.setPiece(null);
         toSquare.setPiece(piece);
@@ -133,7 +132,7 @@ public class Board {
         toSquare.setPiece(toPiece);
     }
 
-//    public Map<Color, PlayerMoves> getPlayersPossibleMoves() {
+//    public Map<Color, PlayerMoves> getAllPlayersPossibleMoves() {
 //        Map<Color, PlayerMoves> possibleMoves = new HashMap<>();
 //
 //        for (Pieces pieces : piecesMap.values()) {
@@ -144,18 +143,9 @@ public class Board {
 //        return possibleMoves;
 //    }
 
-    public PlayerMoves getOpponentPossibleMoves(Color color) {
+    public PlayerMoves getOpponentPlayerMoves(Color color) {
         Pieces opponentPieces = piecesMap.get(color);
         return opponentPieces.getValidMovesOn(this);
-    }
-
-    /******
-     * Used only for testing
-     ******/
-    public void clear() {
-        for (Square[] squares : grid)
-            for (Square square : squares)
-                square.setPiece(null);
     }
 
     public Square getCurrentKingSquare(Color color) {
@@ -164,25 +154,10 @@ public class Board {
         return this.getCurrentSquare(king);
     }
 
-//    public Map<Color, PlayerMoves> getPlayersPossibleMoves() {
-//        Map<Color, PlayerMoves> allPossibleMovesOnBoard = new HashMap<>();
-//        PlayerMoves whitePlayerMoves = new PlayerMoves();
-//        PlayerMoves blackPlayerMoves = new PlayerMoves();
-//
-//        for (Square[] squares : grid) {
-//            for (Square square : squares) {
-//                Piece piece = square.getPiece();
-//                PieceMoves pieceMoves = piece.getValidMovesOn(this);
-//
-//                if (piece.matches(Color.WHITE)) {
-//                    whitePlayerMoves.add(piece, pieceMoves);
-//                    allPossibleMovesOnBoard.put(Color.WHITE, whitePlayerMoves);
-//                } else {
-//                    blackPlayerMoves.add(piece, pieceMoves);
-//                    allPossibleMovesOnBoard.put(Color.BLACK, blackPlayerMoves);
-//                }
-//            }
-//        }
-//        return allPossibleMovesOnBoard;
-//    }
+    // Used only for testing //
+    public void clear() {
+        for (Square[] squares : grid)
+            for (Square square : squares)
+                square.setPiece(null);
+    }
 }

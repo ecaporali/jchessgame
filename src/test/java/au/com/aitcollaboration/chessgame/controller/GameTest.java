@@ -1,35 +1,16 @@
 package au.com.aitcollaboration.chessgame.controller;
 
-import au.com.aitcollaboration.chessgame.Color;
-import au.com.aitcollaboration.chessgame.exceptions.InvalidCoordinatesException;
-import au.com.aitcollaboration.chessgame.exceptions.InvalidPositionException;
 import au.com.aitcollaboration.chessgame.model.game.structure.Board;
-import au.com.aitcollaboration.chessgame.model.game.structure.Position;
-import au.com.aitcollaboration.chessgame.model.game.structure.Square;
-import au.com.aitcollaboration.chessgame.model.pieces.King;
-import au.com.aitcollaboration.chessgame.model.player.ComputerPlayer;
-import au.com.aitcollaboration.chessgame.model.player.HumanPlayer;
 import au.com.aitcollaboration.chessgame.model.player.Player;
-import au.com.aitcollaboration.chessgame.model.player.Players;
 import au.com.aitcollaboration.chessgame.support.Utils;
-import au.com.aitcollaboration.chessgame.view.GameView;
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import java.util.Map;
-
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.anyString;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Utils.class)
@@ -40,7 +21,9 @@ public class GameTest {
     @Mock
     private Rules rules;
     @Mock
-    private Players players;
+    private Player player1;
+    @Mock
+    private Player player2;
 
     private Game game;
 
@@ -49,6 +32,7 @@ public class GameTest {
         initMocks(this);
         mockStatic(Utils.class);
 
+        Player[] players = {player1, player2};
         game = new Game(board, rules, players);
     }
 

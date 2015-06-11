@@ -1,26 +1,23 @@
 package au.com.aitcollaboration.chessgame.model.player;
 
+import au.com.aitcollaboration.chessgame.Color;
 import au.com.aitcollaboration.chessgame.model.game.structure.Board;
 import au.com.aitcollaboration.chessgame.model.moves.PieceMoves;
 import au.com.aitcollaboration.chessgame.model.pieces.Piece;
-import au.com.aitcollaboration.chessgame.model.pieces.Pieces;
 import au.com.aitcollaboration.chessgame.view.GameView;
 import org.apache.commons.lang3.time.StopWatch;
 
 public abstract class Player {
 
-    protected String playerName;
-    protected StopWatch stopWatch;
-    protected Pieces pieces;
-    protected GameView gameView;
+    protected final String playerName;
+    protected final StopWatch stopWatch;
+    protected final Color color;
+    protected final GameView gameView;
 
-    private Player() {
+    protected Player(String playerName, Color color, GameView gameView) {
         this.stopWatch = new StopWatch();
-    }
-
-    protected Player(String playerName, GameView gameView) {
-        this();
         this.playerName = playerName;
+        this.color = color;
         this.gameView = gameView;
         stopWatchSetup();
     }
@@ -45,11 +42,7 @@ public abstract class Player {
     }
 
     public boolean isOwnPiece(Piece piece) {
-        return pieces.contains(piece);
-    }
-
-    public void setPieces(Pieces pieces) {
-        this.pieces = pieces;
+        return piece.matches(color);
     }
 
     public void showBoard(Board board) {
@@ -68,12 +61,8 @@ public abstract class Player {
         gameView.showMessage(this.toString());
     }
 
-    public Pieces getPieces() {
-        return pieces;
-    }
-
     @Override
     public String toString() {
-        return "\nPlayer " + pieces + ": " + playerName;
+        return "\nPlayer " + color + ": " + playerName;
     }
 }

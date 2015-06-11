@@ -1,5 +1,6 @@
 package au.com.aitcollaboration.chessgame.model.player;
 
+import au.com.aitcollaboration.chessgame.Color;
 import au.com.aitcollaboration.chessgame.exceptions.InvalidPositionException;
 import au.com.aitcollaboration.chessgame.model.moves.PieceMoves;
 import au.com.aitcollaboration.chessgame.support.MyLogger;
@@ -9,8 +10,8 @@ import au.com.aitcollaboration.chessgame.view.GameView;
 
 public class HumanPlayer extends Player {
 
-    public HumanPlayer(String playerName, GameView gameView) {
-        super(playerName, gameView);
+    public HumanPlayer(String playerName, Color color, GameView gameView) {
+        super(playerName, color, gameView);
     }
 
     @Override

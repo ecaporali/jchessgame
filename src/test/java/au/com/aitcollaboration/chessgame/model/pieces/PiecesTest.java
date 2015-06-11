@@ -8,7 +8,8 @@ import static org.junit.Assert.*;
 
 public class PiecesTest {
 
-    private Pieces pieces = new Pieces(Color.BLACK);
+//    private Pieces pieces = new Pieces(Color.BLACK);
+    private Pieces pieces = new Pieces();
 
     @Test
     public void testPiecesShouldAddPiece() throws Exception {
@@ -33,19 +34,19 @@ public class PiecesTest {
         assertThat(pieces.size(), is(0));
     }
 
-    @Test
-    public void testPiecesIsSameColor() throws Exception {
-        boolean sameColor = pieces.isColor(Color.BLACK);
+//    @Test
+//    public void testPiecesIsSameColor() throws Exception {
+//        boolean sameColor = pieces.isColor(Color.BLACK);
+//
+//        assertTrue(sameColor);
+//    }
 
-        assertTrue(sameColor);
-    }
-
-    @Test
-    public void testPiecesIsDifferentColor() throws Exception {
-        boolean differentColor = pieces.isColor(Color.WHITE);
-
-        assertFalse(differentColor);
-    }
+//    @Test
+//    public void testPiecesIsDifferentColor() throws Exception {
+//        boolean differentColor = pieces.isColor(Color.WHITE);
+//
+//        assertFalse(differentColor);
+//    }
 
     @Test
     public void testPiecesShouldReturnSearchedPiece() throws Exception {

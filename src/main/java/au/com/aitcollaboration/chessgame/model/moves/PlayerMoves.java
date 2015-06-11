@@ -27,36 +27,4 @@ public class PlayerMoves {
 //        PieceMoves pieceMoves = pieceMovesMap.get(square.getPiece());
 //        return pieceMoves.contains(square)
     }
-
-//    public boolean isKingInDanger(Square fromSquare, Square kingSquare) {
-//        for (PieceMoves pieceMoves : pieceMovesMap.values())
-//            if (pieceMoves.isKingInDanger(fromSquare, kingSquare))
-//                return true;
-//
-//        return false;
-//    }
-//
-//    public boolean isKingInCheck(Square kingSquare) {
-//        for (PieceMoves pieceMoves : pieceMovesMap.values())
-//            if (pieceMoves.isKingInCheck(kingSquare))
-//                return true;
-//
-//        return false;
-//    }
-
-//    public boolean hasEmptyMoveFor(Piece piece) {
-//        return pieceMovesMap.get(piece) == null;
-//    }
-//
-//    public PieceMoves getPieceMoves(Piece piece) {
-//        return pieceMovesMap.get(piece);
-//    }
-//
-//    public boolean canEatKing(PieceMoves currentPieceMoves) {
-//        for (PieceMoves pieceMoves : pieceMovesMap.values())
-//            if (currentPieceMoves.contains(pieceMoves.getCurrentSquare()) || currentPieceMoves.canBeSacrificed(pieceMoves))
-//                return false;
-//
-//        return true;
-//    }
 }
