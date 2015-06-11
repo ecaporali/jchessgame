@@ -1,6 +1,5 @@
 package au.com.aitcollaboration.chessgame.controller;
 
-import au.com.aitcollaboration.chessgame.exceptions.InvalidCoordinatesException;
 import au.com.aitcollaboration.chessgame.exceptions.InvalidMoveException;
 import au.com.aitcollaboration.chessgame.exceptions.InvalidPieceException;
 import au.com.aitcollaboration.chessgame.exceptions.PieceNotFoundException;
@@ -65,7 +64,7 @@ public class Game {
     PieceMoves getPieceMoves(Player player) {
         PieceMoves pieceMoves = null;
         try {
-            pieceMoves = this.getPlayerMoves(player);
+            pieceMoves = this.getValidPieceMovesFor(player);
         } catch (InvalidMoveException e) {
             player.showError(e.getMessage());
         } catch (Exception e) {
@@ -95,14 +94,13 @@ public class Game {
         return toSquare;
     }
 
-    private Square getSquare(int[] coordinates) {
-        if (coordinates == null || coordinates.length < 1)
-            throw new InvalidCoordinatesException();
-
+    Square getSquare(int[] coordinates) {
+//        if (coordinates == null || coordinates.length < 1)
+//            throw new InvalidCoordinatesException();
         return board.getSquareAtPosition(new Position(coordinates[0], coordinates[1]));
     }
 
-    private PieceMoves getPlayerMoves(Player player) throws InvalidMoveException {
+    private PieceMoves getValidPieceMovesFor(Player player) throws InvalidMoveException {
         Square fromSquare = this.getFromSquare(player);
         return rules.getValidatedPieceMoves(fromSquare, board);
     }

@@ -1,5 +1,6 @@
 package au.com.aitcollaboration.chessgame.controller;
 
+import au.com.aitcollaboration.chessgame.Color;
 import au.com.aitcollaboration.chessgame.exceptions.InvalidMoveException;
 import au.com.aitcollaboration.chessgame.exceptions.KingInCheckException;
 import au.com.aitcollaboration.chessgame.exceptions.KingInDangerException;
@@ -25,7 +26,8 @@ public class Rules {
         PieceMoves currentPieceMoves = currentPiece.getValidMovesOn(board);
 
         try {
-            return currentPieceMoves.getValidatedMoves(board);
+            Color color = currentPiece.getColor();
+            return currentPieceMoves.getValidatedMoves(board, color);
         } catch (KingInDangerException | KingInCheckException | PieceCannotBeMovedException e) {
             throw e;
         }

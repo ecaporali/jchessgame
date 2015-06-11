@@ -144,7 +144,7 @@ public class Board {
 //    }
 
     public PlayerMoves getOpponentPlayerMoves(Color color) {
-        Pieces opponentPieces = piecesMap.get(color);
+        Pieces opponentPieces = piecesMap.get(color.flip());
         return opponentPieces.getValidMovesOn(this);
     }
 

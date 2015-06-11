@@ -54,44 +54,35 @@ public class PieceMoves {
         return s;
     }
 
-    public PieceMoves getValidatedMoves(Board board) throws KingInCheckException,
+    public PieceMoves getValidatedMoves(Board board, Color color) throws KingInCheckException,
             KingInDangerException, PieceCannotBeMovedException {
-
-        PieceMoves validPieceMoves = new PieceMoves(currentSquare);
 
         if (practicalMoves.isEmpty())
             throw new PieceCannotBeMovedException();
 
-        Color color = currentSquare.getPiece().getColor();
+        PieceMoves validPieceMoves = new PieceMoves(currentSquare);
 
-        PlayerMoves beforeOpponentMoves = board.getOpponentPlayerMoves(color.flip());
+        PlayerMoves beforeOpponentMoves = board.getOpponentPlayerMoves(color);
 
         Square kingSquare = board.getCurrentKingSquare(color);
 
         Piece king = kingSquare.getPiece();
 
-        int kingInDangerCounter = 0;
+        for (Square toSquare : practicalMoves) {
 
-        for (Square possibleToSquare : practicalMoves) {
+            PlayerMoves afterOpponentMoves = this.virtualMovePiece(toSquare, board, color);
 
-            Piece toPiece = possibleToSquare.getPiece();
+            if (currentSquare.contains(king))
+                kingSquare = toSquare;
 
-            board.mockMovePiece(currentSquare, possibleToSquare);
+            if (afterOpponentMoves.contains(kingSquare))
+                continue;
 
-            if (possibleToSquare.contains(king))
-                kingSquare = possibleToSquare;
-
-            PlayerMoves afterOpponentMoves = board.getOpponentPlayerMoves(color.flip());
-
-            board.undoMockMovePiece(currentSquare, possibleToSquare, toPiece);
-
-            if (!afterOpponentMoves.contains(kingSquare))
-                validPieceMoves.add(possibleToSquare);
-            else
-                kingInDangerCounter++;
+            validPieceMoves.add(toSquare);
         }
 
-        if (!practicalMoves.isEmpty() && kingInDangerCounter == practicalMoves.size()) {
+        if (validPieceMoves.isEmpty()) {
+            //TODO: refactor this method and find new solution
             if (beforeOpponentMoves.contains(kingSquare))
                 throw new KingInCheckException();
             else
@@ -99,5 +90,17 @@ public class PieceMoves {
         }
 
         return validPieceMoves;
+    }
+
+    public PlayerMoves virtualMovePiece(Square toSquare, Board board, Color color) {
+        Piece toPiece = toSquare.getPiece();
+
+        board.mockMovePiece(currentSquare, toSquare);
+
+        PlayerMoves afterOpponentMoves = board.getOpponentPlayerMoves(color);
+
+        board.undoMockMovePiece(currentSquare, toSquare, toPiece);
+
+        return afterOpponentMoves;
     }
 }

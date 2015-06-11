@@ -26,10 +26,7 @@ public class Position {
 
         Position position = (Position) o;
 
-        if (myX != position.myX) return false;
-        if (myY != position.myY) return false;
-
-        return true;
+        return (myX == position.myX) && (myY == position.myY);
     }
 
     @Override

@@ -75,8 +75,8 @@ public class Utils {
         return "  " + Character.toChars(position)[0] + " ";
     }
 
-    public static Board deepCopyOf(Board board) {
+    public static <T> T deepCopyOf(T objectToCopy) {
         Cloner cloner = new Cloner();
-        return cloner.deepClone(board);
+        return cloner.deepClone(objectToCopy);
     }
 }
