@@ -15,8 +15,11 @@ public class App {
 
         Game game = new Game(new Board(), new Rules(), players);
 
+        Player currentPlayer = players[0];
         do {
-            game.play();
+            Color color = currentPlayer.getColor();
+            game.play(currentPlayer);
+            currentPlayer = players[color.flip().position()];
         } while (game.isNotOver());
     }
 }

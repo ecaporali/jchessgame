@@ -9,7 +9,6 @@ import java.util.List;
 
 public class Pieces {
 
-    //    private Color color;
     private final List<Piece> currentPieces;
     private final List<Piece> lostPieces;
 
@@ -17,11 +16,6 @@ public class Pieces {
         this.currentPieces = new ArrayList<>(16);
         this.lostPieces = new ArrayList<>(16);
     }
-
-//    public Pieces(Color color) {
-//        this();
-//        this.color = color;
-//    }
 
     public void add(Piece piece) {
         currentPieces.add(piece);
@@ -32,10 +26,6 @@ public class Pieces {
         this.lostPieces.add(piece);
     }
 
-//    public boolean isColor(Color color) {
-//        return this.color.equals(color);
-//    }
-
     public boolean contains(Piece piece) {
         return currentPieces.contains(piece);
     }
@@ -43,10 +33,6 @@ public class Pieces {
     public int size() {
         return currentPieces.size();
     }
-
-//    public Color getColor() {
-//        return color;
-//    }
 
     public Piece getPiece(Class pieceClass) {
         for (Piece piece : currentPieces) {
@@ -82,9 +68,4 @@ public class Pieces {
         }
         return playerMoves;
     }
-
-//    @Override
-//    public String toString() {
-//        return this.color.toString();
-//    }
 }

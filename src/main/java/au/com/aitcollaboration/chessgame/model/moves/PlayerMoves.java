@@ -1,9 +1,13 @@
 package au.com.aitcollaboration.chessgame.model.moves;
 
+import au.com.aitcollaboration.chessgame.Color;
+import au.com.aitcollaboration.chessgame.model.game.structure.Board;
 import au.com.aitcollaboration.chessgame.model.game.structure.Square;
 import au.com.aitcollaboration.chessgame.model.pieces.Piece;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PlayerMoves {
@@ -19,12 +23,25 @@ public class PlayerMoves {
     }
 
     public boolean contains(Square square) {
-        for(PieceMoves pieceMoves : pieceMovesMap.values())
-            if(pieceMoves.contains(square))
+        for (PieceMoves pieceMoves : pieceMovesMap.values())
+            if (pieceMoves.contains(square))
                 return true;
 
         return false;
-//        PieceMoves pieceMoves = pieceMovesMap.get(square.getPiece());
-//        return pieceMoves.contains(square)
+    }
+
+    public boolean hasEmptyMoves(Board board, Color color) {
+        List<PieceMoves> possibleMovesList = new ArrayList<>();
+
+        Square kingSquare = board.getCurrentKingSquare(color);
+        for (PieceMoves pieceMoves : pieceMovesMap.values()) {
+            PieceMoves validPieceMoves = pieceMoves.validateMoves(board, kingSquare);
+
+            if (validPieceMoves.isEmpty())
+                continue;
+
+            possibleMovesList.add(validPieceMoves);
+        }
+        return possibleMovesList.isEmpty();
     }
 }

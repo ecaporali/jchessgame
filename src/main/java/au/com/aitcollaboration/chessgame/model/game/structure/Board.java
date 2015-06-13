@@ -82,10 +82,6 @@ public class Board {
         return this.grid.clone();
     }
 
-    public Map<Color, Pieces> getPiecesMap() {
-        return piecesMap;
-    }
-
     public Square getCurrentSquare(Piece piece) {
         for (Square[] squares : grid)
             for (Square square : squares)
@@ -120,31 +116,25 @@ public class Board {
         toSquare.setPiece(piece);
     }
 
-    public void mockMovePiece(Square fromSquare, Square toSquare) {
+    public void doSimulateMovePiece(Square fromSquare, Square toSquare) {
         Piece piece = fromSquare.getPiece();
         fromSquare.setPiece(null);
         toSquare.setPiece(piece);
     }
 
-    public void undoMockMovePiece(Square currentSquare, Square toSquare, Piece toPiece) {
+    public void undoSimulateMovePiece(Square currentSquare, Square toSquare, Piece toPiece) {
         Piece currentPiece = toSquare.getPiece();
         currentSquare.setPiece(currentPiece);
         toSquare.setPiece(toPiece);
     }
 
-//    public Map<Color, PlayerMoves> getAllPlayersPossibleMoves() {
-//        Map<Color, PlayerMoves> possibleMoves = new HashMap<>();
-//
-//        for (Pieces pieces : piecesMap.values()) {
-//            Color color = pieces.getColor();
-//            PlayerMoves playerMoves = pieces.getValidMovesOn(this);
-//            possibleMoves.put(color, playerMoves);
-//        }
-//        return possibleMoves;
-//    }
-
-    public PlayerMoves getOpponentPlayerMoves(Color color) {
+    public PlayerMoves calculateOpponentPlayerMoves(Color color) {
         Pieces opponentPieces = piecesMap.get(color.flip());
+        return opponentPieces.getValidMovesOn(this);
+    }
+
+    public PlayerMoves calculateCurrentPlayerMoves(Color currentColor) {
+        Pieces opponentPieces = piecesMap.get(currentColor);
         return opponentPieces.getValidMovesOn(this);
     }
 
@@ -154,10 +144,23 @@ public class Board {
         return this.getCurrentSquare(king);
     }
 
+    public boolean isEitherKingLastPieceStanding() {
+        for (Pieces pieces : piecesMap.values())
+            if (pieces.isKingLastPieceStanding())
+                return true;
+
+        return false;
+    }
+
     // Used only for testing //
     public void clear() {
         for (Square[] squares : grid)
             for (Square square : squares)
                 square.setPiece(null);
+    }
+
+    // Used only for testing //
+    public Map<Color, Pieces> getPiecesMap() {
+        return piecesMap;
     }
 }

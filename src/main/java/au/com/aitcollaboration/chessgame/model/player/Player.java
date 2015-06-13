@@ -4,6 +4,7 @@ import au.com.aitcollaboration.chessgame.Color;
 import au.com.aitcollaboration.chessgame.model.game.structure.Board;
 import au.com.aitcollaboration.chessgame.model.moves.PieceMoves;
 import au.com.aitcollaboration.chessgame.model.pieces.Piece;
+import au.com.aitcollaboration.chessgame.support.UIMessages;
 import au.com.aitcollaboration.chessgame.view.GameView;
 import org.apache.commons.lang3.time.StopWatch;
 
@@ -16,7 +17,7 @@ public abstract class Player {
 
     protected Player(String playerName, Color color, GameView gameView) {
         this.stopWatch = new StopWatch();
-        this.playerName = playerName;
+        this.playerName = playerName.toUpperCase();
         this.color = color;
         this.gameView = gameView;
         stopWatchSetup();
@@ -64,5 +65,21 @@ public abstract class Player {
     @Override
     public String toString() {
         return "\nPlayer " + color + ": " + playerName;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void showEndOfGameMessage(){
+        gameView.showMessage("\n\n\n\n" + UIMessages.YOU_WIN_MESSAGE + playerName);
+    }
+
+    public void showCheckMateMessage(){
+        gameView.showMessage(UIMessages.CHECK_MATE_MESSAGE + playerName);
+    }
+
+    public void showMatchDrawMessage(){
+        gameView.showMessage(UIMessages.GAME_IS_DRAW_MESSAGE);
     }
 }

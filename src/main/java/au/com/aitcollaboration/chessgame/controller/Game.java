@@ -1,5 +1,7 @@
 package au.com.aitcollaboration.chessgame.controller;
 
+import au.com.aitcollaboration.chessgame.Color;
+import au.com.aitcollaboration.chessgame.exceptions.InvalidCoordinatesException;
 import au.com.aitcollaboration.chessgame.exceptions.InvalidMoveException;
 import au.com.aitcollaboration.chessgame.exceptions.InvalidPieceException;
 import au.com.aitcollaboration.chessgame.exceptions.PieceNotFoundException;
@@ -10,35 +12,29 @@ import au.com.aitcollaboration.chessgame.model.moves.PieceMoves;
 import au.com.aitcollaboration.chessgame.model.player.Player;
 import au.com.aitcollaboration.chessgame.support.MyLogger;
 import au.com.aitcollaboration.chessgame.support.UIMessages;
-import au.com.aitcollaboration.chessgame.support.Utils;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public class Game {
 
     private Board board;
     private Rules rules;
     private Player[] players;
-    private List<Board> boardHistory;
 
     public Game(Board board, Rules rules, Player[] players) {
         this.board = board;
         this.rules = rules;
         this.players = players;
-        this.boardHistory = new LinkedList<>();
     }
 
-    public void play() {
-        for (Player player : players) {
+    public void play(Player player) {
+
             player.showBoard(board);
             player.showPlayerName();
+
             player.resumeWatch();
 
             this.makeMove(player);
 
             player.suspendWatch();
-        }
     }
 
     private void makeMove(Player player) {
@@ -95,31 +91,36 @@ public class Game {
     }
 
     Square getSquare(int[] coordinates) {
-//        if (coordinates == null || coordinates.length < 1)
-//            throw new InvalidCoordinatesException();
+        if (coordinates == null || coordinates.length < 1)
+            throw new InvalidCoordinatesException();
+
         return board.getSquareAtPosition(new Position(coordinates[0], coordinates[1]));
     }
 
     private PieceMoves getValidPieceMovesFor(Player player) throws InvalidMoveException {
         Square fromSquare = this.getFromSquare(player);
-        return rules.getValidatedPieceMoves(fromSquare, board);
+        return rules.validatePieceMoves(fromSquare, board);
     }
 
     void movePiece(Square fromSquare, Square toSquare) {
-        addBoardToHistory();
+        rules.addToHistory(board);
         board.movePiece(fromSquare, toSquare);
     }
 
-    public int getBoardHistorySize() {
-        return boardHistory.size();
-    }
-
-    public void addBoardToHistory() {
-        Board clonedBoard = Utils.deepCopyOf(board);
-        boardHistory.add(clonedBoard);
-    }
-
+    //TODO: fix this problem
     public boolean isNotOver() {
-        return !rules.isCheckMate(board) && !rules.isMatchDraw(board);
+        for (Player player : players) {
+            Color color = player.getColor();
+            if (rules.isCheckMate(board, color)) {
+                player.showCheckMateMessage();
+                player.showEndOfGameMessage();
+                return false;
+            }
+            if (rules.isMatchDraw()) {
+                player.showMatchDrawMessage();
+                return false;
+            }
+        }
+        return true;
     }
 }

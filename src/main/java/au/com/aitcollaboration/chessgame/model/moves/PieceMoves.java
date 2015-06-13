@@ -1,9 +1,6 @@
 package au.com.aitcollaboration.chessgame.model.moves;
 
 import au.com.aitcollaboration.chessgame.Color;
-import au.com.aitcollaboration.chessgame.exceptions.KingInCheckException;
-import au.com.aitcollaboration.chessgame.exceptions.KingInDangerException;
-import au.com.aitcollaboration.chessgame.exceptions.PieceCannotBeMovedException;
 import au.com.aitcollaboration.chessgame.model.game.structure.Board;
 import au.com.aitcollaboration.chessgame.model.game.structure.Position;
 import au.com.aitcollaboration.chessgame.model.game.structure.Square;
@@ -27,7 +24,7 @@ public class PieceMoves {
     }
 
     public boolean isEmpty() {
-        return practicalMoves.size() == 0;
+        return practicalMoves.isEmpty();
     }
 
     public int size() {
@@ -42,6 +39,40 @@ public class PieceMoves {
         return currentSquare;
     }
 
+    public PieceMoves validateMoves(Board board, Square kingSquare) {
+
+        PieceMoves validPieceMoves = new PieceMoves(currentSquare);
+        Piece king = kingSquare.getPiece();
+        Color currentColor = king.getColor();
+
+        for (Square toSquare : practicalMoves) {
+
+            PlayerMoves opponentPlayerMoves = this.calculateOpponentMoves(toSquare, board, currentColor);
+
+            if (currentSquare.contains(king))
+                kingSquare = toSquare;
+
+            if (opponentPlayerMoves.contains(kingSquare))
+                continue;
+
+            validPieceMoves.add(toSquare);
+        }
+
+        return validPieceMoves;
+    }
+
+    PlayerMoves calculateOpponentMoves(Square toSquare, Board board, Color currentColor) {
+        Piece tempToPiece = toSquare.getPiece();
+
+        board.doSimulateMovePiece(currentSquare, toSquare);
+
+        PlayerMoves opponentPlayerMoves = board.calculateOpponentPlayerMoves(currentColor);
+
+        board.undoSimulateMovePiece(currentSquare, toSquare, tempToPiece);
+
+        return opponentPlayerMoves;
+    }
+
     @Override
     public String toString() {
         String s = "Valid Moves: ";
@@ -52,55 +83,5 @@ public class PieceMoves {
             }
         }
         return s;
-    }
-
-    public PieceMoves getValidatedMoves(Board board, Color color) throws KingInCheckException,
-            KingInDangerException, PieceCannotBeMovedException {
-
-        if (practicalMoves.isEmpty())
-            throw new PieceCannotBeMovedException();
-
-        PieceMoves validPieceMoves = new PieceMoves(currentSquare);
-
-        PlayerMoves beforeOpponentMoves = board.getOpponentPlayerMoves(color);
-
-        Square kingSquare = board.getCurrentKingSquare(color);
-
-        Piece king = kingSquare.getPiece();
-
-        for (Square toSquare : practicalMoves) {
-
-            PlayerMoves afterOpponentMoves = this.virtualMovePiece(toSquare, board, color);
-
-            if (currentSquare.contains(king))
-                kingSquare = toSquare;
-
-            if (afterOpponentMoves.contains(kingSquare))
-                continue;
-
-            validPieceMoves.add(toSquare);
-        }
-
-        if (validPieceMoves.isEmpty()) {
-            //TODO: refactor this method and find new solution
-            if (beforeOpponentMoves.contains(kingSquare))
-                throw new KingInCheckException();
-            else
-                throw new KingInDangerException();
-        }
-
-        return validPieceMoves;
-    }
-
-    public PlayerMoves virtualMovePiece(Square toSquare, Board board, Color color) {
-        Piece toPiece = toSquare.getPiece();
-
-        board.mockMovePiece(currentSquare, toSquare);
-
-        PlayerMoves afterOpponentMoves = board.getOpponentPlayerMoves(color);
-
-        board.undoMockMovePiece(currentSquare, toSquare, toPiece);
-
-        return afterOpponentMoves;
     }
 }
