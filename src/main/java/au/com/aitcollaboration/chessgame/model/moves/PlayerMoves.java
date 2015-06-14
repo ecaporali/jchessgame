@@ -32,15 +32,13 @@ public class PlayerMoves {
 
     public boolean hasEmptyMoves(Board board, Color color) {
         List<PieceMoves> possibleMovesList = new ArrayList<>();
-
         Square kingSquare = board.getCurrentKingSquare(color);
+
         for (PieceMoves pieceMoves : pieceMovesMap.values()) {
             PieceMoves validPieceMoves = pieceMoves.validateMoves(board, kingSquare);
 
-            if (validPieceMoves.isEmpty())
-                continue;
-
-            possibleMovesList.add(validPieceMoves);
+            if (!validPieceMoves.isEmpty())
+                possibleMovesList.add(validPieceMoves);
         }
         return possibleMovesList.isEmpty();
     }

@@ -26,7 +26,8 @@ public class Rules {
     }
 
     public boolean isCheckMate(Board board, Color color) {
-        return this.hasEmptyMoves(board, color);
+        PlayerMoves playerMoves = board.calculateCurrentPlayerMoves(color);
+        return playerMoves.hasEmptyMoves(board, color);
     }
 
     public boolean isMatchDraw() {
@@ -35,9 +36,9 @@ public class Rules {
         if (boardSize < MATCH_DRAW_COUNTER)
             return false;
 
-        int lastMovesInHistory = boardSize - MATCH_DRAW_COUNTER;
+        int tenthLastBoardPos = boardSize - MATCH_DRAW_COUNTER;
 
-        Board board = boardHistory.get(lastMovesInHistory);
+        Board board = boardHistory.get(tenthLastBoardPos);
 
         return board.isEitherKingLastPieceStanding();
     }
@@ -70,10 +71,5 @@ public class Rules {
     public void addToHistory(Board board) {
         Board clonedBoard = Utils.deepCopyOf(board);
         boardHistory.add(clonedBoard);
-    }
-
-    public boolean hasEmptyMoves(Board board, Color color) {
-        PlayerMoves playerMoves = board.calculateCurrentPlayerMoves(color);
-        return playerMoves.hasEmptyMoves(board, color);
     }
 }
