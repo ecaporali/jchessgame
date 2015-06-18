@@ -22,8 +22,8 @@ public class UIMessages {
     public static final String INVALID_PIECE_EXCEPTION = "Please select a valid piece matching your own colour.";
     public static final String KING_IN_DANGER_EXCEPTION = "Piece cannot be moved otherwise the King will be in danger.";
     public static final String KING_IN_CHECK_EXCEPTION = "The King is under check. Please move another piece or move the King.";
-    public static final String YOU_WIN_MESSAGE = "You are the WINNER!! Congratulations: ";
-    public static final String CHECK_MATE_MESSAGE = "Checkmate. Game over ";
+    public static final String YOU_WIN_MESSAGE = ", you are the WINNER!! Congratulations.";
+    public static final String CHECK_MATE_MESSAGE = "CHECKMATE!!!! Game over ";
     public static final String GAME_IS_DRAW_MESSAGE = "More than 10 moves with only the KING. The game is over. Nobody wins!!!";
 
 

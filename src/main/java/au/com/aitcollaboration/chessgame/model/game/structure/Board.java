@@ -4,6 +4,7 @@ import au.com.aitcollaboration.chessgame.Color;
 import au.com.aitcollaboration.chessgame.model.moves.PlayerMoves;
 import au.com.aitcollaboration.chessgame.model.pieces.*;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,8 +33,8 @@ public class Board {
         grid[0][0].setPiece(new Rook(Color.BLACK));
         grid[0][1].setPiece(new Knight(Color.BLACK));
         grid[0][2].setPiece(new Bishop(Color.BLACK));
-        grid[0][3].setPiece(new King(Color.BLACK));
-        grid[0][4].setPiece(new Queen(Color.BLACK));
+        grid[0][3].setPiece(new Queen(Color.BLACK));
+        grid[0][4].setPiece(new King(Color.BLACK));
         grid[0][5].setPiece(new Bishop(Color.BLACK));
         grid[0][6].setPiece(new Knight(Color.BLACK));
         grid[0][7].setPiece(new Rook(Color.BLACK));
@@ -76,10 +77,6 @@ public class Board {
 
         piecesMap.put(Color.WHITE, whitePieces);
         piecesMap.put(Color.BLACK, blackPieces);
-    }
-
-    public Square[][] getClonedGrid() {
-        return this.grid.clone();
     }
 
     public Square getCurrentSquare(Piece piece) {
@@ -128,13 +125,13 @@ public class Board {
         toSquare.setPiece(toPiece);
     }
 
-    public PlayerMoves calculateOpponentPlayerMoves(Color color) {
-        Pieces opponentPieces = piecesMap.get(color.flip());
-        return opponentPieces.getValidMovesOn(this);
+    public PlayerMoves calculateCurrentPlayerMoves(Color color) {
+        Pieces currentPieces = piecesMap.get(color);
+        return currentPieces.getValidMovesOn(this);
     }
 
-    public PlayerMoves calculateCurrentPlayerMoves(Color currentColor) {
-        Pieces opponentPieces = piecesMap.get(currentColor);
+    public PlayerMoves calculateOpponentPlayerMoves(Color color) {
+        Pieces opponentPieces = piecesMap.get(color.flip());
         return opponentPieces.getValidMovesOn(this);
     }
 
@@ -152,15 +149,33 @@ public class Board {
         return false;
     }
 
+    public boolean isSecondRank(Square pawnSquare) {
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            Square upperRank = grid[1][i];
+            Square lowerRank = grid[6][i];
+            if (upperRank.equals(pawnSquare) || lowerRank.equals(pawnSquare))
+                return true;
+        }
+        return false;
+    }
+
     // Used only for testing //
     public void clear() {
+        piecesMap.clear();
+        piecesMap.put(Color.WHITE, new Pieces());
+        piecesMap.put(Color.BLACK, new Pieces());
+
         for (Square[] squares : grid)
             for (Square square : squares)
                 square.setPiece(null);
     }
 
     // Used only for testing //
-    public Map<Color, Pieces> getPiecesMap() {
-        return piecesMap;
+    public final Pieces getPiecesBy(Color color) {
+        return piecesMap.get(color);
+    }
+
+    public Square[][] getClonedGrid() {
+        return Arrays.copyOf(this.grid, this.grid.length);
     }
 }

@@ -13,13 +13,8 @@ public class App {
         GameConfig gameConfig = new GameConfig(new ConsoleView());
         Player[] players = gameConfig.createPlayers();
 
-        Game game = new Game(new Board(), new Rules(), players);
+        Game game = new Game(new Board(), new Rules());
 
-        Player currentPlayer = players[0];
-        do {
-            Color color = currentPlayer.getColor();
-            game.play(currentPlayer);
-            currentPlayer = players[color.flip().position()];
-        } while (game.isNotOver());
+        game.play(players);
     }
 }

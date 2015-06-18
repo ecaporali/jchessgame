@@ -12,8 +12,8 @@ public class Pawn extends Piece {
     @Override
     public int[][] commonMoves() {
         return (this.getColor().equals(Color.BLACK))
-                ? new int[][]{{1, 0}, {1, 1}, {1, -1}}
-                : new int[][]{{-1, 0}, {1, -1}, {-1, -1}};
+                ? new int[][]{{1, 0}, {2, 0}, {1, 1}, {1, -1}}
+                : new int[][]{{-1, 0}, {-2, 0}, {-1, 1}, {-1, -1}};
     }
 
     @Override

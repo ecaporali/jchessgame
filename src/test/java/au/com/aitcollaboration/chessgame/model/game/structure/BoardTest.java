@@ -1,14 +1,13 @@
 package au.com.aitcollaboration.chessgame.model.game.structure;
 
+import au.com.aitcollaboration.chessgame.Color;
+import au.com.aitcollaboration.chessgame.model.moves.PlayerMoves;
 import au.com.aitcollaboration.chessgame.model.pieces.King;
 import au.com.aitcollaboration.chessgame.model.pieces.Pawn;
 import au.com.aitcollaboration.chessgame.model.pieces.Piece;
 import au.com.aitcollaboration.chessgame.model.pieces.Pieces;
-import au.com.aitcollaboration.chessgame.Color;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -23,7 +22,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testShouldContainAllPiecesAfterInit() {
+    public void createPiecesShouldCreateAppropriatePieces() {
         Square[][] grid = board.getClonedGrid();
 
         int whitePieceCount = 0;
@@ -45,25 +44,24 @@ public class BoardTest {
             }
         }
 
-        assertThat(blackPieceCount, is(16));
-        assertThat(whitePieceCount, is(16));
-        assertThat(emptySquareCount, is(32));
+        assertThat(16, is(blackPieceCount));
+        assertThat(16, is(whitePieceCount));
+        assertThat(32, is(emptySquareCount));
     }
 
     @Test
-    public void testShouldContainBothColoursInMap() throws Exception {
-        Map<Color, Pieces> piecesMap = board.getPiecesMap();
-        Pieces whitePieces = piecesMap.get(Color.WHITE);
-        Pieces blackPieces = piecesMap.get(Color.BLACK);
+    public void buildPieceMapShouldContainBothColours() throws Exception {
+        Pieces whitePieces = board.getPiecesBy(Color.WHITE);
+        Pieces blackPieces = board.getPiecesBy(Color.BLACK);
 
         assertNotNull(whitePieces);
         assertNotNull(blackPieces);
-        assertThat(whitePieces.size(), is(16));
-        assertThat(blackPieces.size(), is(16));
+        assertThat(16, is(whitePieces.size()));
+        assertThat(16, is(blackPieces.size()));
     }
 
     @Test
-    public void testShouldReturnSquareWhenPositionMatches() throws Exception {
+    public void getSquareAtPositionShouldReturnSquareWhenPositionMatches() throws Exception {
         Position position = new Position(1, 5);
         Square square = board.getSquareAtPosition(position);
 
@@ -74,10 +72,18 @@ public class BoardTest {
     }
 
     @Test
-    public void testShouldReturnSquareWhenPieceMatches() throws Exception {
+    public void getSquareAtPositionShouldReturnNullWhenPositionDoesNotMatch() throws Exception {
+        Position position = new Position(11, 12);
+        Square square = board.getSquareAtPosition(position);
+
+        assertNull(square);
+    }
+
+    @Test
+    public void getCurrentSquareShouldReturnSquareWhenPieceMatches() throws Exception {
         Square[][] grid = board.getClonedGrid();
 
-        Piece king = grid[0][3].getPiece();
+        Piece king = grid[0][4].getPiece();
 
         Square square = board.getCurrentSquare(king);
 
@@ -88,7 +94,144 @@ public class BoardTest {
     }
 
     @Test
-    public void testClearShouldClearTheBoardFromPieces() throws Exception {
+    public void getCurrentSquareShouldReturnNullWhenPieceDoesNotMatch() throws Exception {
+        Piece king = new King(Color.WHITE);
+
+        Square square = board.getCurrentSquare(king);
+
+        assertNull(square);
+    }
+
+    @Test
+    public void removePieceShouldRemovePieceWhenItIsFound() throws Exception {
+        Square[][] grid = board.getClonedGrid();
+        Square square = grid[0][3];
+
+        board.removePiece(square);
+        Pieces whitePieces = board.getPiecesBy(Color.WHITE);
+        Pieces blackPieces = board.getPiecesBy(Color.BLACK);
+
+        assertThat(15, is(blackPieces.size()));
+        assertThat(16, is(whitePieces.size()));
+    }
+
+    @Test
+    public void removePieceShouldNotRemovePieceWhenItIsNotFound() throws Exception {
+        Square[][] grid = board.getClonedGrid();
+        Square square = grid[4][0];
+
+        board.removePiece(square);
+        Pieces whitePieces = board.getPiecesBy(Color.WHITE);
+        Pieces blackPieces = board.getPiecesBy(Color.BLACK);
+
+        assertThat(16, is(blackPieces.size()));
+        assertThat(16, is(whitePieces.size()));
+    }
+
+    @Test
+    public void movePieceShouldMoveTheCurrentPieceToDestination() throws Exception {
+        Square[][] grid = board.getClonedGrid();
+        Square fromSquare = grid[1][0];
+        Piece currentPiece = fromSquare.getPiece();
+
+        Square toSquare = grid[2][0];
+
+        assertTrue(fromSquare.hasPiece());
+        assertFalse(toSquare.hasPiece());
+
+        board.movePiece(fromSquare, toSquare);
+
+        assertFalse(fromSquare.hasPiece());
+        assertTrue(toSquare.hasPiece());
+
+        Piece expectedPiece = toSquare.getPiece();
+
+        assertEquals(currentPiece, expectedPiece);
+    }
+
+    @Test
+    public void calculatePlayerMovesShouldReturnPlayerMoves() throws Exception {
+        Color currentColor = Color.WHITE;
+
+        PlayerMoves whitePlayerMoves = board.calculateCurrentPlayerMoves(currentColor);
+        PlayerMoves blackPlayerMoves = board.calculateOpponentPlayerMoves(currentColor);
+
+        assertEquals(10, blackPlayerMoves.size());
+        assertEquals(10, whitePlayerMoves.size());
+    }
+
+    @Test
+    public void getCurrentKingSquareShouldReturnKingSquare() throws Exception {
+        Square[][] grid = board.getClonedGrid();
+        Square blackKingSquare = grid[0][4];
+        Square whiteKingSquare = grid[7][4];
+
+        Square expectedWhiteKingSquare = board.getCurrentKingSquare(Color.WHITE);
+        Square expectedBlackKingSquare = board.getCurrentKingSquare(Color.BLACK);
+
+        Piece whiteKing = whiteKingSquare.getPiece();
+        Piece blackKing = blackKingSquare.getPiece();
+
+        assertTrue(whiteKing.matches(Color.WHITE));
+        assertTrue(blackKing.matches(Color.BLACK));
+        assertEquals(whiteKingSquare, expectedWhiteKingSquare);
+        assertEquals(blackKingSquare, expectedBlackKingSquare);
+    }
+
+    @Test
+    public void isEitherKingLastPieceStandingShouldReturnTrueWhenKingIsLastPiece() throws Exception {
+        Pieces whitePieces = board.getPiecesBy(Color.WHITE);
+        Pieces blackPieces = board.getPiecesBy(Color.BLACK);
+
+        whitePieces.clear();
+        blackPieces.clear();
+
+        assertThat(0, is(whitePieces.size()));
+        assertThat(0, is(blackPieces.size()));
+
+        whitePieces.add(new King(Color.WHITE));
+        blackPieces.add(new King(Color.BLACK));
+
+        assertTrue(board.isEitherKingLastPieceStanding());
+    }
+
+    @Test
+    public void isEitherKingLastPieceStandingShouldReturnFalseWhenThereAreOtherPiecesStanding() throws Exception {
+        Pieces whitePieces = board.getPiecesBy(Color.WHITE);
+        Pieces blackPieces = board.getPiecesBy(Color.BLACK);
+
+        assertThat(16, is(whitePieces.size()));
+        assertThat(16, is(blackPieces.size()));
+        assertFalse(board.isEitherKingLastPieceStanding());
+    }
+
+    @Test
+    public void isSecondRankShouldReturnTrueIfPawnHasNotMoved() throws Exception {
+        Square[][] grid = board.getClonedGrid();
+        Square blackPawnSquare = grid[1][0];
+        Square whitePawnSquare = grid[6][0];
+
+        assertTrue(board.isSecondRank(whitePawnSquare));
+        assertTrue(board.isSecondRank(blackPawnSquare));
+    }
+
+    @Test
+    public void isSecondRankShouldReturnFalseIfPawnHasAlreadyMoved() throws Exception {
+        board.clear();
+        Square[][] grid = board.getClonedGrid();
+
+        Square blackPawnSquare = grid[2][0];
+        Square whitePawnSquare = grid[5][0];
+
+        blackPawnSquare.setPiece(new Pawn(Color.BLACK));
+        whitePawnSquare.setPiece(new Pawn(Color.WHITE));
+
+        assertFalse(board.isSecondRank(whitePawnSquare));
+        assertFalse(board.isSecondRank(blackPawnSquare));
+    }
+
+    @Test
+    public void clearShouldClearTheBoardFromPieces() throws Exception {
         board.clear();
 
         for (Square[] squares : board.getClonedGrid()) {

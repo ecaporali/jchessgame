@@ -1,12 +1,9 @@
 package au.com.aitcollaboration.chessgame.model.pieces;
 
+import au.com.aitcollaboration.chessgame.Color;
 import au.com.aitcollaboration.chessgame.model.game.structure.Board;
-import au.com.aitcollaboration.chessgame.model.game.structure.Square;
 import au.com.aitcollaboration.chessgame.model.moves.PieceMoves;
 import au.com.aitcollaboration.chessgame.model.pieces.movement.MovingBehaviour;
-import au.com.aitcollaboration.chessgame.Color;
-
-import java.util.List;
 
 public abstract class Piece {
 
@@ -18,7 +15,7 @@ public abstract class Piece {
         this.movingBehaviour = movingBehaviour;
     }
 
-    public boolean matches(Color otherColor){
+    public boolean matches(Color otherColor) {
         return this.color.equals(otherColor);
     }
 
@@ -32,12 +29,7 @@ public abstract class Piece {
         return color;
     }
 
-    public boolean matches(Class pieceClass){
+    public boolean matches(Class pieceClass) {
         return this.getClass().equals(pieceClass);
     }
-
-//    public PieceMoves getValidMoves(Board board){
-//        PieceMoves currentPieceMoves = this.getValidMovesOn(board);
-//        return currentPieceMoves.getValidMoves(color, board);
-//    }
 }

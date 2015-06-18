@@ -7,6 +7,8 @@ import au.com.aitcollaboration.chessgame.model.game.structure.Square;
 import au.com.aitcollaboration.chessgame.model.moves.PieceMoves;
 import au.com.aitcollaboration.chessgame.model.pieces.Piece;
 
+import java.util.Arrays;
+
 public class SingleMovement implements MovingBehaviour {
 
     @Override
@@ -19,9 +21,13 @@ public class SingleMovement implements MovingBehaviour {
             return pieceMoves;
 
         int[][] commonMoves = piece.commonMoves();
-        int[] firstMove = commonMoves[0];
+        int[] progressMove = commonMoves[0];
+        int[] firstMove = commonMoves[1];
 
         for (int[] currentMove : commonMoves) {
+            if (Arrays.equals(currentMove, firstMove) && pieceHasMoved(square, board))
+                continue;
+
             int myX = currentMove[0];
             int myY = currentMove[1];
 
@@ -34,18 +40,24 @@ public class SingleMovement implements MovingBehaviour {
             if (nextSquare == null || nextSquare.containsSamePieceColor(pieceColor))
                 continue;
 
-            if (isEatingMove(firstMove, currentMove)) {
+            if (isEatingMove(progressMove, firstMove, currentMove)) {
                 if (nextSquare.containsOpponentPieceColor(pieceColor))
                     pieceMoves.add(nextSquare);
             } else {
-                if (!nextSquare.hasPiece())
-                    pieceMoves.add(nextSquare);
+                if (nextSquare.hasPiece())
+                    break;
+
+                pieceMoves.add(nextSquare);
             }
         }
         return pieceMoves;
     }
 
-    private boolean isEatingMove(int[] firstMove, int[] currentMove) {
-        return firstMove != currentMove;
+    private boolean isEatingMove(int[] progressMove, int[] firstMove, int[] currentMove) {
+        return progressMove != currentMove && firstMove != currentMove;
+    }
+
+    private boolean pieceHasMoved(Square square, Board board) {
+        return !board.isSecondRank(square);
     }
 }

@@ -1,6 +1,9 @@
 package au.com.aitcollaboration.chessgame.model.pieces;
 
 import au.com.aitcollaboration.chessgame.Color;
+import au.com.aitcollaboration.chessgame.model.game.structure.Board;
+import au.com.aitcollaboration.chessgame.model.game.structure.Square;
+import au.com.aitcollaboration.chessgame.model.moves.PlayerMoves;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;
@@ -8,11 +11,10 @@ import static org.junit.Assert.*;
 
 public class PiecesTest {
 
-//    private Pieces pieces = new Pieces(Color.BLACK);
     private Pieces pieces = new Pieces();
 
     @Test
-    public void testPiecesShouldAddPiece() throws Exception {
+    public void addShouldAddPiece() throws Exception {
         assertThat(pieces.size(), is(0));
         pieces.add(new King(Color.BLACK));
         pieces.add(new Queen(Color.BLACK));
@@ -21,7 +23,7 @@ public class PiecesTest {
     }
 
     @Test
-    public void testPiecesShouldRemovePiece() throws Exception {
+    public void removeShouldRemovePiece() throws Exception {
         Piece king = new King(Color.BLACK);
         Piece queen = new Queen(Color.BLACK);
         pieces.add(king);
@@ -34,22 +36,8 @@ public class PiecesTest {
         assertThat(pieces.size(), is(0));
     }
 
-//    @Test
-//    public void testPiecesIsSameColor() throws Exception {
-//        boolean sameColor = pieces.isColor(Color.BLACK);
-//
-//        assertTrue(sameColor);
-//    }
-
-//    @Test
-//    public void testPiecesIsDifferentColor() throws Exception {
-//        boolean differentColor = pieces.isColor(Color.WHITE);
-//
-//        assertFalse(differentColor);
-//    }
-
     @Test
-    public void testPiecesShouldReturnSearchedPiece() throws Exception {
+    public void getPieceShouldReturnSearchedPieceWhenPieceIsFound() throws Exception {
         Piece king = new King(Color.BLACK);
         pieces.add(king);
         Piece expectedKing = pieces.getPiece(King.class);
@@ -58,7 +46,16 @@ public class PiecesTest {
     }
 
     @Test
-    public void testPiecesShouldContainPiece() throws Exception {
+    public void getPieceShouldReturnNullWhenPieceIsNotFound() throws Exception {
+        Piece queen = new Queen(Color.BLACK);
+        pieces.add(queen);
+        Piece expectedKing = pieces.getPiece(King.class);
+
+        assertNull(expectedKing);
+    }
+
+    @Test
+    public void containsShouldContainPieceWhenPieceIsInCurrentPieces() throws Exception {
         Piece king = new King(Color.BLACK);
         pieces.add(king);
 
@@ -68,7 +65,7 @@ public class PiecesTest {
     }
 
     @Test
-    public void testPiecesShouldNotContainPiece() throws Exception {
+    public void containsShouldNotContainPieceWhenPieceIsNotInCurrentPieces() throws Exception {
         Piece king = new King(Color.BLACK);
         Piece queen = new Queen(Color.BLACK);
         pieces.add(king);
@@ -76,5 +73,37 @@ public class PiecesTest {
         boolean notContainsPiece = pieces.contains(queen);
 
         assertFalse(notContainsPiece);
+    }
+
+    @Test
+    public void getValidMovesOnBoardShouldReturnPlayerMoves() throws Exception {
+        Board board = new Board();
+        board.clear();
+        Square[][] grid = board.getClonedGrid();
+        Piece pawn = new Pawn(Color.BLACK);
+
+        grid[1][0].setPiece(pawn);
+        pieces.add(pawn);
+
+        PlayerMoves playerMoves = pieces.getValidMovesOn(board);
+
+        assertEquals(1, playerMoves.size());
+    }
+
+    @Test
+    public void getValidMovesOnBoardShouldReturnEmptyPlayerMoves() throws Exception {
+        Board board = new Board();
+        board.clear();
+        Square[][] grid = board.getClonedGrid();
+        Piece blackPawn = new Pawn(Color.BLACK);
+        Piece whitePawn = new Pawn(Color.WHITE);
+
+        grid[1][0].setPiece(blackPawn);
+        grid[2][0].setPiece(whitePawn);
+        pieces.add(blackPawn);
+
+        PlayerMoves playerMoves = pieces.getValidMovesOn(board);
+
+        assertEquals(0, playerMoves.size());
     }
 }

@@ -29,7 +29,7 @@ public class HumanPlayer extends Player {
         gameView.showMessage(pieceMoves.toString());
     }
 
-    private int[] getValidCoordinates(String message) {
+    int[] getValidCoordinates(String message) {
         int[] coordinates = null;
 
         while (coordinates == null) {

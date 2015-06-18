@@ -3,7 +3,6 @@ package au.com.aitcollaboration.chessgame.model.player;
 import au.com.aitcollaboration.chessgame.Color;
 import au.com.aitcollaboration.chessgame.model.game.structure.Board;
 import au.com.aitcollaboration.chessgame.model.moves.PieceMoves;
-import au.com.aitcollaboration.chessgame.model.pieces.Piece;
 import au.com.aitcollaboration.chessgame.support.UIMessages;
 import au.com.aitcollaboration.chessgame.view.GameView;
 import org.apache.commons.lang3.time.StopWatch;
@@ -42,10 +41,6 @@ public abstract class Player {
         stopWatch.suspend();
     }
 
-    public boolean isOwnPiece(Piece piece) {
-        return piece.matches(color);
-    }
-
     public void showBoard(Board board) {
         gameView.showBoard(board);
     }
@@ -71,15 +66,15 @@ public abstract class Player {
         return color;
     }
 
-    public void showEndOfGameMessage(){
-        gameView.showMessage("\n\n\n\n" + UIMessages.YOU_WIN_MESSAGE + playerName);
+    public void showEndOfGameMessage() {
+        gameView.showMessage(playerName + UIMessages.YOU_WIN_MESSAGE);
     }
 
-    public void showCheckMateMessage(){
-        gameView.showMessage(UIMessages.CHECK_MATE_MESSAGE + playerName);
+    public void showCheckMateMessage() {
+        gameView.showMessage("\n\n\n\n" + UIMessages.CHECK_MATE_MESSAGE + playerName + " =(");
     }
 
-    public void showMatchDrawMessage(){
+    public void showMatchDrawMessage() {
         gameView.showMessage(UIMessages.GAME_IS_DRAW_MESSAGE);
     }
 }

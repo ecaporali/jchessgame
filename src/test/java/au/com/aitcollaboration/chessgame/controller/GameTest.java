@@ -1,19 +1,28 @@
 package au.com.aitcollaboration.chessgame.controller;
 
+import au.com.aitcollaboration.chessgame.Color;
+import au.com.aitcollaboration.chessgame.exceptions.InvalidCoordinatesException;
 import au.com.aitcollaboration.chessgame.model.game.structure.Board;
+import au.com.aitcollaboration.chessgame.model.game.structure.Position;
+import au.com.aitcollaboration.chessgame.model.game.structure.Square;
+import au.com.aitcollaboration.chessgame.model.moves.PieceMoves;
+import au.com.aitcollaboration.chessgame.model.moves.PlayerMoves;
+import au.com.aitcollaboration.chessgame.model.pieces.King;
+import au.com.aitcollaboration.chessgame.model.pieces.Piece;
 import au.com.aitcollaboration.chessgame.model.player.Player;
-import au.com.aitcollaboration.chessgame.support.Utils;
 import org.junit.Before;
-import org.junit.runner.RunWith;
+import org.junit.Test;
 import org.mockito.Mock;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.doNothing;
+import static org.powermock.api.mockito.PowerMockito.when;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(Utils.class)
 public class GameTest {
 
     @Mock
@@ -21,143 +30,137 @@ public class GameTest {
     @Mock
     private Rules rules;
     @Mock
-    private Player player1;
+    private Player player;
     @Mock
-    private Player player2;
+    private PlayerMoves playerMoves;
 
     private Game game;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        mockStatic(Utils.class);
 
-        Player[] players = {player1, player2};
-        game = new Game(board, rules, players);
+        game = new Game(board, rules);
     }
 
-//    @Test
-//    public void testGetPlayersMapReturnsTwoHumanPlayers() {
-//        when(gameView.getNumericAnswer(any(String.class))).thenReturn(2);
-//
-//        Map<Color, Player> colorPlayerMap = game.getPlayersMap();
-//
-//        Player playerOne = colorPlayerMap.get(Color.WHITE);
-//        Player playerTwo = colorPlayerMap.get(Color.BLACK);
-//
-//        assertThat(colorPlayerMap.size(), is(2));
-//        assertEquals(HumanPlayer.class, playerOne.getClass());
-//        assertEquals(HumanPlayer.class, playerTwo.getClass());
-//    }
-//
-//    @Test
-//    public void testGetPlayersMapReturnsOneHumanAndOneComputerPlayers() {
-//        when(gameView.getNumericAnswer(anyString())).thenReturn(1);
-//        when(Utils.tossCoin(any(String.class))).thenReturn(true);
-//
-//        Map<Color, Player> colorPlayerMap = game.getPlayersMap();
-//
-//        Player playerOne = colorPlayerMap.get(Color.WHITE);
-//        Player playerTwo = colorPlayerMap.get(Color.BLACK);
-//
-//        assertThat(colorPlayerMap.size(), is(2));
-//        assertEquals(playerOne.getClass(), HumanPlayer.class);
-//        assertEquals(playerTwo.getClass(), ComputerPlayer.class);
-//    }
-//
-//    @Test
-//    public void testIsMultiPlayersShouldReturnTrueWhenMultiPlayersSelectionIsMoreThanOne() {
-//        when(gameView.getNumericAnswer(any(String.class))).thenReturn(2);
-//
-//        boolean isMultiPlayers = game.isMultiPlayers();
-//
-//        assertTrue(isMultiPlayers);
-//    }
-//
-//    @Test
-//    public void testIsMultiPlayersShouldReturnFalseWhenMultiPlayersSelectionIsLessThanTwo() {
-//        when(gameView.getNumericAnswer(anyString())).thenReturn(1);
-//
-//        boolean isMultiPlayers = game.isMultiPlayers();
-//
-//        assertFalse(isMultiPlayers);
-//    }
-//
-//    @Test
-//    public void testAddMoveToHistoryShouldIncreaseListSize() {
-//        assertThat(game.getMovesHistorySize(), is(0));
-//        game.addMoveToHistory();
-//        game.addMoveToHistory();
-//        assertThat(game.getMovesHistorySize(), is(2));
-//    }
-//
-//    @Test
-//    public void testTossCoinShouldReturnColorWhiteWhenTossCoinIsTrue() {
-//        when(Utils.tossCoin(any(String.class))).thenReturn(true);
-//
-//        Color whiteColor = game.tossCoin();
-//
-//        assertThat(whiteColor, is(Color.WHITE));
-//    }
-//
-//    @Test
-//    public void testTossCoinShouldReturnBlackWhiteWhenTossCoinIsFalse() {
-//        when(Utils.tossCoin(any(String.class))).thenReturn(false);
-//
-//        Color whiteColor = game.tossCoin();
-//
-//        assertThat(whiteColor, is(Color.BLACK));
-//    }
-//
-//    @Test
-//    public void testGetFromSquareShouldReturnSquareContainingAPiece() throws InvalidPositionException {
-//        Square testSquare = new Square(0, 0);
-//        testSquare.setPiece(new King(Color.BLACK));
-//
-//        when(gameView.getTextAnswer(anyString())).thenReturn("A1");
-//        when(Utils.toBoardPosition(any(String.class))).thenReturn(new int[]{0, 0});
-//        when(board.getSquareAtPosition(any(Position.class))).thenReturn(testSquare);
-//
-//        Square square = game.getFromSquare();
-//
-//        assertNotNull(square);
-//        assertTrue(square.hasPiece());
-//    }
-//
-//    @Test(expected = InvalidCoordinatesException.class)
-//    public void testGetSquareFromCoordinatesShouldThrowInvalidCoordinatesExceptionWhenNullCoordinates() {
-//        game.getSquareFromCoordinates(null);
-//    }
-//
-//    @Test
-//    public void testGetValidCoordinatesShouldReturnValidCoordinates() throws InvalidPositionException {
-//        when(gameView.getTextAnswer(anyString())).thenReturn("A1");
-//        when(Utils.toBoardPosition(any(String.class))).thenReturn(new int[]{0, 0});
-//        int[] coordinates = game.getValidCoordinates("");
-//
-//        assertNotNull(coordinates);
-//        assertEquals(coordinates.length, 2);
-//    }
-//
-//    @Test
-//    public void testShouldReturnColorWhiteWhenTossCoinSideMatched() throws Exception {
-//        when(Utils.tossCoin(anyString())).thenReturn(true);
-//
-//        Color color = game.tossCoin();
-//
-//        assertEquals(color, Color.WHITE);
-//        assertFalse(color.equals(Color.BLACK));
-//        PowerMockito.verifyPrivate(game).invoke("getTextAnswer", anyString());
-//    }
-//
-//    @Test
-//    public void testShouldReturnColorBlackWhenTossCoinSideNotMatched() throws Exception {
-//        when(Utils.tossCoin(anyString())).thenReturn(false);
-//
-//        Color color = game.tossCoin();
-//
-//        assertEquals(color, Color.BLACK);
-//        assertFalse(color.equals(Color.WHITE));
-//        PowerMockito.verifyPrivate(game).invoke("getTextAnswer", anyString());
-//    }
+    @Test
+    public void playShouldStopWhenCheckMateIsTrue() throws Exception {
+        prepareMatchersForPlayMethod();
+        when(rules.isCheckMate(any(Color.class), any(Board.class))).thenReturn(true);
+
+        Player[] players = new Player[]{player, player};
+        game.play(players);
+
+        verify(player).showCheckMateMessage();
+        verify(player).showEndOfGameMessage();
+    }
+
+    @Test
+    public void playShouldStopWhenMatchDrawIsTrue() throws Exception {
+        prepareMatchersForPlayMethod();
+        when(rules.isCheckMate(any(Color.class), any(Board.class))).thenReturn(false);
+        when(rules.isMatchDraw()).thenReturn(true);
+
+        Player[] players = new Player[]{player, player};
+        game.play(players);
+
+        verify(player).showMatchDrawMessage();
+    }
+
+    @Test
+    public void validateFromSquareShouldNotReturnNullSquare() throws Exception {
+        Square givenSquare = new Square(1, 1);
+
+        when(player.getFromSquareCoordinate()).thenReturn(new int[]{1, 1});
+        when(board.getSquareAtPosition(any(Position.class))).thenReturn(givenSquare);
+        doNothing().when(rules).validateFromSquare(any(Square.class), any(PlayerMoves.class), any(Board.class));
+
+        Square expectedSquare = game.validateFromSquare(player, getPlayerMovesMock());
+
+        assertNotNull(expectedSquare);
+        assertEquals(givenSquare, expectedSquare);
+    }
+
+    @Test
+    public void getSquareShouldReturnAValidSquare() throws Exception {
+        Square givenSquare = new Square(1, 1);
+        when(board.getSquareAtPosition(any(Position.class))).thenReturn(givenSquare);
+
+        Square expectedSquare = game.getSquare(new int[]{1, 1});
+        assertNotNull(expectedSquare);
+        assertEquals(givenSquare, expectedSquare);
+    }
+
+    @Test(expected = InvalidCoordinatesException.class)
+    public void getSquareShouldThrowExceptionWhenCoordinatesAreNull() {
+        Square givenSquare = new Square(1, 1);
+        when(board.getSquareAtPosition(any(Position.class))).thenReturn(givenSquare);
+
+        game.getSquare(null);
+    }
+
+    @Test(expected = InvalidCoordinatesException.class)
+    public void getSquareShouldThrowExceptionWhenCoordinatesSizeIsNotOne() {
+        Square givenSquare = new Square(1, 1);
+        when(board.getSquareAtPosition(any(Position.class))).thenReturn(givenSquare);
+
+        game.getSquare(new int[0]);
+    }
+
+    @Test
+    public void getValidToSquareShouldReturnNotNullSquare() throws Exception {
+        Square givenSquare = new Square(1, 1);
+        givenSquare.setPiece(new King(Color.WHITE));
+
+        when(player.getToSquareCoordinate()).thenReturn(new int[]{1, 1});
+        when(board.getSquareAtPosition(any(Position.class))).thenReturn(givenSquare);
+
+        Square expectedSquare = game.getValidToSquare(player, getPieceMovesMock(givenSquare));
+
+        assertNotNull(expectedSquare);
+        assertEquals(givenSquare, expectedSquare);
+    }
+
+    @Test
+    public void movePieceShouldAddBoardToHistoryAndCallMoveMethod() throws Exception {
+        doNothing().when(board).movePiece(any(Square.class), any(Square.class));
+        doNothing().when(rules).addToHistory(any(Board.class));
+
+        Square fromSquare = new Square(0, 0);
+        Square toSquare = new Square(1, 1);
+
+        game.movePiece(fromSquare, toSquare);
+
+        verify(rules, times(1)).addToHistory(board);
+        verify(board, times(1)).movePiece(fromSquare, toSquare);
+    }
+
+    private PlayerMoves getPlayerMovesMock() {
+        PlayerMoves playerMoves = new PlayerMoves();
+        PieceMoves pieceMoves = getPieceMovesMock(new Square(1, 1));
+        playerMoves.add(new King(Color.BLACK), pieceMoves);
+
+        return playerMoves;
+    }
+
+    private PieceMoves getPieceMovesMock(Square givenSquare) {
+        Square square = new Square(0, 0);
+        square.setPiece(new King(Color.BLACK));
+        PieceMoves pieceMoves = new PieceMoves(square);
+        pieceMoves.add(givenSquare);
+        return pieceMoves;
+    }
+
+    private void prepareMatchersForPlayMethod() {
+        Square toSquare = new Square(1, 1);
+        PieceMoves pieceMoves = new PieceMoves(new Square(0, 0));
+        pieceMoves.add(toSquare);
+
+        when(playerMoves.getValidPieceMovesFor(any(Piece.class))).thenReturn(pieceMoves);
+        when(board.calculateCurrentPlayerMoves(any(Color.class))).thenReturn(playerMoves);
+        when(board.getSquareAtPosition(any(Position.class))).thenReturn(toSquare);
+        when(player.getFromSquareCoordinate()).thenReturn(new int[]{0, 0});
+        when(player.getToSquareCoordinate()).thenReturn(new int[]{1, 1});
+        when(player.getColor()).thenReturn(Color.BLACK);
+    }
 }

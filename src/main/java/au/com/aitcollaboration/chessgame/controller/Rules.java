@@ -1,10 +1,7 @@
 package au.com.aitcollaboration.chessgame.controller;
 
 import au.com.aitcollaboration.chessgame.Color;
-import au.com.aitcollaboration.chessgame.exceptions.InvalidMoveException;
-import au.com.aitcollaboration.chessgame.exceptions.KingInCheckException;
-import au.com.aitcollaboration.chessgame.exceptions.KingInDangerException;
-import au.com.aitcollaboration.chessgame.exceptions.PieceCannotBeMovedException;
+import au.com.aitcollaboration.chessgame.exceptions.*;
 import au.com.aitcollaboration.chessgame.model.game.structure.Board;
 import au.com.aitcollaboration.chessgame.model.game.structure.Square;
 import au.com.aitcollaboration.chessgame.model.moves.PieceMoves;
@@ -25,9 +22,10 @@ public class Rules {
         this.boardHistory = new LinkedList<>();
     }
 
-    public boolean isCheckMate(Board board, Color color) {
-        PlayerMoves playerMoves = board.calculateCurrentPlayerMoves(color);
-        return playerMoves.hasEmptyMoves(board, color);
+    public boolean isCheckMate(Color currentColor, Board board) {
+        PlayerMoves currentPlayerMoves = board.calculateCurrentPlayerMoves(currentColor);
+        PlayerMoves opponentPlayerMoves = board.calculateOpponentPlayerMoves(currentColor);
+        return currentPlayerMoves.hasEmptyMoves(board, currentColor, opponentPlayerMoves);
     }
 
     public boolean isMatchDraw() {
@@ -43,20 +41,20 @@ public class Rules {
         return board.isEitherKingLastPieceStanding();
     }
 
-    public PieceMoves validatePieceMoves(Square fromSquare, Board board) throws InvalidMoveException {
+    public void validateFromSquare(Square fromSquare, PlayerMoves playerMoves, Board board) throws PieceNotFoundException,
+            InvalidPieceException, PieceCannotBeMovedException, KingInCheckException, KingInDangerException {
+
+        if (!fromSquare.hasPiece())
+            throw new PieceNotFoundException();
+
         Piece currentPiece = fromSquare.getPiece();
-
-        PieceMoves currentPieceMoves = currentPiece.getValidMovesOn(board);
-
-        if (currentPieceMoves.isEmpty())
-            throw new PieceCannotBeMovedException();
-
         Color color = currentPiece.getColor();
-        Square kingSquare = board.getCurrentKingSquare(color);
-
-        PieceMoves validPieceMoves = currentPieceMoves.validateMoves(board, kingSquare);
 
         PlayerMoves opponentMoves = board.calculateOpponentPlayerMoves(color);
+        //it might throw InvalidPieceException and PieceCannotBeMovedException
+        PieceMoves validPieceMoves = playerMoves.calculateValidPieceMoves(currentPiece, board, opponentMoves);
+
+        Square kingSquare = board.getCurrentKingSquare(color);
 
         if (validPieceMoves.isEmpty()) {
             if (opponentMoves.contains(kingSquare))
@@ -64,12 +62,19 @@ public class Rules {
             else
                 throw new KingInDangerException();
         }
-
-        return validPieceMoves;
     }
 
     public void addToHistory(Board board) {
         Board clonedBoard = Utils.deepCopyOf(board);
         boardHistory.add(clonedBoard);
+    }
+
+    /*Used in Tests */
+    int historySize(){
+        return boardHistory.size();
+    }
+
+    void addToHistoryTest(Board board){
+        boardHistory.add(board);
     }
 }

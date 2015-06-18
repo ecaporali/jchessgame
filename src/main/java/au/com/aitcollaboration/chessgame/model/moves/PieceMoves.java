@@ -7,6 +7,7 @@ import au.com.aitcollaboration.chessgame.model.game.structure.Square;
 import au.com.aitcollaboration.chessgame.model.pieces.Piece;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class PieceMoves {
@@ -35,33 +36,31 @@ public class PieceMoves {
         return this.practicalMoves.contains(square);
     }
 
-    public Square getCurrentSquare() {
-        return currentSquare;
-    }
+    public void toValidMoves(Board board, Square kingSquare, PlayerMoves opponentInitialMoves) {
 
-    public PieceMoves validateMoves(Board board, Square kingSquare) {
-
-        PieceMoves validPieceMoves = new PieceMoves(currentSquare);
         Piece king = kingSquare.getPiece();
         Color currentColor = king.getColor();
 
-        for (Square toSquare : practicalMoves) {
+        List<Square> squaresHavingKingInCheck = opponentInitialMoves.getSquaresHavingKingInCheck(kingSquare);
 
-            PlayerMoves opponentPlayerMoves = this.calculateOpponentMoves(toSquare, board, currentColor);
+        Iterator<Square> iterator = practicalMoves.iterator();
+
+        while (iterator.hasNext()) {
+            Square possibleToSquare = iterator.next();
+
+            PlayerMoves opponentPlayerMoves = this.calculateOpponentMoves(possibleToSquare, board, currentColor);
 
             if (currentSquare.contains(king))
-                kingSquare = toSquare;
+                kingSquare = possibleToSquare;
 
+            //TODO: refactor this part
             if (opponentPlayerMoves.contains(kingSquare))
-                continue;
-
-            validPieceMoves.add(toSquare);
+                if (!squaresHavingKingInCheck.contains(kingSquare))
+                    iterator.remove();
         }
-
-        return validPieceMoves;
     }
 
-    PlayerMoves calculateOpponentMoves(Square toSquare, Board board, Color currentColor) {
+    private PlayerMoves calculateOpponentMoves(Square toSquare, Board board, Color currentColor) {
         Piece tempToPiece = toSquare.getPiece();
 
         board.doSimulateMovePiece(currentSquare, toSquare);
@@ -73,15 +72,22 @@ public class PieceMoves {
         return opponentPlayerMoves;
     }
 
+    public final Square getCurrentSquare() {
+        return currentSquare;
+    }
+
     @Override
     public String toString() {
-        String s = "Valid Moves: ";
+        String s = "";
         for (Square square : practicalMoves) {
             if (square != null) {
                 Position position = square.getPosition();
                 s += position.toString();
             }
         }
+
+        if (!s.isEmpty()) s = "Valid Moves: " + s;
+
         return s;
     }
 }

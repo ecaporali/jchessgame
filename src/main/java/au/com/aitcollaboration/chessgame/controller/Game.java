@@ -3,12 +3,11 @@ package au.com.aitcollaboration.chessgame.controller;
 import au.com.aitcollaboration.chessgame.Color;
 import au.com.aitcollaboration.chessgame.exceptions.InvalidCoordinatesException;
 import au.com.aitcollaboration.chessgame.exceptions.InvalidMoveException;
-import au.com.aitcollaboration.chessgame.exceptions.InvalidPieceException;
-import au.com.aitcollaboration.chessgame.exceptions.PieceNotFoundException;
 import au.com.aitcollaboration.chessgame.model.game.structure.Board;
 import au.com.aitcollaboration.chessgame.model.game.structure.Position;
 import au.com.aitcollaboration.chessgame.model.game.structure.Square;
 import au.com.aitcollaboration.chessgame.model.moves.PieceMoves;
+import au.com.aitcollaboration.chessgame.model.moves.PlayerMoves;
 import au.com.aitcollaboration.chessgame.model.player.Player;
 import au.com.aitcollaboration.chessgame.support.MyLogger;
 import au.com.aitcollaboration.chessgame.support.UIMessages;
@@ -17,71 +16,91 @@ public class Game {
 
     private Board board;
     private Rules rules;
-    private Player[] players;
 
-    public Game(Board board, Rules rules, Player[] players) {
+    public Game(Board board, Rules rules) {
         this.board = board;
         this.rules = rules;
-        this.players = players;
     }
 
-    public void play(Player player) {
+    public void play(Player[] players) {
+        Player currentPlayer = players[Color.WHITE.position()];
 
-            player.showBoard(board);
-            player.showPlayerName();
+        while (true) {
+            Color color = currentPlayer.getColor();
 
-            player.resumeWatch();
+            this.play(currentPlayer);
 
-            this.makeMove(player);
+            Color opponentColor = color.flip();
 
-            player.suspendWatch();
+            if (isCheckMate(opponentColor)) {
+                Player loosingPlayer = players[opponentColor.position()];
+                loosingPlayer.showCheckMateMessage();
+                currentPlayer.showEndOfGameMessage();
+                break;
+            }
+
+            if (isMatchDraw()) {
+                currentPlayer.showMatchDrawMessage();
+                break;
+            }
+
+            currentPlayer = players[opponentColor.position()];
+        }
+
+        currentPlayer.showBoard(board);
     }
 
-    private void makeMove(Player player) {
-        PieceMoves pieceMoves = this.getValidPieceMoves(player);
+    void play(Player player) {
 
-        player.showPracticalMoves(pieceMoves);
+        player.showBoard(board);
+        player.showPlayerName();
 
-        Square fromSquare = pieceMoves.getCurrentSquare();
-        Square toSquare = this.getToSquare(player, pieceMoves);
+        player.resumeWatch();
+
+        PlayerMoves playerMoves = board.calculateCurrentPlayerMoves(player.getColor());
+
+        this.makeMove(player, playerMoves);
+
+        player.suspendWatch();
+    }
+
+    void makeMove(Player player, PlayerMoves playerMoves) {
+        Square fromSquare = this.getValidFromSquare(player, playerMoves);
+
+        PieceMoves validPieceMoves = playerMoves.getValidPieceMovesFor(fromSquare.getPiece());
+
+        player.showPracticalMoves(validPieceMoves);
+
+        Square toSquare = this.getValidToSquare(player, validPieceMoves);
 
         this.movePiece(fromSquare, toSquare);
     }
 
-    PieceMoves getValidPieceMoves(Player player) {
-        PieceMoves pieceMoves;
+    Square getValidFromSquare(Player player, PlayerMoves playerMoves) {
+        Square fromSquare;
         do {
-            pieceMoves = getPieceMoves(player);
-        } while (pieceMoves == null);
+            fromSquare = validateFromSquare(player, playerMoves);
+        } while (fromSquare == null);
 
-        return pieceMoves;
+        return fromSquare;
     }
 
-    PieceMoves getPieceMoves(Player player) {
-        PieceMoves pieceMoves = null;
+    Square validateFromSquare(Player player, PlayerMoves playerMoves) {
+        Square fromSquare = this.getSquare(player.getFromSquareCoordinate());
+
         try {
-            pieceMoves = this.getValidPieceMovesFor(player);
+            rules.validateFromSquare(fromSquare, playerMoves, board);
         } catch (InvalidMoveException e) {
+            fromSquare = null;
             player.showError(e.getMessage());
         } catch (Exception e) {
             MyLogger.debug(e);
         }
 
-        return pieceMoves;
-    }
-
-    Square getFromSquare(Player player) throws PieceNotFoundException, InvalidPieceException {
-        Square fromSquare = this.getSquare(player.getFromSquareCoordinate());
-
-        if (!fromSquare.hasPiece())
-            throw new PieceNotFoundException();
-        if (!player.isOwnPiece(fromSquare.getPiece()))
-            throw new InvalidPieceException();
-
         return fromSquare;
     }
 
-    Square getToSquare(Player player, PieceMoves pieceMoves) {
+    Square getValidToSquare(Player player, PieceMoves pieceMoves) {
         Square toSquare = this.getSquare(player.getToSquareCoordinate());
         while (!pieceMoves.contains(toSquare)) {
             player.showError(UIMessages.INVALID_MOVE_EXCEPTION);
@@ -91,15 +110,10 @@ public class Game {
     }
 
     Square getSquare(int[] coordinates) {
-        if (coordinates == null || coordinates.length < 1)
+        if (coordinates == null || coordinates.length != 2)
             throw new InvalidCoordinatesException();
 
         return board.getSquareAtPosition(new Position(coordinates[0], coordinates[1]));
-    }
-
-    private PieceMoves getValidPieceMovesFor(Player player) throws InvalidMoveException {
-        Square fromSquare = this.getFromSquare(player);
-        return rules.validatePieceMoves(fromSquare, board);
     }
 
     void movePiece(Square fromSquare, Square toSquare) {
@@ -107,20 +121,11 @@ public class Game {
         board.movePiece(fromSquare, toSquare);
     }
 
-    //TODO: fix this problem
-    public boolean isNotOver() {
-        for (Player player : players) {
-            Color color = player.getColor();
-            if (rules.isCheckMate(board, color)) {
-                player.showCheckMateMessage();
-                player.showEndOfGameMessage();
-                return false;
-            }
-            if (rules.isMatchDraw()) {
-                player.showMatchDrawMessage();
-                return false;
-            }
-        }
-        return true;
+    public boolean isCheckMate(Color color) {
+        return rules.isCheckMate(color, board);
+    }
+
+    public boolean isMatchDraw() {
+        return rules.isMatchDraw();
     }
 }
