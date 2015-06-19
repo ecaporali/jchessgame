@@ -81,7 +81,7 @@ public class PlayerMoves {
         return pieceMovesSize;
     }
 
-    public List<Square> getSquaresHavingKingInCheck(Square kingSquare) {
+    public List<Square> getDangeringKingSquare(Square kingSquare) {
         List<Square> kingInCheckList = new ArrayList<>();
         for (PieceMoves pieceMoves : pieceMovesMap.values())
             if (pieceMoves.contains(kingSquare))

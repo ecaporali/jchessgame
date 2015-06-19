@@ -41,7 +41,7 @@ public class PieceMoves {
         Piece king = kingSquare.getPiece();
         Color currentColor = king.getColor();
 
-        List<Square> squaresHavingKingInCheck = opponentInitialMoves.getSquaresHavingKingInCheck(kingSquare);
+        List<Square> dangeringKingSquares = opponentInitialMoves.getDangeringKingSquare(kingSquare);
 
         Iterator<Square> iterator = practicalMoves.iterator();
 
@@ -53,9 +53,8 @@ public class PieceMoves {
             if (currentSquare.contains(king))
                 kingSquare = possibleToSquare;
 
-            //TODO: refactor this part
             if (opponentPlayerMoves.contains(kingSquare))
-                if (!squaresHavingKingInCheck.contains(kingSquare))
+                if (!dangeringKingSquares.contains(kingSquare))
                     iterator.remove();
         }
     }

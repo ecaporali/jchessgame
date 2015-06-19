@@ -24,8 +24,8 @@ public class Rules {
 
     public boolean isCheckMate(Color currentColor, Board board) {
         PlayerMoves currentPlayerMoves = board.calculateCurrentPlayerMoves(currentColor);
-        PlayerMoves opponentPlayerMoves = board.calculateOpponentPlayerMoves(currentColor);
-        return currentPlayerMoves.hasEmptyMoves(board, currentColor, opponentPlayerMoves);
+        PlayerMoves opponentInitialMoves = board.calculateOpponentPlayerMoves(currentColor);
+        return currentPlayerMoves.hasEmptyMoves(board, currentColor, opponentInitialMoves);
     }
 
     public boolean isMatchDraw() {
@@ -50,14 +50,15 @@ public class Rules {
         Piece currentPiece = fromSquare.getPiece();
         Color color = currentPiece.getColor();
 
-        PlayerMoves opponentMoves = board.calculateOpponentPlayerMoves(color);
+        PlayerMoves opponentInitialMoves = board.calculateOpponentPlayerMoves(color);
+
         //it might throw InvalidPieceException and PieceCannotBeMovedException
-        PieceMoves validPieceMoves = playerMoves.calculateValidPieceMoves(currentPiece, board, opponentMoves);
+        PieceMoves validPieceMoves = playerMoves.calculateValidPieceMoves(currentPiece, board, opponentInitialMoves);
 
         Square kingSquare = board.getCurrentKingSquare(color);
 
         if (validPieceMoves.isEmpty()) {
-            if (opponentMoves.contains(kingSquare))
+            if (opponentInitialMoves.contains(kingSquare))
                 throw new KingInCheckException();
             else
                 throw new KingInDangerException();
@@ -69,12 +70,12 @@ public class Rules {
         boardHistory.add(clonedBoard);
     }
 
-    /*Used in Tests */
-    int historySize(){
-        return boardHistory.size();
+    void addToHistoryTest(Board board) {
+        boardHistory.add(board);
     }
 
-    void addToHistoryTest(Board board){
-        boardHistory.add(board);
+    /*Used in Tests */
+    int historySize() {
+        return boardHistory.size();
     }
 }
