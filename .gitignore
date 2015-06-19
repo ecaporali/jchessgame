@@ -3,6 +3,8 @@
 
 # User Related
 .idea/
+documentation/
+out/
 chessgame.iml
 
 # Maven Related
