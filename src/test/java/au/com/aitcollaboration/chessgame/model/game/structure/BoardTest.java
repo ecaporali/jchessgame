@@ -240,4 +240,64 @@ public class BoardTest {
             }
         }
     }
+
+    @Test
+    public void isEdgeSquareShouldReturnTrueWhenSquareIsEitherOnFirstOrLastRow() throws Exception {
+        Square[][] grid = board.getClonedGrid();
+
+        boolean sevenZero = board.isEdgeSquare(grid[7][0]);
+        boolean zeroFive = board.isEdgeSquare(grid[0][5]);
+        boolean sevenTwo = board.isEdgeSquare(grid[7][2]);
+        boolean zeroSeven = board.isEdgeSquare(grid[0][7]);
+
+        assertTrue(sevenZero);
+        assertTrue(sevenTwo);
+        assertTrue(zeroFive);
+        assertTrue(zeroSeven);
+    }
+
+    @Test
+    public void isEdgeSquareShouldReturnFalseWhenSquareIsNotOnFirstOrLastRow() throws Exception {
+        Square[][] grid = board.getClonedGrid();
+
+        boolean sixZero = board.isEdgeSquare(grid[6][0]);
+        boolean twoFive = board.isEdgeSquare(grid[2][5]);
+        boolean threeTwo = board.isEdgeSquare(grid[3][2]);
+        boolean oneSeven = board.isEdgeSquare(grid[1][7]);
+
+        assertFalse(sixZero);
+        assertFalse(threeTwo);
+        assertFalse(twoFive);
+        assertFalse(oneSeven);
+    }
+
+    @Test
+    public void isSecondRankShouldReturnTrueWhenIsSecondRank() throws Exception {
+        Square[][] grid = board.getClonedGrid();
+
+        boolean oneFive = board.isSecondRank(grid[1][5]);
+        boolean oneZero = board.isSecondRank(grid[1][0]);
+        boolean sixThree = board.isSecondRank(grid[6][3]);
+        boolean sixSeven = board.isSecondRank(grid[6][7]);
+
+        assertTrue(oneFive);
+        assertTrue(oneZero);
+        assertTrue(sixThree);
+        assertTrue(sixSeven);
+    }
+
+    @Test
+    public void isSecondRankShouldReturnFalseWhenIsNotSecondRank() throws Exception {
+        Square[][] grid = board.getClonedGrid();
+
+        boolean twoFive = board.isSecondRank(grid[2][5]);
+        boolean zeroSix = board.isSecondRank(grid[0][6]);
+        boolean threeFour = board.isSecondRank(grid[3][4]);
+        boolean sevenOne = board.isSecondRank(grid[7][1]);
+
+        assertFalse(twoFive);
+        assertFalse(zeroSix);
+        assertFalse(threeFour);
+        assertFalse(sevenOne);
+    }
 }

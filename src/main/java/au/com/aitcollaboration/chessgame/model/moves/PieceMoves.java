@@ -86,8 +86,6 @@ public class PieceMoves {
             }
         }
 
-        if (!s.isEmpty()) s = "Valid Moves: " + s;
-
-        return s;
+        return (s.isEmpty()) ? s : "Valid Moves: " + s;
     }
 }

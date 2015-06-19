@@ -159,6 +159,30 @@ public class Board {
         return false;
     }
 
+    public Square[][] getClonedGrid() {
+        return Arrays.copyOf(this.grid, this.grid.length);
+    }
+
+    public boolean isEdgeSquare(Square toSquare) {
+        for (int i = 0; i < BOARD_SIZE; i++)
+            if (toSquare.equals(grid[0][i]) || toSquare.equals(grid[7][i]))
+                return true;
+
+        return false;
+    }
+
+    public void promotePawn(Square toSquare, Piece newPiece) {
+        toSquare.setPiece(newPiece);
+        this.removePiece(toSquare);
+        for (Map.Entry<Color, Pieces> entry : piecesMap.entrySet()) {
+            Color piecesColor = entry.getKey();
+            if (piecesColor.equals(newPiece.getColor())) {
+                Pieces pieces = entry.getValue();
+                pieces.add(newPiece);
+            }
+        }
+    }
+
     // Used only for testing //
     public void clear() {
         piecesMap.clear();
@@ -173,9 +197,5 @@ public class Board {
     // Used only for testing //
     public final Pieces getPiecesBy(Color color) {
         return piecesMap.get(color);
-    }
-
-    public Square[][] getClonedGrid() {
-        return Arrays.copyOf(this.grid, this.grid.length);
     }
 }

@@ -7,8 +7,6 @@ import au.com.aitcollaboration.chessgame.model.game.structure.Square;
 import au.com.aitcollaboration.chessgame.model.moves.PieceMoves;
 import au.com.aitcollaboration.chessgame.model.pieces.Piece;
 
-import java.util.Arrays;
-
 public class SingleMovement implements MovingBehaviour {
 
     @Override
@@ -21,11 +19,11 @@ public class SingleMovement implements MovingBehaviour {
             return pieceMoves;
 
         int[][] commonMoves = piece.commonMoves();
-        int[] progressMove = commonMoves[0];
-        int[] firstMove = commonMoves[1];
+        int[] singleStepMove = commonMoves[0];
+        int[] doubleStepMove = commonMoves[1];
 
         for (int[] currentMove : commonMoves) {
-            if (Arrays.equals(currentMove, firstMove) && pieceHasMoved(square, board))
+            if (currentMove == doubleStepMove && (pieceHasMoved(square, board) || pieceMoves.isEmpty()))
                 continue;
 
             int myX = currentMove[0];
@@ -40,14 +38,12 @@ public class SingleMovement implements MovingBehaviour {
             if (nextSquare == null || nextSquare.containsSamePieceColor(pieceColor))
                 continue;
 
-            if (isEatingMove(progressMove, firstMove, currentMove)) {
+            if (isEatingMove(singleStepMove, doubleStepMove, currentMove)) {
                 if (nextSquare.containsOpponentPieceColor(pieceColor))
                     pieceMoves.add(nextSquare);
             } else {
-                if (nextSquare.hasPiece())
-                    break;
-
-                pieceMoves.add(nextSquare);
+                if (!nextSquare.hasPiece())
+                    pieceMoves.add(nextSquare);
             }
         }
         return pieceMoves;

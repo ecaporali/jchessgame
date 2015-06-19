@@ -9,20 +9,27 @@ import au.com.aitcollaboration.chessgame.model.moves.PieceMoves;
 import au.com.aitcollaboration.chessgame.model.moves.PlayerMoves;
 import au.com.aitcollaboration.chessgame.model.pieces.King;
 import au.com.aitcollaboration.chessgame.model.pieces.Piece;
+import au.com.aitcollaboration.chessgame.model.pieces.Queen;
 import au.com.aitcollaboration.chessgame.model.player.Player;
+import au.com.aitcollaboration.chessgame.support.Utils;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
-import static org.powermock.api.mockito.PowerMockito.doNothing;
-import static org.powermock.api.mockito.PowerMockito.when;
+import static org.powermock.api.mockito.PowerMockito.*;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(Utils.class)
 public class GameTest {
 
     @Mock
@@ -39,6 +46,7 @@ public class GameTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
+        mockStatic(Utils.class);
 
         game = new Game(board, rules);
     }
@@ -65,6 +73,35 @@ public class GameTest {
         game.play(players);
 
         verify(player).showMatchDrawMessage();
+    }
+
+    @Test
+    public void promotePawnShouldSwapPawnWithChosenPiece() throws Exception {
+        when(player.getPieceToResurrect()).thenReturn("Queen");
+        when(Utils.isValidPieceToPromote(anyString())).thenReturn(true);
+        when(Utils.getPieceInstanceFromClass(anyString(), any(Color.class))).thenReturn(new Queen(Color.BLACK));
+
+        game.promotePawn(player, new Square(7, 0));
+        verify(board, times(1)).promotePawn(any(Square.class), any(Piece.class));
+    }
+
+    @Test
+    public void promotePawnShouldNotSwapPawnWithChosenPieceWhenInstanceIsNull() throws Exception {
+        when(player.getPieceToResurrect()).thenReturn("Lion");
+        when(Utils.isValidPieceToPromote(anyString())).thenReturn(true);
+        when(Utils.getPieceInstanceFromClass(anyString(), any(Color.class))).thenReturn(null);
+
+        game.promotePawn(player, new Square(7, 0));
+        verify(board, times(0)).promotePawn(any(Square.class), any(Piece.class));
+    }
+
+    @Test
+    public void promotePawnShouldNotSwapPawnWhenInputChoiceIsNone() throws Exception {
+        when(player.getPieceToResurrect()).thenReturn("None");
+        when(Utils.isValidPieceToPromote(anyString())).thenReturn(true);
+
+        game.promotePawn(player, new Square(7, 0));
+        verify(board, times(0)).promotePawn(any(Square.class), any(Piece.class));
     }
 
     @Test
@@ -152,7 +189,9 @@ public class GameTest {
     }
 
     private void prepareMatchersForPlayMethod() {
+        Piece king = new King(Color.BLACK);
         Square toSquare = new Square(1, 1);
+        toSquare.setPiece(king);
         PieceMoves pieceMoves = new PieceMoves(new Square(0, 0));
         pieceMoves.add(toSquare);
 

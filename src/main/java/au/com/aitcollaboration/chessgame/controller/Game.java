@@ -8,9 +8,14 @@ import au.com.aitcollaboration.chessgame.model.game.structure.Position;
 import au.com.aitcollaboration.chessgame.model.game.structure.Square;
 import au.com.aitcollaboration.chessgame.model.moves.PieceMoves;
 import au.com.aitcollaboration.chessgame.model.moves.PlayerMoves;
+import au.com.aitcollaboration.chessgame.model.pieces.Pawn;
+import au.com.aitcollaboration.chessgame.model.pieces.Piece;
 import au.com.aitcollaboration.chessgame.model.player.Player;
+import au.com.aitcollaboration.chessgame.support.Constants;
 import au.com.aitcollaboration.chessgame.support.MyLogger;
 import au.com.aitcollaboration.chessgame.support.UIMessages;
+import au.com.aitcollaboration.chessgame.support.Utils;
+import org.apache.commons.lang3.StringUtils;
 
 public class Game {
 
@@ -67,13 +72,34 @@ public class Game {
     void makeMove(Player player, PlayerMoves playerMoves) {
         Square fromSquare = this.getValidFromSquare(player, playerMoves);
 
-        PieceMoves validPieceMoves = playerMoves.getValidPieceMovesFor(fromSquare.getPiece());
+        Piece currentPiece = fromSquare.getPiece();
+
+        PieceMoves validPieceMoves = playerMoves.getValidPieceMovesFor(currentPiece);
 
         player.showPracticalMoves(validPieceMoves);
 
         Square toSquare = this.getValidToSquare(player, validPieceMoves);
 
         this.movePiece(fromSquare, toSquare);
+
+        if (currentPiece.matches(Pawn.class) && board.isEdgeSquare(toSquare)) {
+            promotePawn(player, toSquare);
+        }
+    }
+
+    void promotePawn(Player player, Square toSquare) {
+        String chosenPiece = player.getPieceToResurrect();
+
+        while (!Utils.isValidPieceToPromote(chosenPiece)) {
+            player.showError(UIMessages.INVALID_PAWN_PROMOTION_CHOICE);
+            chosenPiece = player.getPieceToResurrect();
+        }
+
+        if (!StringUtils.equalsIgnoreCase(chosenPiece, Constants.NONE)) {
+            Piece newPiece = Utils.getPieceInstanceFromClass(chosenPiece, player.getColor());
+            if (newPiece != null)
+                board.promotePawn(toSquare, newPiece);
+        }
     }
 
     Square getValidFromSquare(Player player, PlayerMoves playerMoves) {

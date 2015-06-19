@@ -77,4 +77,8 @@ public abstract class Player {
     public void showMatchDrawMessage() {
         gameView.showMessage(UIMessages.GAME_IS_DRAW_MESSAGE);
     }
+
+    public String getPieceToResurrect() {
+        return gameView.getTextAnswer(UIMessages.PIECE_TO_EXCHANGE);
+    }
 }

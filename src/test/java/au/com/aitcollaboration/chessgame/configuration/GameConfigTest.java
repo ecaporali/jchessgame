@@ -4,6 +4,7 @@ import au.com.aitcollaboration.chessgame.Color;
 import au.com.aitcollaboration.chessgame.model.player.ComputerPlayer;
 import au.com.aitcollaboration.chessgame.model.player.HumanPlayer;
 import au.com.aitcollaboration.chessgame.model.player.Player;
+import au.com.aitcollaboration.chessgame.support.Constants;
 import au.com.aitcollaboration.chessgame.support.Utils;
 import au.com.aitcollaboration.chessgame.view.GameView;
 import org.junit.Before;
@@ -40,8 +41,8 @@ public class GameConfigTest {
     @Test
     public void createPlayersShouldReturnTwoHumanPlayers() throws Exception {
         when(gameView.getNumericAnswer(any(String.class))).thenReturn(2);
-        when(gameView.getTextAnswer(any(String.class))).thenReturn("tail");
-        when(Utils.tossCoin()).thenReturn("tail");
+        when(gameView.getTextAnswer(any(String.class))).thenReturn(Constants.COIN_TAIL);
+        when(Utils.tossCoin()).thenReturn(Constants.COIN_TAIL);
 
         Player[] players = gameConfig.createPlayers();
 
@@ -56,8 +57,8 @@ public class GameConfigTest {
     @Test
     public void createPlayersShouldReturnOneHumanAndOneComputerPlayers() throws Exception {
         when(gameView.getNumericAnswer(any(String.class))).thenReturn(1);
-        when(gameView.getTextAnswer(any(String.class))).thenReturn("tail");
-        when(Utils.tossCoin()).thenReturn("tail");
+        when(gameView.getTextAnswer(any(String.class))).thenReturn(Constants.COIN_TAIL);
+        when(Utils.tossCoin()).thenReturn(Constants.COIN_TAIL);
 
         Player[] players = gameConfig.createPlayers();
 
@@ -89,8 +90,8 @@ public class GameConfigTest {
 
     @Test
     public void testTossCoinShouldReturnColorWhiteWhenTossCoinIsTrue() {
-        when(gameView.getTextAnswer(any(String.class))).thenReturn("tail");
-        when(Utils.tossCoin()).thenReturn("tail");
+        when(gameView.getTextAnswer(any(String.class))).thenReturn(Constants.COIN_TAIL);
+        when(Utils.tossCoin()).thenReturn(Constants.COIN_TAIL);
 
         Color whiteColor = gameConfig.tossCoin();
 
@@ -99,8 +100,8 @@ public class GameConfigTest {
 
     @Test
     public void testTossCoinShouldReturnBlackWhiteWhenTossCoinIsFalse() {
-        when(gameView.getTextAnswer(any(String.class))).thenReturn("tail");
-        when(Utils.tossCoin()).thenReturn("head");
+        when(gameView.getTextAnswer(any(String.class))).thenReturn(Constants.COIN_TAIL);
+        when(Utils.tossCoin()).thenReturn(Constants.COIN_HEAD);
 
         Color whiteColor = gameConfig.tossCoin();
 

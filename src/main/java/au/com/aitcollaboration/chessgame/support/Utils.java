@@ -1,9 +1,17 @@
 package au.com.aitcollaboration.chessgame.support;
 
+import au.com.aitcollaboration.chessgame.Color;
+import au.com.aitcollaboration.chessgame.exceptions.InvalidCoordinatesException;
 import au.com.aitcollaboration.chessgame.exceptions.InvalidPositionException;
 import au.com.aitcollaboration.chessgame.model.game.structure.Board;
 import au.com.aitcollaboration.chessgame.model.game.structure.Square;
+import au.com.aitcollaboration.chessgame.model.pieces.Piece;
 import com.rits.cloning.Cloner;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Utils {
 
@@ -27,6 +35,9 @@ public class Utils {
     }
 
     public static String toGamePosition(int[] position) {
+        if (position == null || position.length != 2)
+            throw new InvalidCoordinatesException();
+
         int numeric = position[0];
         int alpha = position[1];
 
@@ -78,5 +89,22 @@ public class Utils {
     public static <T> T deepCopyOf(T objectToCopy) {
         Cloner cloner = new Cloner();
         return cloner.deepClone(objectToCopy);
+    }
+
+    public static boolean isValidPieceToPromote(String chosenPiece) {
+        Pattern myPattern = Pattern.compile("Queen|Rook|Bishop|Knight|None", Pattern.CASE_INSENSITIVE);
+        Matcher myMatcher = myPattern.matcher(chosenPiece);
+        return myMatcher.matches();
+    }
+
+    public static Piece getPieceInstanceFromClass(String chosenPiece, Color currentColor) {
+        chosenPiece = Character.toString(chosenPiece.charAt(0)).toUpperCase() + chosenPiece.substring(1).toLowerCase();
+        try {
+            Class pieceClass = Class.forName(Constants.CHESS_PIECES_PACKAGE_PATH + chosenPiece);
+            Constructor constructor = pieceClass.getConstructors()[0];
+            return (Piece) constructor.newInstance(currentColor);
+        } catch (ClassNotFoundException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+            return null;
+        }
     }
 }

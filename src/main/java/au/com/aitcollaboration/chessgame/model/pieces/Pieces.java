@@ -64,8 +64,8 @@ public class Pieces {
         PlayerMoves playerMoves = new PlayerMoves();
         for (Piece piece : currentPieces) {
             PieceMoves pieceMoves = piece.getValidMovesOn(board);
-            if (!pieceMoves.isEmpty())
-                playerMoves.add(piece, pieceMoves);
+//            if (!pieceMoves.isEmpty())
+            playerMoves.add(piece, pieceMoves);
         }
         return playerMoves;
     }
