@@ -120,7 +120,7 @@ public class Game {
             fromSquare = null;
             player.showError(e.getMessage());
         } catch (Exception e) {
-            MyLogger.debug(e);
+//            MyLogger.debug(e);
         }
 
         return fromSquare;

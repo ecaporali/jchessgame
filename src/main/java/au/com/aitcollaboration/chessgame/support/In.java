@@ -2,9 +2,18 @@ package au.com.aitcollaboration.chessgame.support;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 
 public class In {
-    private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private static BufferedReader reader;
+
+    static {
+        try {
+            reader = new BufferedReader(new InputStreamReader(System.in, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static String nextLine(String question) {
         System.out.print("\n" + question);
@@ -13,7 +22,7 @@ public class In {
         try {
             line = reader.readLine();
         } catch (Exception e) {
-            MyLogger.debug(e);
+//            MyLogger.debug(e);
         }
 
         return line;
@@ -29,7 +38,7 @@ public class In {
                 String answer = nextLine(question);
                 return Integer.valueOf(answer);
             } catch (NumberFormatException e) {
-                MyLogger.debug(e);
+//                MyLogger.debug(e);
                 System.out.println(UIMessages.INVALID_NUMBER_EXCEPTION);
             }
         }

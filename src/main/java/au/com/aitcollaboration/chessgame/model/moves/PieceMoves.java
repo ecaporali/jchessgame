@@ -6,6 +6,7 @@ import au.com.aitcollaboration.chessgame.model.game.structure.Position;
 import au.com.aitcollaboration.chessgame.model.game.structure.Square;
 import au.com.aitcollaboration.chessgame.model.pieces.Piece;
 
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -77,14 +78,12 @@ public class PieceMoves {
 
     @Override
     public String toString() {
-        String s = "";
-        for (Square square : practicalMoves) {
-            if (square != null) {
-                Position position = square.getPosition();
-                s += position.toString();
-            }
-        }
-
-        return (s.isEmpty()) ? s : "Valid Moves: " + s;
+        StringBuilder builder = new StringBuilder();
+        practicalMoves.stream().filter(square -> square != null).forEach(square -> {
+            Position position = square.getPosition();
+            builder.append(position.toString());
+        });
+        String moves = builder.toString();
+        return (moves.isEmpty()) ? "" : "Valid Moves: " + moves;
     }
 }

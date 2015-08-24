@@ -10,17 +10,25 @@ import com.rits.cloning.Cloner;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Utils {
 
-    public static String tossCoin() {
-        int chance = (int) (Math.random() * 10);
-        return (chance > 4) ? Constants.COIN_HEAD : Constants.COIN_TAIL;
+    private static final int RANDOM_NUM = 10;
+
+    private Utils() {
     }
 
-    public static int[] toBoardPosition(String answer) throws InvalidPositionException {
+    public static String tossCoin() {
+        int chance = new Random().nextInt(RANDOM_NUM);
+        return (chance >= (RANDOM_NUM / 2))
+                ? Constants.COIN_HEAD : Constants.COIN_TAIL;
+    }
+
+    public static int[] toBoardPosition(final String answer)
+            throws InvalidPositionException {
         if (answer == null || answer.isEmpty() || answer.length() != 2)
             throw new InvalidPositionException();
 

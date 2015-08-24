@@ -2,7 +2,14 @@ package au.com.aitcollaboration.chessgame.model.game.structure;
 
 import au.com.aitcollaboration.chessgame.Color;
 import au.com.aitcollaboration.chessgame.model.moves.PlayerMoves;
-import au.com.aitcollaboration.chessgame.model.pieces.*;
+import au.com.aitcollaboration.chessgame.model.pieces.Bishop;
+import au.com.aitcollaboration.chessgame.model.pieces.King;
+import au.com.aitcollaboration.chessgame.model.pieces.Knight;
+import au.com.aitcollaboration.chessgame.model.pieces.Pawn;
+import au.com.aitcollaboration.chessgame.model.pieces.Piece;
+import au.com.aitcollaboration.chessgame.model.pieces.Pieces;
+import au.com.aitcollaboration.chessgame.model.pieces.Queen;
+import au.com.aitcollaboration.chessgame.model.pieces.Rook;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -100,9 +107,10 @@ public class Board {
 
     public void removePiece(Square square) {
         Piece piece = square.getPiece();
-        for (Pieces pieces : piecesMap.values())
-            if (pieces.contains(piece))
-                pieces.remove(piece);
+        piecesMap.values()
+                .stream()
+                .filter(pieces -> pieces.contains(piece))
+                .forEach(pieces -> pieces.remove(piece));
     }
 
     public void movePiece(Square fromSquare, Square toSquare) {

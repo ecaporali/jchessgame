@@ -9,8 +9,13 @@ import au.com.aitcollaboration.chessgame.model.pieces.Pieces;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static junit.framework.TestCase.assertNotNull;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class BoardTest {
 
@@ -111,8 +116,8 @@ public class BoardTest {
         Pieces whitePieces = board.getPiecesBy(Color.WHITE);
         Pieces blackPieces = board.getPiecesBy(Color.BLACK);
 
-        assertThat(15, is(blackPieces.size()));
-        assertThat(16, is(whitePieces.size()));
+        assertEquals(15, blackPieces.size());
+        assertEquals(16, whitePieces.size());
     }
 
     @Test

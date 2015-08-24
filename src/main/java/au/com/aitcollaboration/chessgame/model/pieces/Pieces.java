@@ -43,28 +43,14 @@ public class Pieces {
         return null;
     }
 
-    public Piece getLostPiece(Class pieceClass) {
-        for (Piece piece : lostPieces) {
-            if (piece.matches(pieceClass)) {
-                return piece;
-            }
-        }
-        return null;
-    }
-
     public boolean isKingLastPieceStanding() {
         return currentPieces.size() == 1;
-    }
-
-    public Piece resurrectPiece(Class pieceClass) {
-        return getLostPiece(pieceClass);
     }
 
     public PlayerMoves getValidMovesOn(Board board) {
         PlayerMoves playerMoves = new PlayerMoves();
         for (Piece piece : currentPieces) {
             PieceMoves pieceMoves = piece.getValidMovesOn(board);
-//            if (!pieceMoves.isEmpty())
             playerMoves.add(piece, pieceMoves);
         }
         return playerMoves;

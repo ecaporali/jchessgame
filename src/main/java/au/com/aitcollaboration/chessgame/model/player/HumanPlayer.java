@@ -37,7 +37,7 @@ public class HumanPlayer extends Player {
             try {
                 coordinates = Utils.toBoardPosition(coordinate);
             } catch (InvalidPositionException e) {
-                MyLogger.debug(e);
+//                MyLogger.debug(e);
                 showError(e.getMessage());
             }
         }
