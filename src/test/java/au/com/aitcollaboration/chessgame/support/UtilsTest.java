@@ -3,11 +3,20 @@ package au.com.aitcollaboration.chessgame.support;
 import au.com.aitcollaboration.chessgame.Color;
 import au.com.aitcollaboration.chessgame.exceptions.InvalidCoordinatesException;
 import au.com.aitcollaboration.chessgame.exceptions.InvalidPositionException;
-import au.com.aitcollaboration.chessgame.model.pieces.*;
+import au.com.aitcollaboration.chessgame.model.pieces.Bishop;
+import au.com.aitcollaboration.chessgame.model.pieces.Knight;
+import au.com.aitcollaboration.chessgame.model.pieces.Piece;
+import au.com.aitcollaboration.chessgame.model.pieces.Queen;
+import au.com.aitcollaboration.chessgame.model.pieces.Rook;
 import org.junit.Test;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.hamcrest.core.IsInstanceOf.instanceOf;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class UtilsTest {
 
@@ -84,15 +93,15 @@ public class UtilsTest {
         Piece blackBishop = Utils.getPieceInstanceFromClass("Bishop", Color.BLACK);
         Piece whiteKnight = Utils.getPieceInstanceFromClass("Knight", Color.WHITE);
 
-        assertFalse(blackRook == null);
-        assertFalse(whiteQueen == null);
-        assertFalse(blackBishop == null);
-        assertFalse(whiteKnight == null);
+        assertNotNull(blackRook);
+        assertNotNull(whiteQueen);
+        assertNotNull(blackBishop);
+        assertNotNull(whiteKnight);
 
-        assertThat(blackRook, is(Rook.class));
-        assertThat(whiteQueen, is(Queen.class));
-        assertThat(blackBishop, is(Bishop.class));
-        assertThat(whiteKnight, is(Knight.class));
+        assertThat(blackRook, instanceOf(Rook.class));
+        assertThat(whiteQueen, instanceOf(Queen.class));
+        assertThat(blackBishop, instanceOf(Bishop.class));
+        assertThat(whiteKnight, instanceOf(Knight.class));
 
         assertTrue(blackRook.matches(Color.BLACK));
         assertTrue(whiteQueen.matches(Color.WHITE));

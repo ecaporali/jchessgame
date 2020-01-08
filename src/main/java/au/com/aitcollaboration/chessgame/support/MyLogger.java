@@ -1,13 +1,14 @@
 package au.com.aitcollaboration.chessgame.support;
 
-import org.apache.log4j.Logger;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 public class MyLogger {
 
-    private static final Logger logger = Logger.getLogger(MyLogger.class);
+    private static final Logger logger = Logger.getLogger(MyLogger.class.getSimpleName());
 
     public static void debug(Exception e) {
-        if (logger.isDebugEnabled())
-            logger.debug(e.getMessage(), e);
+        if (logger.isLoggable(Level.FINEST))
+            logger.log(Level.FINEST, e.getMessage(), e);
     }
 }
